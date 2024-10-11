@@ -67,11 +67,11 @@ function Login() {
       />
 
       {/* Contenedor principal que usa grid para dividir la pantalla */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 w-[79vw] h-[90vh] rounded-lg overflow-hidden z-10">
+      <div className="grid grid-cols-1 lg:grid-cols-2 w-[79vw] h-[90vh] overflow-hidden z-10">
         {/* Panel izquierdo (formulario de login) */}
-        <div className="login-panel-iz relative flex flex-col h-full bg-white px-10 shadow-md ">
+        <div className="login-panel-iz relative flex flex-col h-full bg-white px-10 rounded-lg shadow-lg ">
           {/* Banner superior */}
-          <div className="login-header absolute top-0 left-0 right-0 flex items-center justify-between pt-4 px-10">
+          <div className="login-header absolute top-0 left-0 right-0 flex items-center   justify-between pt-4 px-10">
             <img
               src={logoconnombreImage}
               alt="Logo UNPRG"
@@ -84,7 +84,7 @@ function Login() {
           </div>
 
           {/* Formulario */}
-          <div className="login-form flex flex-grow items-center shadow-mdjustify-center">
+          <div className="login-form flex flex-grow items-center justify-center">
             <div className="w-full">
               <h2 className="text-3xl font-bold text-center mb-10">LOGIN</h2>
 
@@ -121,7 +121,7 @@ function Login() {
 
 
         {/* Panel derecho (imagen de la universidad) */}
-        <div className="login-panel-de bg-white ml-5 overflow-hidden" style={{ position: 'relative' }}>
+        <div className="login-panel-de bg-white ml-5 rounded-lg shadow-lg overflow-hidden" style={{ position: 'relative' }}>
           <img
             src={panelderechaImage}
             alt="Panel derecho"
