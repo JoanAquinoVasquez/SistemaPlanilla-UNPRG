@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import barraImage from "../../assets/Banners/barra_colores_ofic.jpg";
 import logoconnombreImage from "../../assets/Banners/isotipo_variante_02.png";
-import Image from "../../assets/Banners/Image.png";
+import panelderechaImage from "../../assets/Banners/panelderechaImage.png";
 
 function Login() {
   const [usuario, setUsuario] = useState("");
@@ -41,9 +41,8 @@ function Login() {
         autoComplete="current-password"
       />
       <label
-        className={`input-label absolute left-4 transition-all pointer-events-none pt-1.5 ${
-          value ? "-top-0" : "top-0"
-        }`}
+        className={`input-label absolute left-4 transition-all pointer-events-none pt-1.5 ${value ? "-top-0" : "top-0"
+          }`}
       >
         {label}
       </label>
@@ -68,64 +67,79 @@ function Login() {
       />
 
       {/* Contenedor principal que usa grid para dividir la pantalla */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 w-[80vw] h-[90vh] shadow-lg rounded-lg overflow-hidden z-10">
+      <div className="grid grid-cols-1 lg:grid-cols-2 w-[79vw] h-[90vh] rounded-lg overflow-hidden z-10">
         {/* Panel izquierdo (formulario de login) */}
-        <div className=" flex-col min-h-screen px-10 pt-8 bg-white ">
+        <div className="login-panel-iz relative flex flex-col h-full bg-white px-10 shadow-md ">
           {/* Banner superior */}
-          <div className="banner-login-ingo flex items-start justify-between mb-6">
+          <div className="login-header absolute top-0 left-0 right-0 flex items-center justify-between pt-4 px-10">
             <img
               src={logoconnombreImage}
               alt="Logo UNPRG"
-              className="w-[15rem] h-auto"
+              className="w-60 h-auto"
             />
             <div className="text-right">
-              <h2 className="text-xl font-bold">Sistema de planillas v1.0</h2>
+              <h2 className="text-lg font-bold">Sistema de planillas v1.0</h2>
               <p className="text-sm">Periodo: 2024-I</p>
             </div>
           </div>
 
-          {/* Formulario centrado */}
-          <div className="formulario flex-col justify-center pt-20 mt-20">
-            <h2 className="text-3xl font-bold text-center mb-10">LOGIN</h2>
+          {/* Formulario */}
+          <div className="login-form flex flex-grow items-center shadow-mdjustify-center">
+            <div className="w-full">
+              <h2 className="text-3xl font-bold text-center mb-10">LOGIN</h2>
 
-            {renderInputField(
-              "text",
-              usuario,
-              setUsuario,
-              "example.email@gmail.com",
-              "Email"
-            )}
-            {renderInputField(
-              showPassword ? "text" : "password",
-              password,
-              setPassword,
-              "*******",
-              "Password",
-              true
-            )}
+              {renderInputField(
+                "text",
+                usuario,
+                setUsuario,
+                "example.email@gmail.com",
+                "Email"
+              )}
+              {renderInputField(
+                showPassword ? "text" : "password",
+                password,
+                setPassword,
+                "*******",
+                "Password",
+                true
+              )}
 
-            <p className="text-end text-blue-500 mb-4">
-              Si se olvidó su contraseña comuníquese con soporte
-            </p>
+              <p className="text-end text-blue-700 text-sm mb-4">
+                Si olvidó su contraseña, comuníquese con soporte
+              </p>
 
-            <button
-              type="submit"
-              onClick={handleLogin}
-              className="w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-lg"
-            >
-              Iniciar Sesión
-            </button>
+              <button
+                type="submit"
+                onClick={handleLogin}
+                className="w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-lg"
+              >
+                Iniciar Sesión
+              </button>
+            </div>
           </div>
         </div>
 
+
         {/* Panel derecho (imagen de la universidad) */}
-        <div className="hidden lg:block bg-white ml-5">
+        <div className="login-panel-de bg-white ml-5 overflow-hidden" style={{ position: 'relative' }}>
           <img
-            src={Image}
-            alt="Universidad Nacional Pedro Ruiz Gallo"
-            className="w-full h-full object-cover p-0 m-0"
+            src={panelderechaImage}
+            alt="Panel derecho"
+            style={{ width: "120%", height: "100%" }}
           />
+          <div
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
+              backgroundColor: 'rgba(0, 0, 0, 0.3)'   
+            }}
+          ></div>
         </div>
+
+
       </div>
 
       {/* Barra inferior */}
