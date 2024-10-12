@@ -1,80 +1,42 @@
-import "./Login.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
-import barraImage from "../../assets/Banners/barra_colores_ofic.jpg";
-import logoconnombreImage from "../../assets/Banners/isotipo_variante_02.png";
-import panelderechaImage from "../../assets/Banners/panelderechaImage.png";
+import InputField from "../../components/InputField";
+import topBarImage from "../../assets/Banners/barra_colores_ofic.jpg";
+import logoWithTextImage from "../../assets/Banners/isotipo_variante_02.png";
+import rightPanelImage from "../../assets/Banners/panelderechaImage.png";
 
 function Login() {
-  const [usuario, setUsuario] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
-  const handleLogin = async (e) => {
+  const handleLogin = (e) => {
     e.preventDefault();
-
-    if (usuario === "admin" && password === "123") {
-      localStorage.setItem("usuario", usuario);
+    if (username === "admin" && password === "123") {
+      localStorage.setItem("username", username);
       navigate("/Inicio");
     } else {
       alert("Usuario o contraseña incorrectos");
     }
   };
 
-  const renderInputField = (
-    type,
-    value,
-    setValue,
-    placeholder,
-    label,
-    showToggle = false
-  ) => (
-    <div className="relative mb-4 input-container">
-      <input
-        type={type}
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
-        className="w-full px-4 py-2 border border-gray-300 rounded-lg input-field focus:outline-none focus:border-gray-300 focus:ring-gray-300"
-        placeholder={placeholder}
-        autoComplete="current-password"
-      />
-      <label
-        className={`input-label absolute left-4 transition-all pointer-events-none pt-1.5 ${value ? "-top-0" : "top-0"
-          }`}
-      >
-        {label}
-      </label>
-      {showToggle && (
-        <div
-          className="absolute transform -translate-y-1/2 cursor-pointer right-4 top-1/2"
-          onClick={() => setShowPassword(!showPassword)}
-        >
-          {showPassword ? <FaEyeSlash /> : <FaEye />}
-        </div>
-      )}
-    </div>
-  );
+  const togglePasswordVisibility = () => setShowPassword(!showPassword);
 
   return (
     <div className="relative min-h-screen flex items-center justify-center bg-gray-100">
-      {/* Barra superior */}
       <img
-        src={barraImage}
+        src={topBarImage}
         alt="Barra de colores superior"
         className="absolute top-0 left-0 w-full h-3 object-cover"
       />
 
-      {/* Contenedor principal que usa grid para dividir la pantalla */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 w-[79vw] h-[90vh] overflow-hidden z-10">
-        {/* Panel izquierdo (formulario de login) */}
-        <div className="login-panel-iz relative flex flex-col h-full bg-white px-10 rounded-lg shadow-lg ">
-          {/* Banner superior */}
-          <div className="login-header absolute top-0 left-0 right-0 flex items-center   justify-between pt-4 px-10">
+      <div className="grid grid-cols-1 lg:grid-cols-2 w-[79vw] h-[90vh] z-10">
+        <div className="relative flex flex-col h-full bg-white px-10 rounded-lg shadow-lg">
+          <div className="absolute top-0 left-0 right-0 flex items-center justify-between pt-4 px-10">
             <img
-              src={logoconnombreImage}
-              alt="Logo UNPRG"
+              src={logoWithTextImage}
+              alt="UNPRG Logo"
               className="w-60 h-auto"
             />
             <div className="text-right">
@@ -83,26 +45,34 @@ function Login() {
             </div>
           </div>
 
-          {/* Formulario */}
-          <div className="login-form flex flex-grow items-center justify-center">
+          <div className="flex flex-grow items-center justify-center">
             <div className="w-full">
-              <h2 className="text-3xl font-bold text-center mb-10">LOGIN</h2>
+              <h2 className="text-3xl font-bold text-center mb-10">LOG IN</h2>
 
-              {renderInputField(
-                "text",
-                usuario,
-                setUsuario,
-                "example.email@gmail.com",
-                "Email"
-              )}
-              {renderInputField(
-                showPassword ? "text" : "password",
-                password,
-                setPassword,
-                "*******",
-                "Password",
-                true
-              )}
+              <InputField
+                divContainerStyle="relative mb-4"
+                type="text"
+                value={username}
+                setValue={setUsername}
+                placeholder="example.email@gmail.com"
+                classNameInputField="w-full px-4 py-2 pt-7 border border-gray-300 rounded-lg bg-gray-100/60 focus:outline-none"
+                label="Correo institucional"
+                classNameLabel="absolute left-4 transition-all pointer-events-none font-bold pt-1.5"
+              />
+              <InputField
+                divContainerStyle="relative mb-4"
+                type={showPassword ? "text" : "password"}
+                value={password}
+                setValue={setPassword}
+                placeholder="*******"
+                label="Contraseña"
+                showToggle
+                showPassword={showPassword}
+                classNameInputField="w-full px-4 py-2 pt-7 border border-gray-300 rounded-lg bg-gray-100/60 focus:outline-none"
+                classNameLabel="absolute left-4 transition-all pointer-events-none font-bold pt-1.5"
+                togglePasswordVisibility={togglePasswordVisibility}
+                classNameShowToggle="absolute transform -translate-y-1/2 cursor-pointer right-4 top-1/2"
+              />
 
               <p className="text-end text-blue-700 text-sm mb-4">
                 Si olvidó su contraseña, comuníquese con soporte
@@ -119,32 +89,18 @@ function Login() {
           </div>
         </div>
 
-
-        {/* Panel derecho (imagen de la universidad) */}
-        <div className="login-panel-de bg-white ml-5 rounded-lg shadow-lg overflow-hidden" style={{ position: 'relative' }}>
+        <div className="relative bg-white ml-5 rounded-lg shadow-lg overflow-hidden">
           <img
-            src={panelderechaImage}
+            src={rightPanelImage}
             alt="Panel derecho"
-            style={{ width: "120%", height: "100%" }}
+            className="w-full h-full object-cover"
           />
-          <div
-            style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              width: '100%',
-              height: '100%',
-              backgroundColor: 'rgba(0, 0, 0, 0.3)'   
-            }}
-          ></div>
+          <div className="absolute top-0 left-0 w-full h-full bg-black opacity-30"></div>
         </div>
-
-
       </div>
 
-      {/* Barra inferior */}
       <img
-        src={barraImage}
+        src={topBarImage}
         alt="Barra de colores inferior"
         className="absolute bottom-0 left-0 w-full h-3 object-cover"
       />
