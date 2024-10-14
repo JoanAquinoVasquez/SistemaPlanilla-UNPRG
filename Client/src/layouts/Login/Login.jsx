@@ -1,27 +1,15 @@
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import InputField from "../../components/InputField";
 import topBarImage from "../../assets/Banners/barra_colores_ofic.jpg";
 import logoWithTextImage from "../../assets/Banners/isotipo_variante_02.png";
 import rightPanelImage from "../../assets/Banners/panelderechaImage.png";
 
 function Login() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
-    e.preventDefault();
-    if (username === "admin" && password === "123") {
-      localStorage.setItem("username", username);
-      navigate("/Inicio");
-    } else {
-      alert("Usuario o contraseña incorrectos");
-    }
+  const handleGoogleLogin = () => {
+    // Redirige a la ruta de Laravel para autenticarse con Google
+    window.open("http://localhost:8000/google-auth/redirect", "_self");
   };
-
-  const togglePasswordVisibility = () => setShowPassword(!showPassword);
 
   return (
     <div className="relative min-h-screen flex items-center justify-center bg-gray-100">
@@ -49,41 +37,12 @@ function Login() {
             <div className="w-full">
               <h2 className="text-3xl font-bold text-center mb-10">LOG IN</h2>
 
-              <InputField
-                divContainerStyle="relative mb-4"
-                type="text"
-                value={username}
-                setValue={setUsername}
-                placeholder="example.email@gmail.com"
-                classNameInputField="w-full px-4 py-2 pt-7 border border-gray-300 rounded-lg bg-gray-100/60 focus:outline-none"
-                label="Correo institucional"
-                classNameLabel="absolute left-4 transition-all pointer-events-none font-bold pt-1.5"
-              />
-              <InputField
-                divContainerStyle="relative mb-4"
-                type={showPassword ? "text" : "password"}
-                value={password}
-                setValue={setPassword}
-                placeholder="*******"
-                label="Contraseña"
-                showToggle
-                showPassword={showPassword}
-                classNameInputField="w-full px-4 py-2 pt-7 border border-gray-300 rounded-lg bg-gray-100/60 focus:outline-none"
-                classNameLabel="absolute left-4 transition-all pointer-events-none font-bold pt-1.5"
-                togglePasswordVisibility={togglePasswordVisibility}
-                classNameShowToggle="absolute transform -translate-y-1/2 cursor-pointer right-4 top-1/2"
-              />
-
-              <p className="text-end text-blue-700 text-sm mb-4">
-                Si olvidó su contraseña, comuníquese con soporte
-              </p>
-
+              {/* Botón para iniciar sesión con Google */}
               <button
-                type="submit"
-                onClick={handleLogin}
-                className="w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-lg"
+                onClick={handleGoogleLogin}
+                className="w-full bg-red-500 hover:bg-red-600 text-white py-3 rounded-lg"
               >
-                Iniciar Sesión
+                Iniciar Sesión con Google
               </button>
             </div>
           </div>
