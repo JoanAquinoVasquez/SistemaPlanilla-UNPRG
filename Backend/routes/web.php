@@ -4,6 +4,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Laravel\Socialite\Facades\Socialite;
+use App\Http\Controllers\Api\UserController;
 
 
 Route::get('/', function () {
@@ -27,12 +28,13 @@ Route::get('/google-auth/callback', function () {
         $user = User::updateOrCreate([
             'name' => $googleUser->getName(),
             'email' => $googleUser->getEmail(),
+            'google_id' => $googleUser->getId(),
         ]);
     }
 
     // Inicia sesión al usuario
     Auth::login($user);
 
-      // Redirige a la aplicación frontend después de iniciar sesión
-      return redirect('http://localhost:5173/Inicio'); // Ajusta la URL según tu aplicación React
+    // Redirige a la aplicación frontend después de iniciar sesión
+    return redirect('http://localhost:5173/Inicio'); // Ajusta la URL según tu aplicación React
 });
