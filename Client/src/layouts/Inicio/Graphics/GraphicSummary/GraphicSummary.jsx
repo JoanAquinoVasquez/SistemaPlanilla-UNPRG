@@ -163,7 +163,7 @@ export default function GraphicSummary() {
           />
           <label className="text-gray-600">Unir las categorías</label>
         </div>
-        <ResponsiveContainer width="100%" height={400}>
+        <ResponsiveContainer width="100%" height={450}>
           <LineChart
             data={isSumming ? combinedData : salaryData}
             margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
