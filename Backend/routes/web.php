@@ -24,12 +24,13 @@ Route::get('/google-auth/callback', function () {
     $user = User::where('email', $googleUser->getEmail())->first();
 
     if (!$user) {
-        // Si el usuario no existe, crea uno nuevo
-        $user = User::updateOrCreate([
-            'name' => $googleUser->getName(),
-            'email' => $googleUser->getEmail(),
-            'google_id' => $googleUser->getId(),
-        ]);
+        //    Si el usuario no existe, crea uno nuevo
+          $user = User::updateOrCreate([
+              'name' => $googleUser->getName(),
+              'email' => $googleUser->getEmail(),
+              'google_id' => $googleUser->getId(),
+          ]);
+        // return response()->json(['error' => 'Usuario no encontrado'], 404);
     }
 
     // Inicia sesión al usuario

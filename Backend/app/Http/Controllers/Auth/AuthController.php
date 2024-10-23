@@ -26,14 +26,24 @@ class AuthController extends Controller
         return response()->json(compact('user', 'token'), 201);
     }
 
-    public function login(LoginRequest $request){
-        $credentials = $request->only('email','password');
+    public function login(LoginRequest $request)
+    {
+        // Solo recibes el correo en la solicitud
+        $credentials = $request->only('email');
 
-        if(!$token = JWTAuth::attempt($credentials)){
-            return response()->json(['error' => 'invalid_credentials'], 401);
+        // Buscas el usuario en la base de datos por su email
+        $user = User::where('email', $credentials['email'])->first();
+
+        if (!$user) {
+            // Si no existe, devuelves un error de no autenticado
+            return response()->json(['error' => 'Usuario no encontrado'], 404);
         }
-        $user = User::where('email', $request->email)->first();
-        return response()->json(compact('user','token'), 201);
+
+        // Si existe el usuario, generas un token JWT
+        $token = JWTAuth::fromUser($user);
+
+        // Devuelves la información del usuario junto con el token
+        return response()->json(compact('user', 'token'), 200);
     }
 
 

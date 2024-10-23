@@ -23,8 +23,7 @@ class LoginRequest extends FormRequest
     {
         return [
             //
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
+            'email' => 'required|string|email|max:255',
             'google_id' => 'nullable|string|max:255', // Google ID puede ser nulo
             'password' => 'nullable|string|min:6',    // Contraseña puede ser nula
         ];
