@@ -18,7 +18,6 @@ function Dashboard() {
                     <Routes>
                         <Route path="/inicio" element={<Inicio />} />
                         <Route path="/practicantes" element={<Practicantes />} />
-
                     </Routes>
                 </div>
             </div>

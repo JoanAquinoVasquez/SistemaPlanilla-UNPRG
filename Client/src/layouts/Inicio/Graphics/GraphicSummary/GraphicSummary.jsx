@@ -22,7 +22,7 @@ import {
   salaryData,
   categories,
   categoryColors,
-} from "../../../../data/Constants";
+} from "../../../../data/dataSalarios";
 import CustomCard from "../../../../components/Cards/Cards";
 
 export default function GraphicSummary() {
@@ -163,7 +163,7 @@ export default function GraphicSummary() {
           />
           <label className="text-gray-600">Unir las categorías</label>
         </div>
-        <ResponsiveContainer width="100%" height={450}>
+        <ResponsiveContainer width="100%" height={440}>
           <LineChart
             data={isSumming ? combinedData : salaryData}
             margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
