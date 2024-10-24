@@ -53,14 +53,14 @@ class AuthController extends Controller
     // Obtener todos los usuarios
     public function index()
     {
-        Log::info('Obteniendo todos los usuarios');
+        // Log::info('Obteniendo todos los usuarios');
         return User::all();
     }
 
     // Obtener un usuario por ID
     public function show($id)
     {
-        Log::info("Obteniendo el usuario con ID: {$id}");
+        // Log::info("Obteniendo el usuario con ID: {$id}");
         return User::findOrFail($id);
     }
 
@@ -76,13 +76,13 @@ class AuthController extends Controller
             'password' => $request->password ? Hash::make($request->password) : null, // Hash de la contraseña si no es nula
         ]);
 
-        Log::info('Usuario creado exitosamente', ['user' => $user]);
+        // Log::info('Usuario creado exitosamente', ['user' => $user]);
         return response()->json($user, 201); // 201 Created
     }
 
     public function update(RegisterRequest $request, $id)
     {
-        Log::info("Actualizando el usuario con ID: {$id}");
+        // Log::info("Actualizando el usuario con ID: {$id}");
 
         $user = User::findOrFail($id);
 
@@ -95,7 +95,7 @@ class AuthController extends Controller
 
         $user->update($dataToUpdate);
 
-        Log::info('Usuario actualizado exitosamente', ['user' => $user]);
+        // Log::info('Usuario actualizado exitosamente', ['user' => $user]);
         return response()->json($user, 200);
     }
 
@@ -103,9 +103,9 @@ class AuthController extends Controller
     // Eliminar un usuario
     public function destroy($id)
     {
-        Log::info("Eliminando el usuario con ID: {$id}");
+        // Log::info("Eliminando el usuario con ID: {$id}");
         User::destroy($id);
-        Log::info('Usuario eliminado exitosamente');
+        // Log::info('Usuario eliminado exitosamente');
         return response()->json(null, 204);
     }
 
@@ -116,24 +116,35 @@ class AuthController extends Controller
         // Inicializa el cliente de Google
         $client = new Google_Client(['client_id' => env('GOOGLE_CLIENT_ID')]); // Especifica tu CLIENT_ID
         $payload = $client->verifyIdToken($token_g);
+        // Log::info($payload);
 
         if ($payload) {
             $googleId = $payload['sub'];
+            $name = $payload['name'];
+            $email = $payload['email'];
+            $picture = $payload['picture']; // Obtiene la foto de perfil
             // $email = $payload['email'];
             // $name = $payload['name'];
-            Log::info($googleId);
+            // Log::info($googleId);
             // Verifica si el usuario ya existe en la base de datos
-            $user = User::where('google_id', $googleId)->first();
+            $user = User::where('email', $email)->first();
 
-            if (!$user) {
-                // Si no existe, retorna un error de usuario no encontrado
+            if ($user) {
+                // Si el usuario existe, actualiza su información
+                $user->update([
+                    'name' => $name,
+                    'google_id' => $googleId,
+                    'profile_picture' => $picture, // Actualiza la foto de perfil
+                ]);
+
+                // Genera el token JWT
+                $token = JWTAuth::fromUser($user);
+
+                return response()->json(['token' => $token]); // Devuelve el token y la foto de perfil
+            } else {
+                // Si el usuario no existe, devuelve un error
                 return response()->json(['error' => 'Usuario no encontrado'], 404);
             }
-
-            // Genera el token JWT
-            $token = JWTAuth::fromUser($user);
-
-            return response()->json(['token' => $token]);
         } else {
             return response()->json(['error' => 'Token de Google inválido'], 401);
         }
