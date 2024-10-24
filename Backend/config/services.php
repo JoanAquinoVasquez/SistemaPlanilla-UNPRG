@@ -37,7 +37,7 @@ return [
     'google' => [
         'client_id' => env('GOOGLE_CLIENT_ID'),
         'client_secret' => env('GOOGLE_CLIENT_SECRET'),
-        'redirect' => 'http://localhost:8000/google-auth/callback',
+        'redirect' => env('GOOGLE_REDIRECT_URI'), // Este se usará si en algún momento necesitas manejar callbacks en el backend.
     ],
 
 ];

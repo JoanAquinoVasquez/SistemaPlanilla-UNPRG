@@ -6,9 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Laravel\Socialite\Facades\Socialite;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use Google_Client;
 
 class AuthController extends Controller
 {
@@ -105,4 +108,61 @@ class AuthController extends Controller
         Log::info('Usuario eliminado exitosamente');
         return response()->json(null, 204);
     }
+
+    public function googleLogin(Request $request)
+    {
+        $token_g = $request->input('token');
+
+        // Inicializa el cliente de Google
+        $client = new Google_Client(['client_id' => env('GOOGLE_CLIENT_ID')]); // Especifica tu CLIENT_ID
+        $payload = $client->verifyIdToken($token_g);
+
+        if ($payload) {
+            $googleId = $payload['sub'];
+            // $email = $payload['email'];
+            // $name = $payload['name'];
+            Log::info($googleId);
+            // Verifica si el usuario ya existe en la base de datos
+            $user = User::where('google_id', $googleId)->first();
+
+            if (!$user) {
+                // Si no existe, retorna un error de usuario no encontrado
+                return response()->json(['error' => 'Usuario no encontrado'], 404);
+            }
+
+            // Genera el token JWT
+            $token = JWTAuth::fromUser($user);
+
+            return response()->json(['token' => $token]);
+        } else {
+            return response()->json(['error' => 'Token de Google inválido'], 401);
+        }
+    }
+
+
+
+    // // Método para manejar el login desde el frontend con token de Google
+    // public function handleGoogleCallback(Request $request)
+    // {
+    //     // Recibir el token de acceso desde el frontend
+    //     $token = $request->input('token');
+
+    //     // Verificar el token con Google
+    //     $googleUser = Socialite::driver('google')->stateless()->userFromToken($token);
+
+    //     // Aquí puedes hacer lo necesario con el $googleUser
+    //     Log::info($googleUser->all());
+
+    //     // Buscar o crear el usuario en tu sistema
+    //     $user = User::firstOrCreate(
+    //         ['email' => $googleUser->getEmail()],
+    //         ['name' => $googleUser->getName()]
+    //     );
+
+    //     // Generar token JWT o algún tipo de token para que el frontend lo use
+    //     $token = $user->createToken('GoogleAuthToken')->plainTextToken;
+
+    //     // Retornar el token al frontend
+    //     return response()->json(['token' => $token]);
+    // }
 }
