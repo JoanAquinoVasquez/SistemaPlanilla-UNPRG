@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { FaUser } from "react-icons/fa";
 import { IoIosSearch } from "react-icons/io";
+
 import {
   Dropdown,
   DropdownTrigger,
@@ -31,7 +32,7 @@ function Navbar() {
       // Solo hace la petición si los datos no están en localStorage
       if (!storedUserData) {
         try {
-          const userId = 1; // Obtén este ID dinámicamente si es necesario
+          const userId = 2; // Obtén este ID dinámicamente si es necesario
           const response = await axios.get(
             `http://localhost:8000/api/users/${userId}`,
             {
@@ -111,8 +112,10 @@ function Navbar() {
               </DropdownItem>
             </DropdownMenu>
           </Dropdown>
+          
         </div>
       </div>
+      
   );
 }
 
