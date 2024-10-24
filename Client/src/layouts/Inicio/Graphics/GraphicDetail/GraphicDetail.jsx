@@ -1,9 +1,18 @@
 import { FaDollarSign } from "react-icons/fa";
 import { Card, CardHeader, CardBody } from "@nextui-org/react";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
-const CardComponent = ({ bgColor, iconBgColor, textColor ,title, amount, period }) => (
-  <Card className={`w-[280px] ${bgColor} relative overflow-hidden rounded-lg shadow-md py-4`}>
+const CardComponent = ({
+  bgColor,
+  iconBgColor,
+  textColor,
+  title,
+  amount,
+  period,
+}) => (
+  <Card
+    className={`w-[280px] ${bgColor} relative overflow-hidden rounded-lg shadow-md py-4`}
+  >
     <div className={`absolute top-4 right-4 ${iconBgColor} p-2 rounded-md`}>
       <FaDollarSign size={21} color="#ffffff" />
     </div>
@@ -28,7 +37,7 @@ CardComponent.propTypes = {
 export default function DocentesCard() {
   return (
     <div className="bg-light flex justify-around pt-3">
-      <div className="cards-docentes flex flex-row gap-4">
+      <div className="cards-docentes flex flex-row gap-4 ">
         <CardComponent
           bgColor="bg-[#e5f3ff]"
           iconBgColor="bg-[#3399ff]"
@@ -53,7 +62,14 @@ export default function DocentesCard() {
           amount="S/.5,405"
           period="Periodo 2024-I"
         />
-        
+        <CardComponent
+          bgColor="bg-[#f4f4fb]"
+          iconBgColor="bg-[#7d76cf]"
+          textColor="text-[#7d76cf]"
+          title="Practicantes"
+          amount="S/.5,405"
+          period="Periodo 2024-I"
+        />
       </div>
     </div>
   );

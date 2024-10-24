@@ -1,10 +1,8 @@
-import { useNavigate } from "react-router-dom";
 import topBarImage from "../../assets/Banners/barra_colores_ofic.jpg";
 import logoWithTextImage from "../../assets/Banners/isotipo_variante_02.png";
 import rightPanelImage from "../../assets/Banners/panelderechaImage.png";
 
 function Login() {
-  const navigate = useNavigate();
 
   const handleGoogleLogin = () => {
     // Redirige a la ruta de Laravel para autenticarse con Google
