@@ -15,39 +15,39 @@ use Google_Client;
 
 class AuthController extends Controller
 {
-    //
-    public function register(RegisterRequest $request)
-    {
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => bcrypt($request->password),
-            'google_id' => $request->google_id
-        ]);
+    // //
+    // public function register(RegisterRequest $request)
+    // {
+    //     $user = User::create([
+    //         'name' => $request->name,
+    //         'email' => $request->email,
+    //         'password' => bcrypt($request->password),
+    //         'google_id' => $request->google_id
+    //     ]);
 
-        $token = JWTAuth::fromUser($user);
-        return response()->json(compact('user', 'token'), 201);
-    }
+    //     $token = JWTAuth::fromUser($user);
+    //     return response()->json(compact('user', 'token'), 201);
+    // }
 
-    public function login(LoginRequest $request)
-    {
-        // Solo recibes el correo en la solicitud
-        $credentials = $request->only('email');
+    // public function login(LoginRequest $request)
+    // {
+    //     // Solo recibes el correo en la solicitud
+    //     $credentials = $request->only('email');
 
-        // Buscas el usuario en la base de datos por su email
-        $user = User::where('email', $credentials['email'])->first();
+    //     // Buscas el usuario en la base de datos por su email
+    //     $user = User::where('email', $credentials['email'])->first();
 
-        if (!$user) {
-            // Si no existe, devuelves un error de no autenticado
-            return response()->json(['error' => 'Usuario no encontrado'], 404);
-        }
+    //     if (!$user) {
+    //         // Si no existe, devuelves un error de no autenticado
+    //         return response()->json(['error' => 'Usuario no encontrado'], 404);
+    //     }
 
-        // Si existe el usuario, generas un token JWT
-        $token = JWTAuth::fromUser($user);
+    //     // Si existe el usuario, generas un token JWT
+    //     $token = JWTAuth::fromUser($user);
 
-        // Devuelves la información del usuario junto con el token
-        return response()->json(compact('user', 'token'), 200);
-    }
+    //     // Devuelves la información del usuario junto con el token
+    //     return response()->json(compact('user', 'token'), 200);
+    // }
 
 
     // Obtener todos los usuarios

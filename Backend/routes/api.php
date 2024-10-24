@@ -2,23 +2,18 @@
 
 
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Auth\UserController;
 use Illuminate\Support\Facades\Route;
-use Laravel\Socialite\Facades\Socialite;
 
-Route::prefix('auth')->group(function () {
-    Route::post('register', [AuthController::class, 'register']);
-    Route::post('login', [AuthController::class, 'login']);
-    Route::get('users', [AuthController::class, 'index']);
-    Route::get('users/{id}', [AuthController::class, 'show']);
-});
 
 
 Route::middleware(['auth:api'])->group(function () {
-    Route::post('register', [AuthController::class, 'register']);
+    // Route::post('register', [AuthController::class, 'register']);
     // Route::post('login', [AuthController::class, 'login'])->name('login');
-    Route::get('users', [AuthController::class, 'index']);
-    Route::get('users/{id}', [AuthController::class, 'show']);
+    Route::get('users', [UserController::class, 'index']);
+    Route::get('users/{id}', [UserController::class, 'show']);
     Route::post('logout', [AuthController::class, 'logout']);
+    Route::delete('users/{id}', [UserController::class, 'destroy']);
 });
 
 Route::post('/google-login', [AuthController::class, 'googleLogin']);
