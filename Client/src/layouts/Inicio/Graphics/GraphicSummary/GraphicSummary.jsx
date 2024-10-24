@@ -81,8 +81,9 @@ export default function GraphicSummary() {
   }, [selectedCategories, selectedSubcategory]);
 
   return (
-    <div className="bg-white flex" style={{height: "max-content"}}>
-      <div className="cards-pensionistas flex flex-col gap-4 justify-between mr-5">
+    <div className="bg-white flex" style={{ height: "max-content" }}>
+      {/* Aquí las tarjetas estarán visibles solo en pantallas lg o más grandes */}
+      <div className="cards-pensionistas flex flex-col gap-4 justify-between mr-5 hidden lg:flex">
         <CustomCard
           icon={<FaRegUser size={40} />}
           iconColor="text-purple-400"
@@ -106,7 +107,7 @@ export default function GraphicSummary() {
         />
       </div>
 
-      <div className="rounded-lg px-4 shadow-md w-full" style={{height: "max-content"}}>
+      <div className="rounded-lg px-4 shadow-md w-full" style={{ height: "max-content" }}>
         <div className="flex items-center justify-between mb-4">
           <p className="text-xl font-medium text-black">Salarios de Docentes</p>
           <div className="flex items-center justify-end">
@@ -156,7 +157,7 @@ export default function GraphicSummary() {
             </Button>
           </div>
         </div>
-        <div className=" flex items-center justify-end">
+        <div className="flex items-center justify-end">
           <Checkbox
             checked={isSumming}
             onChange={(e) => setIsSumming(e.target.checked)}

@@ -7,10 +7,14 @@ import {
   DropdownItem,
   User,
 } from "@nextui-org/react";
-
+import { Badge, Button } from "@nextui-org/react";
+import { NotificationIcon } from "../../components/Icons.jsx/NotificationIcon";
 function Navbar() {
   return (
-    <div className="bg-white pt-4 pb-2 pr-6 flex justify-end items-center relative" style={{background:"#fafafb", zIndex: "0"}}>
+    <div
+      className="bg-white pt-4 pb-2 pr-6 flex justify-end items-center relative"
+      style={{ background: "#fafafb", zIndex: "0" }}
+    >
       <div className="flex items-center space-x-4">
         {/* Barra de búsqueda */}
         <div className="relative w-full md:w-96">
@@ -24,6 +28,19 @@ function Navbar() {
 
         {/* Iconos de notificaciones, carrito y usuario */}
         <div className="flex items-center ">
+          <div className="mr-5">
+            <Badge content="3" shape="circle" color="danger">
+              <Button
+                radius="full"
+                isIconOnly
+                aria-label="more than 99 notifications"
+                variant="light"
+              >
+                <NotificationIcon size={24} />
+              </Button>
+            </Badge>
+          </div>
+
           <Dropdown placement="bottom-end">
             <DropdownTrigger>
               <User

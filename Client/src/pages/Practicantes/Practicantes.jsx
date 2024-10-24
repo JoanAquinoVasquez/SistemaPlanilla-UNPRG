@@ -16,10 +16,10 @@ import {
   User,
   Pagination,
 } from "@nextui-org/react";
-import { PlusIcon } from "./Icons.jsx/PlusIcon";
-import { VerticalDotsIcon } from "./Icons.jsx/VerticalDotsIcon";
-import { SearchIcon } from "./Icons.jsx/SearchIcon";
-import { ChevronDownIcon } from "./Icons.jsx/ChevronDownIcon";
+import { PlusIcon } from "../../components/Icons.jsx/PlusIcon";
+import { VerticalDotsIcon } from "../../components/Icons.jsx/VerticalDotsIcon";
+import { SearchIcon } from "../../components/Icons.jsx/SearchIcon";
+import { ChevronDownIcon } from "../../components/Icons.jsx/ChevronDownIcon";
 import { columns, users, statusOptions } from "../../data/datapracticantes";
 import { capitalize } from "./utils";
 import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import topBarImage from "../../assets/Banners/barra_colores_ofic.jpg";
 import logoWithTextImage from "../../assets/Banners/isotipo_variante_02.png";
 import rightPanelImage from "../../assets/Banners/panelderechaImage.png";
@@ -54,7 +54,7 @@ function Login() {
 
   return (
     <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
-      <div className="relative min-h-screen flex items-center justify-center bg-gray-100">
+     <div className="relative min-h-screen flex items-center justify-center bg-gray-100">
         <img
           src={topBarImage}
           alt="Barra de colores superior"
@@ -95,7 +95,8 @@ function Login() {
             </div>
           </div>
 
-          <div className="relative bg-white ml-5 rounded-lg shadow-lg overflow-hidden">
+          {/* Panel derecho visible solo en pantallas grandes */}
+          <div className="relative bg-white ml-5 rounded-lg shadow-lg overflow-hidden hidden lg:block">
             <img
               src={rightPanelImage}
               alt="Panel derecho"
