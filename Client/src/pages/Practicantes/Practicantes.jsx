@@ -28,7 +28,7 @@ import { FaUpload } from "react-icons/fa";
 
 const statusColorMap = {
   activo: "success",
-  nuevo: "info",
+  nuevo: "primary",
   pendiente: "warning",
 };
 
@@ -60,9 +60,7 @@ export default function Practicantes() {
 
   const headerColumns = React.useMemo(() => {
     if (visibleColumns === "all") return columns;
-    return columns.filter((column) =>
-      visibleColumns.has(column.uid)
-    );
+    return columns.filter((column) => visibleColumns.has(column.uid));
   }, [visibleColumns]);
 
   const filteredItems = React.useMemo(() => {
@@ -107,7 +105,7 @@ export default function Practicantes() {
     switch (columnKey) {
       case "name":
         return (
-          <User description={user.email} name={cellValue}>
+          <User description={user.email} name={cellValue}  className="font-medium text-sm capitalize text-default-500">
             {user.email}
           </User>
         );
@@ -116,26 +114,27 @@ export default function Practicantes() {
       case "unidad":
       case "aporte":
         return (
-          <div className="flex flex-col">
-            <p className="text-bold text-tiny capitalize text-default-400">
+          <div className="flex flex-col text-sm text-default-500">
+            <p className="font-medium capitalize " >
               {cellValue}
             </p>
           </div>
         );
-      case "estado":
-        return (
-          <Chip
-            className="capitalize"
-            color={statusColorMap[user.estado]}
-            size="sm"
-            variant="flat"
-          >
-            {cellValue}
-          </Chip>
-        );
+        case "estado":
+          return (
+            <Chip
+              className="capitalize text-sm font-medium " 
+              color={statusColorMap[user.estado]}
+              size="sm"
+              variant="flat"
+            >
+              {cellValue}
+            </Chip>
+          );
+        
       case "accciones":
         return (
-          <div className="relative flex justify-end items-center gap-2">
+          <div className="relative flex justify-center items-center gap-2">
             <Dropdown>
               <DropdownTrigger>
                 <Button isIconOnly size="sm" variant="light">
@@ -179,11 +178,11 @@ export default function Practicantes() {
 
   const topContent = React.useMemo(() => {
     return (
-      <div className="flex flex-col gap-4">
-        <div className="flex justify-between gap-3 items-end">
+      <div className="flex flex-col gap-4 ">
+        <div className="flex flex-col sm:flex-row justify-between gap-3 items-end sm:items-center flex-wrap">
           <Input
             isClearable
-            className="w-full sm:max-w-[44%]"
+            className="w-full xl:max-w-[44%]"
             style={{ borderWidth: 0 }}
             placeholder="Buscar al practicante"
             startContent={<SearchIcon />}
@@ -191,12 +190,16 @@ export default function Practicantes() {
             onClear={onClear}
             onValueChange={onSearchChange}
           />
-          <div className="flex gap-3">
+
+          <div className="flex sm:flex-row gap-3 w-full sm:w-auto ml-auto">
+            {" "}
+            {/* Añadido ml-auto aquí */}
             <Dropdown>
-              <DropdownTrigger className="hidden sm:flex">
+              <DropdownTrigger className="w-full sm:w-auto hidden md:flex lg:flex xl:flex">
                 <Button
                   endContent={<ChevronDownIcon className="text-small" />}
                   variant="flat"
+                  className="w-full sm:w-auto "
                 >
                   Estado
                 </Button>
@@ -217,10 +220,11 @@ export default function Practicantes() {
               </DropdownMenu>
             </Dropdown>
             <Dropdown>
-              <DropdownTrigger className="hidden sm:flex">
+              <DropdownTrigger className="w-full hidden md:flex lg:flex xl:flex">
                 <Button
                   endContent={<ChevronDownIcon className="text-small" />}
                   variant="flat"
+                  className="w-full sm:w-auto"
                 >
                   Columnas
                 </Button>
@@ -240,15 +244,20 @@ export default function Practicantes() {
                 ))}
               </DropdownMenu>
             </Dropdown>
-            <Button color="primary" endContent={<PlusIcon />}>
+            <Button
+              color="primary"
+              endContent={<PlusIcon />}
+              className="w-full sm:w-auto"
+            >
               Nuevo
             </Button>
-            <Button auto light>
+            <Button auto light className="w-full sm:w-auto">
               <FaUpload className="mr-2" />
               Exportar
             </Button>
           </div>
         </div>
+
         <div className="flex justify-between items-center">
           <span className="text-default-400 text-small">
             Total: {users.length} usuarios
@@ -268,7 +277,14 @@ export default function Practicantes() {
         </div>
       </div>
     );
-  }, [filterValue, onSearchChange, statusFilter, visibleColumns, onRowsPerPageChange, onClear]);
+  }, [
+    filterValue,
+    onSearchChange,
+    statusFilter,
+    visibleColumns,
+    onRowsPerPageChange,
+    onClear,
+  ]);
 
   const bottomContent = React.useMemo(() => {
     return (
@@ -307,7 +323,14 @@ export default function Practicantes() {
         </div>
       </div>
     );
-  }, [selectedKeys, filteredItems.length, page, pages, onPreviousPage, onNextPage]);
+  }, [
+    selectedKeys,
+    filteredItems.length,
+    page,
+    pages,
+    onPreviousPage,
+    onNextPage,
+  ]);
 
   return (
     <div>
