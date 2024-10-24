@@ -11,17 +11,11 @@ class UsersTableSeeder extends Seeder
     {
         // Crear usuarios
         User::create([
-            'name' => 'JOAN EDINSON AQUINO VASQUEZ',
             'email' => 'jaquinov@unprg.edu.pe',
-            'google_id' => '111386361494768820534', // Este debe ser un ID de Google válido
-            'password' => bcrypt('password1'), // Contraseña cifrada
         ]);
 
         User::create([
-            'name' => 'Juan David Chiscol Patazca',
             'email' => 'jchiscol@unprg.edu.pe',
-            'google_id' => '107274766196539722579', // Este debe ser un ID de Google válido
-            'password' => bcrypt('password2'), // Contraseña cifrada
         ]);
 
         // User::create([
