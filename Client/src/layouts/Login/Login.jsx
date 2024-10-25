@@ -1,4 +1,5 @@
-import { useState } from 'react';
+
+import { useState } from "react";
 import topBarImage from "../../assets/Banners/barra_colores_ofic.jpg";
 import logoWithTextImage from "../../assets/Banners/isotipo_variante_02.png";
 import rightPanelImage from "../../assets/Banners/panelderechaImage.png";
@@ -22,15 +23,14 @@ function Login() {
     try {
       const response = await axios.post(
         "http://localhost:8000/api/google-login",
-        {
-          token,
-        }
+        { token }
       );
       // console.log('Respuesta del backend:', response.data);
       // Aquí puedes manejar el token JWT que recibes del backend
-      const jwtToken = response.data.token; // Suponiendo que tu backend devuelve el token JWT
-      // Almacena el token JWT en cookies
+      const jwtToken = response.data.token;  // Token JWT devuelto por el backend
+      const userId = response.data.user_id;  // ID del usuario devuelto por el backend
       Cookies.set("jwtToken", jwtToken, { expires: 7 }); // Expira en 7 días
+      Cookies.set("userId", userId, { expires: 7 });
       // console.log('Cookie jwtToken:', Cookies.get('jwtToken')); // Verifica si la cookie se establece
       navigate("/inicio"); // Redirigir a la página deseada
     } catch (error) {
@@ -54,7 +54,7 @@ function Login() {
 
   return (
     <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
-     <div className="relative min-h-screen flex items-center justify-center bg-gray-100">
+      <div className="relative min-h-screen flex items-center justify-center bg-gray-100">
         <img
           src={topBarImage}
           alt="Barra de colores superior"

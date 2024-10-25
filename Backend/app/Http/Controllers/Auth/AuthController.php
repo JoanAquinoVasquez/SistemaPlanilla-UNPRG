@@ -140,7 +140,11 @@ class AuthController extends Controller
                 // Genera el token JWT
                 $token = JWTAuth::fromUser($user);
 
-                return response()->json(['token' => $token]); // Devuelve el token y la foto de perfil
+                // Devuelve el token JWT y el ID del usuario
+                return response()->json([
+                    'token' => $token,
+                    'user_id' => $user->id, // Incluye el ID del usuario
+                ]);
             } else {
                 // Si el usuario no existe, devuelve un error
                 return response()->json(['error' => 'Usuario no encontrado'], 404);

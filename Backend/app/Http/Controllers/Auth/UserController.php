@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
@@ -20,6 +21,7 @@ class UserController extends Controller
     public function show($id)
     {
         $user = User::find($id);
+        Log::info("hola");
         
         if (!$user) {
             return response()->json(['error' => 'Usuario no encontrado'], 404);
