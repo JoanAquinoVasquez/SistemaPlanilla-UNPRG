@@ -1,0 +1,5 @@
+{
+  "scripts": {
+    "start:both": "concurrently \"cd backend && php artisan serve\" \"cd client && npm run dev\""
+  }
+}
