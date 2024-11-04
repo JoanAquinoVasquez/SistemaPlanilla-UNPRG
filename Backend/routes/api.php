@@ -3,6 +3,7 @@
 
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\UserController;
+use App\Http\Controllers\DocumentoController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -14,6 +15,9 @@ Route::middleware(['auth:api'])->group(function () {
     Route::get('users/{id}', [UserController::class, 'show']);
     Route::post('logout', [AuthController::class, 'logout']);
     Route::delete('users/{id}', [UserController::class, 'destroy']);
+
+    //Documento
+    Route::apiResource('documentos', DocumentoController::class);
 });
 
 Route::post('/google-login', [AuthController::class, 'googleLogin']);
