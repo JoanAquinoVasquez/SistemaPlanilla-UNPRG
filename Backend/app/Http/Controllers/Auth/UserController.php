@@ -21,7 +21,6 @@ class UserController extends Controller
     public function show($id)
     {
         $user = User::find($id);
-        Log::info("hola");
         
         if (!$user) {
             return response()->json(['error' => 'Usuario no encontrado'], 404);
