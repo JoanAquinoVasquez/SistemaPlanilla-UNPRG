@@ -4,6 +4,9 @@
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\UserController;
 use App\Http\Controllers\DocumentoController;
+use App\Http\Controllers\FormulaController;
+use App\Http\Controllers\FormulaParametroController;
+use App\Http\Controllers\ParametroController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -18,6 +21,12 @@ Route::middleware(['auth:api'])->group(function () {
 
     //Documento
     Route::apiResource('documentos', DocumentoController::class);
+    //Formula
+    Route::apiResource('formulas', FormulaController::class);
+    //Parametro
+    Route::apiResource('parametros', ParametroController::class);
+    //FormulaParametro
+    Route::apiResource('formula-parametro', FormulaParametroController::class);
 });
 
 Route::post('/google-login', [AuthController::class, 'googleLogin']);

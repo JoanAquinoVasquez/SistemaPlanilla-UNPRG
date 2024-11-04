@@ -11,4 +11,9 @@ class Documento extends Model
     use HasFactory;
     // Agrega los campos que permiten asignación masiva
     protected $fillable = ['nombre', 'tipo', 'anio'];
+
+    public function parametros()
+    {
+        return $this->hasMany(Parametro::class);
+    }
 }
