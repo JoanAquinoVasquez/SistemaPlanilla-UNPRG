@@ -15,7 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('nombre', 255);
             $table->string('tipo',255);
-            $table->year('anio');
+            $table->date('fecha_vigencia');
+            $table->date('fecha_fin')->nullable();
+            $table->boolean('estado')->default(true);
             $table->timestamps();
         });
     }

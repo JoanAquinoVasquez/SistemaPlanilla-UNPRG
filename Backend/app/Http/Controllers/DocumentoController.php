@@ -28,7 +28,9 @@ class DocumentoController extends Controller
             $validated = $request->validate([
                 'nombre' => 'required|string|max:255',
                 'tipo' => 'required|string|max:255',
-                'anio' => 'required|integer|min:1900|max:' . date('Y'),
+                'fecha_vigencia' => 'required|date',
+                'fecha_fin' => 'nullable|date|after_or_equal:fecha_vigencia',
+                'estado' => 'required|boolean'
             ]);
 
             $documento = Documento::create($validated);
@@ -77,7 +79,9 @@ class DocumentoController extends Controller
             $validated = $request->validate([
                 'nombre' => 'sometimes|string|max:255',
                 'tipo' => 'sometimes|string|max:255',
-                'anio' => 'sometimes|integer|min:1900|max:' . date('Y'),
+                'fecha_vigencia' => 'sometimes|date',
+                'fecha_fin' => 'nullable|date|after_or_equal:fecha_vigencia',
+                'estado' => 'sometimes|boolean'
             ]);
 
             $documento->update($validated);
