@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { FaCaretDown, FaCaretUp } from 'react-icons/fa';
 import { Link } from '@nextui-org/react';
-import imgcollapsed from '../../assets/Banners/isotipo_variante_02.png';
+import imgcollapsed from '../../assets/Isotipos/isotipo_variante_02.png';
 import './sidebar.css';
 import routes from './routesSidebar.jsx';
 

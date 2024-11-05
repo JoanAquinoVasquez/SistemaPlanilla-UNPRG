@@ -1,10 +1,12 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
+import PropTypes from "prop-types";
 
 // Crear el contexto
 const UserContext = createContext(null);
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useUser = () => useContext(UserContext);
 
 export const UserProvider = ({ children }) => {
@@ -38,6 +40,9 @@ export const UserProvider = ({ children }) => {
       fetchUserData();
     }
   }, [token, userId]);
+  UserProvider.propTypes = {
+    children: PropTypes.node.isRequired,
+  };
 
   return (
     <UserContext.Provider value={userData}>

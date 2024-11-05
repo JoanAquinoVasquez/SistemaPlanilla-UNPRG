@@ -1,52 +1,22 @@
+import { Input } from "@nextui-org/react";
 import PropTypes from "prop-types";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
 
-function InputField({
-    divContainerStyle,
-    type,
-    value,
-    setValue,
-    placeholder,
-    label,
-    showToggle = false,
-    showPassword,
-    togglePasswordVisibility,
-    classNameInputField,
-    classNameLabel,
-    classNameShowToggle,
-}) {
+export default function ReusableInput({ label, type = "text", className = "", isRequired = true }) {
     return (
-        <div className={divContainerStyle}>
-            <input
-                type={type}
-                value={value}
-                onChange={(e) => setValue(e.target.value)}
-                className={classNameInputField}
-                placeholder={placeholder}
-            />
-            {label && <label className={classNameLabel}>{label}</label>}
-            {showToggle && (
-                <div className={classNameShowToggle} onClick={togglePasswordVisibility}>
-                    {showPassword ? <FaEyeSlash /> : <FaEye />}
-                </div>
-            )}
-        </div>
+        <Input
+            isRequired={isRequired} /* Propiedad para hacer que el input sea obligatorio*/ 
+            type={type}  /*Tipo de input, por defecto es "text"*/ 
+            label={label} /*Etiqueta que describe el input (por ejemplo, "Nombre Completo", "DNI", etc.)*/ 
+            className={className} /*Clase CSS personalizada que se puede pasar para modificar el estilo del input*/ 
+            style={{ paddingBottom: "0px", paddingLeft: "0px" }} /*Estilos en línea específicos para eliminar el padding inferior e izquierdo*/ 
+            onClear={() => console.log(`${label} input cleared`)} /*Callback que se ejecuta cuando el input es borrado, por ejemplo, al hacer clic en el botón de limpiar*/
+        />
     );
 }
 
-InputField.propTypes = {
-    divContainerStyle: PropTypes.string,
-    type: PropTypes.string.isRequired,
-    value: PropTypes.string.isRequired,
-    setValue: PropTypes.func.isRequired,
-    placeholder: PropTypes.string,
-    label: PropTypes.string,
-    showToggle: PropTypes.bool,
-    showPassword: PropTypes.bool,
-    togglePasswordVisibility: PropTypes.func,
-    classNameInputField: PropTypes.string,
-    classNameLabel: PropTypes.string,
-    classNameShowToggle: PropTypes.string,
+ReusableInput.propTypes = {
+    label: PropTypes.string.isRequired,
+    type: PropTypes.string,
+    className: PropTypes.string,
+    isRequired: PropTypes.bool,
 };
-
-export default InputField;
