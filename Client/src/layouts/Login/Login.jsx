@@ -1,8 +1,8 @@
 
 import { useState } from "react";
-import topBarImage from "../../assets/Banners/barra_colores_ofic.jpg";
-import logoWithTextImage from "../../assets/Banners/isotipo_variante_02.png";
-import rightPanelImage from "../../assets/Banners/panelderechaImage.png";
+import topBarImage from "../../assets/Barra/barra_colores_ofic.jpg";
+import logoWithTextImage from "../../assets/Isotipos/isotipo_variante_02.png";
+import rightPanelImage from "../../assets/Img/panelderechaImage.png";
 import { useNavigate } from "react-router-dom"; // Importa useNavigate
 import { GOOGLE_CLIENT_ID } from "../../../config";
 
