@@ -27,7 +27,8 @@ class ParametroController extends Controller
             $validated = $request->validate([
                 'nombre' => 'required|string|max:255',
                 'valor' => 'required|numeric', // Permitir valores numéricos (decimales o enteros)
-                'documento_id' => 'required|exists:documentos,id' // Verifica que el documento exista
+                'documento_id' => 'required|exists:documentos,id', // Verifica que el documento exista
+                'estado' => 'sometimes|boolean'
             ]);
 
             $parametro = Parametro::create($validated);
@@ -83,7 +84,8 @@ class ParametroController extends Controller
             $validated = $request->validate([
                 'nombre' => 'sometimes|string|max:255',
                 'valor' => 'sometimes|numeric', // Permitir valores numéricos (decimales o enteros)
-                'documento_id' => 'sometimes|exists:documentos,id' // Verifica que el documento exista si se proporciona
+                'documento_id' => 'sometimes|exists:documentos,id', // Verifica que el documento exista si se proporciona
+                'estado' => 'sometimes|boolean'
             ]);
 
             $parametro->update($validated);

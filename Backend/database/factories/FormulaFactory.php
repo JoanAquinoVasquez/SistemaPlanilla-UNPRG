@@ -20,6 +20,7 @@ class FormulaFactory extends Factory
             //
             'nombre' => $this->faker->word,
             'descripcion' => $this->faker->sentence,
+            'estado' => $this->faker->boolean(), // Genera true o false aleatoriamente
         ];
     }
 }

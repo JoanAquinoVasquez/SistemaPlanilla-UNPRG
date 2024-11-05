@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('formula_id')->constrained()->onDelete('cascade'); // Clave foránea a 'formulas'
             $table->foreignId('parametro_id')->constrained()->onDelete('cascade'); // Clave foránea a 'parametros'
             $table->string('operacion', 255); // Campo adicional para definir la operación
+            $table->boolean('estado')->default(true);
             $table->timestamps();
         });
     }

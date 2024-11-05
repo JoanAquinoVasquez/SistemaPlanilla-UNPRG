@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('nombre', 255);
             $table->decimal('valor', 10, 2); // 10 dígitos en total, 2 después del punto decimal
             $table->foreignId('documento_id')->constrained()->onDelete('cascade'); // Clave foránea a 'documentos'
+            $table->boolean('estado')->default(true);
             $table->timestamps();
         });
     }

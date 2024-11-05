@@ -17,9 +17,11 @@ class DocumentoFactory extends Factory
     public function definition(): array
     {
         return [
-            'nombre' => $this->faker->word,
-            'tipo' => $this->faker->word,
-            'anio' => $this->faker->year,
+            'nombre' => $this->faker->sentence(3), // Genera un nombre aleatorio
+            'tipo' => $this->faker->randomElement(['Certificado', 'Licencia', 'Informe', 'Permiso']),
+            'fecha_vigencia' => $this->faker->date(),
+            'fecha_fin' => $this->faker->optional()->date(), // Puede ser nulo
+            'estado' => $this->faker->boolean(), // Genera true o false aleatoriamente
         ];
     }
 }

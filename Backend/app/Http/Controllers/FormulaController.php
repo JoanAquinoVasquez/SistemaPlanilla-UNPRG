@@ -27,6 +27,7 @@ class FormulaController extends Controller
             $validated = $request->validate([
                 'nombre' => 'required|string|max:255',
                 'descripcion' => 'required|string',
+                'estado' => 'sometimes|boolean'
             ]);
 
             $formula = Formula::create($validated);
@@ -82,6 +83,7 @@ class FormulaController extends Controller
             $validated = $request->validate([
                 'nombre' => 'sometimes|string|max:255',
                 'descripcion' => 'sometimes|string',
+                'estado' => 'sometimes|boolean'
             ]);
 
             $formula->update($validated);

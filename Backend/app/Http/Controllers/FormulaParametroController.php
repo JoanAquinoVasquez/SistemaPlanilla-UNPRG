@@ -28,6 +28,7 @@ class FormulaParametroController extends Controller
                 'formula_id' => 'required|exists:formulas,id',
                 'parametro_id' => 'required|exists:parametros,id',
                 'operacion' => 'required|string|max:50',
+                'estado' => 'sometimes|boolean',
             ]);
 
             $formulaParametro = FormulaParametro::create($validated);
@@ -84,6 +85,7 @@ class FormulaParametroController extends Controller
                 'formula_id' => 'sometimes|exists:formulas,id',
                 'parametro_id' => 'sometimes|exists:parametros,id',
                 'operacion' => 'sometimes|string|max:50',
+                'estado' => 'sometimes|boolean',
             ]);
 
             $formulaParametro->update($validated);

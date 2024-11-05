@@ -17,6 +17,7 @@ class FormulaParametroFactory extends Factory
             'formula_id' => Formula::factory(), // Generar o asignar un Formula
             'parametro_id' => Parametro::factory(), // Generar o asignar un Parametro
             'operacion' => $this->faker->randomElement(['+', '-', '*', '/']), // Selecciona una operación aleatoria
+            'estado' => $this->faker->boolean(), // Genera true o false aleatoriamente
         ];
     }
 }

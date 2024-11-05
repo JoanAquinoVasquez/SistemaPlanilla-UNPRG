@@ -22,6 +22,7 @@ class ParametroFactory extends Factory
             'nombre' => $this->faker->word,
             'valor' => $this->faker->randomFloat(2, 0, 9999999), // Máximo de 9999999.99
             'documento_id' => Documento::factory(), // Crear o asignar un documento
+            'estado' => $this->faker->boolean(), // Genera true o false aleatoriamente
         ];
     }
 }
