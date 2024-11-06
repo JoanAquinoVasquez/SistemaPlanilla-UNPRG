@@ -13,12 +13,13 @@ import { NotificationIcon } from "../../components/Icons.jsx/NotificationIcon";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import Spinner from "../Spinner/Spinner"; // Importa el componente Spinner
 
 function Navbar() {
   const userData = useUser();
   const navigate = useNavigate();
 
-  if (!userData) return <div>Cargando...</div>;
+  if (!userData) return <Spinner/>;
 
   const handleLogout = () => {
     // Hacer una solicitud de cierre de sesión al backend

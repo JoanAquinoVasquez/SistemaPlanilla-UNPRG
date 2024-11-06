@@ -1,13 +1,15 @@
-import { useState, useEffect } from 'react';
-import { Navigate } from 'react-router-dom';
-import axios from 'axios';
+import { useState, useEffect } from "react";
+import { Navigate } from "react-router-dom";
+import axios from "axios";
+import Spinner from "./components/Spinner/Spinner.jsx"; // Importa el componente Spinner
 
 const ProtectedRoute = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(null);
 
   useEffect(() => {
-    axios.get('/check-auth') // La baseURL ya está configurada globalmente
-      .then(response => {
+    axios
+      .get("/check-auth") // La baseURL ya está configurada globalmente
+      .then((response) => {
         setIsAuthenticated(response.data.authenticated);
       })
       .catch(() => {
@@ -16,7 +18,7 @@ const ProtectedRoute = ({ children }) => {
   }, []);
 
   if (isAuthenticated === null) {
-    return <div>Loading...</div>; // Componente de carga mientras se verifica autenticación
+    return <Spinner label="Cargando..."/>; 
   }
 
   if (!isAuthenticated) {
