@@ -9,7 +9,6 @@ import { UserProvider } from "./../../components/Navbar/UserContext";
 function Dashboard() {
   return (
     <div className="flex">
-      {/* Componente Sidebar que contiene el menú de navegación */}
       <SidebarMenu />
       {/* Contenido de la página */}
       <div className="divcant flex flex-col flex-1 ml-2">

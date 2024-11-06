@@ -10,10 +10,34 @@ import {
   Button,
 } from "@nextui-org/react";
 import { NotificationIcon } from "../../components/Icons.jsx/NotificationIcon";
+import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import Spinner from "../Spinner/Spinner"; // Importa el componente Spinner
 
 function Navbar() {
   const userData = useUser();
-  if (!userData) return <div>Cargando...</div>;
+  const navigate = useNavigate();
+
+  if (!userData) return <Spinner/>;
+
+  const handleLogout = () => {
+    // Hacer una solicitud de cierre de sesión al backend
+    axios
+      .post("/logout", {}, { withCredentials: true })
+      .then(() => {
+        // Elimina las cookies de sesión y limpia los datos de usuario
+        Cookies.remove("userId");
+        Cookies.remove("token"); // Elimina la cookie principal también
+        sessionStorage.removeItem("userData");
+        // Actualizar el estado global a no autenticado
+        navigate("/"); // Redirige al usuario a la página de inicio de sesión o de inicio
+      })
+      .catch((error) => {
+        console.error("Error al cerrar sesión:", error);
+      });
+  };
+
   return (
     <div
       className="bg-white pt-4 pb-2 pr-6 flex justify-end items-center relative"
@@ -49,7 +73,7 @@ function Navbar() {
             />
           </DropdownTrigger>
           <DropdownMenu aria-label="Profile Actions" variant="flat">
-            <DropdownItem key="logout" color="danger">
+            <DropdownItem key="logout" color="danger" onClick={handleLogout}>
               Cerrar sesión
             </DropdownItem>
           </DropdownMenu>

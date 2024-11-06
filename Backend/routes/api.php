@@ -29,6 +29,9 @@ Route::middleware(['auth:api'])->group(function () {
     Route::apiResource('parametros', ParametroController::class);
     //FormulaParametro
     Route::apiResource('formula-parametro', FormulaParametroController::class);
+    Route::post('/logout', [AuthController::class, 'logout']);
 });
 
 Route::post('/google-login', [AuthController::class, 'googleLogin']);
+Route::get('/check-auth', [AuthController::class, 'checkAuth']); // Nueva ruta para verificar autenticación
+

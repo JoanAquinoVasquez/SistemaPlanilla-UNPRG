@@ -1,30 +1,62 @@
-import { Button } from "@nextui-org/react";
-import PropTypes from "prop-types";
+import { useState } from "react";
+import { Button, Input } from "@nextui-org/react";
+import propTypes from "prop-types";
 
-export default function FileUploadButton({ labelText, inputId }) {
-    const handleFileUploadClick = () => {
-        // Esto abre el cuadro de diálogo para seleccionar un archivo
-        document.getElementById(inputId).click();
-    };
+const RenderFileUpload = ({ inputId, buttonText, placeholderText, showCommentInput = true }) => {
+  const [fileName, setFileName] = useState('');
 
-    return (
-        <div className="flex items-center border rounded-xl shadow-sm overflow-hidden">
-            <label htmlFor={inputId} className="flex-1 px-4 py-2 bg-gray-100 cursor-pointer text-gray-600">
-                {labelText}
-            </label>
-            <input id={inputId} type="file" className="hidden" />
-            <Button
-                auto
-                className="bg-blue-500 text-white font-semibold hover:bg-blue-600 transition"
-                onClick={handleFileUploadClick}
-            >
-                Subir
-            </Button>
-        </div>
-    );
-}
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setFileName(file.name);
+    }
+  };
 
-FileUploadButton.propTypes = {
-    labelText: PropTypes.string.isRequired,
-    inputId: PropTypes.string.isRequired,
+  const handleUploadClick = () => {
+    document.getElementById(inputId).click();
+  };
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column',  width: '100%' }}>
+      {/* Contenedor del botón y el input de comentario opcional */}
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        
+        <Button auto onClick={handleUploadClick} bordered color="primary" className="w-full">
+          {buttonText}
+        </Button>
+        
+        {/* Mostrar el input de comentario solo si showCommentInput es true */}
+        {showCommentInput && (
+          <Input
+            placeholder={placeholderText}
+            onChange={(e) => console.log('Texto ingresado:', e.target.value)}
+          />
+        )}
+      </div>
+
+      {/* Nombre del archivo seleccionado */}
+      {fileName && (
+        <p style={{ fontSize: '12px', color: 'gray', marginTop: '5px' }}>
+          {fileName}
+        </p>
+      )}
+
+      {/* Input oculto para seleccionar archivo con un ID único */}
+      <input
+        id={inputId}
+        type="file"
+        style={{ display: 'none' }}
+        onChange={handleFileChange}
+      />
+    </div>
+  );
 };
+
+RenderFileUpload.propTypes = {
+  buttonText: propTypes.string,
+  placeholderText: propTypes.string,
+  showCommentInput: propTypes.bool,
+    inputId: propTypes.string,
+};
+
+export default RenderFileUpload;
