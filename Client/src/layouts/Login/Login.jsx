@@ -6,6 +6,7 @@ import rightPanelImage from "../../assets/Img/panelderechaImage.png";
 import { useNavigate } from "react-router-dom"; // Importa useNavigate
 import { GOOGLE_CLIENT_ID } from "../../../config";
 
+
 // Importa los componentes necesarios desde @react-oauth/google
 import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 import axios from "axios";
@@ -22,14 +23,12 @@ function Login() {
     // Enviar el token al backend (Laravel) para la validación
     try {
       const response = await axios.post(
-        "http://localhost:8000/api/google-login",
+        "/google-login",
         { token }
       );
       // console.log('Respuesta del backend:', response.data);
       // Aquí puedes manejar el token JWT que recibes del backend
-      const jwtToken = response.data.token;  // Token JWT devuelto por el backend
       const userId = response.data.user_id;  // ID del usuario devuelto por el backend
-      Cookies.set("jwtToken", jwtToken, { expires: 7 }); // Expira en 7 días
       Cookies.set("userId", userId, { expires: 7 });
       // console.log('Cookie jwtToken:', Cookies.get('jwtToken')); // Verifica si la cookie se establece
       navigate("/inicio"); // Redirigir a la página deseada

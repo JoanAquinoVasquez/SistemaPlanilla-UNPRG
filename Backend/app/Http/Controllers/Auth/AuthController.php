@@ -3,15 +3,14 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
-use Laravel\Socialite\Facades\Socialite;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Google_Client;
+use Illuminate\Support\Facades\Cookie;
 
 class AuthController extends Controller
 {
@@ -66,8 +65,6 @@ class AuthController extends Controller
 
     public function store(RegisterRequest $request)
     {
-        Log::info('Creando un nuevo usuario', ['data' => $request->all()]);
-
         // Creación del usuario
         $user = User::create([
             'name' => $request->name,
@@ -114,9 +111,8 @@ class AuthController extends Controller
         $token_g = $request->input('token');
 
         // Inicializa el cliente de Google
-        $client = new Google_Client(['client_id' => env('GOOGLE_CLIENT_ID')]); // Especifica tu CLIENT_ID
+        $client = new Google_Client(['client_id' => env('GOOGLE_CLIENT_ID')]);
         $payload = $client->verifyIdToken($token_g);
-        // Log::info($payload);
 
         if ($payload) {
             $googleId = $payload['sub'];
@@ -138,15 +134,15 @@ class AuthController extends Controller
                 ]);
 
                 // Genera el token JWT
-                $token = JWTAuth::fromUser($user);
+                $jwtToken = JWTAuth::fromUser($user);
 
                 // Devuelve el token JWT y el ID del usuario
-                return response()->json([
-                    'token' => $token,
-                    'user_id' => $user->id, // Incluye el ID del usuario
-                ]);
+                // Configura la cookie segura con el JWT
+                $cookie = cookie('token', $jwtToken, 60, '/', null, true, true, false, 'Strict');
+
+                return response()->json(['message' => 'Autenticado con éxito', 'user_id' => $user->id])
+                    ->withCookie($cookie);
             } else {
-                // Si el usuario no existe, devuelve un error
                 return response()->json(['error' => 'Usuario no encontrado'], 404);
             }
         } else {
@@ -154,6 +150,27 @@ class AuthController extends Controller
         }
     }
 
+
+    public function logout()
+    {
+        // Invalida el token y elimina la cookie
+        $cookie = Cookie::forget('token');
+
+        return response()->json(['message' => 'Sesión cerrada'])
+            ->withCookie($cookie);
+    }
+
+
+    public function checkAuth()
+    {
+        try {
+            // Verifica si el token es válido
+            JWTAuth::parseToken()->authenticate();
+            return response()->json(['authenticated' => true]);
+        } catch (\Exception $e) {
+            return response()->json(['authenticated' => false], 401);
+        }
+    }
 
 
     // // Método para manejar el login desde el frontend con token de Google
