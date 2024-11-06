@@ -213,7 +213,8 @@ export default function Practicantes() {
         </p>
         <div className="mt-4"></div>
         <Table
-          aria-label="Example table with custom cells, pagination and sorting"
+          aria-label="Example table"
+          layout="auto"
           isHeaderSticky
           bottomContent={bottomContent}
           bottomContentPlacement="outside"
@@ -233,7 +234,7 @@ export default function Practicantes() {
               </TableColumn>
             )}
           </TableHeader>
-          <TableBody emptyContent={"No users found"} items={sortedItems}>
+          <TableBody emptyContent={"No se encontraron usuarios"} items={sortedItems}>
             {(item) => (
               <TableRow key={item.id}>
                 {(columnKey) => <TableCell>{renderCell(item, columnKey)}</TableCell>}
