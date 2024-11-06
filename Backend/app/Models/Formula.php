@@ -10,7 +10,7 @@ class Formula extends Model
     /** @use HasFactory<\Database\Factories\FormulaFactory> */
     use HasFactory;
 
-    protected $fillable = ['nombre', 'descripcion'];
+    protected $fillable = ['nombre', 'descripcion', 'estado'];
 
     public function formulaParametros()
     {

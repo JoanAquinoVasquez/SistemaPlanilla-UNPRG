@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('contratos', function (Blueprint $table) {
             $table->id();  
             $table->unsignedBigInteger('empleado_tipo_id');
-            $table->unsignedBigInteger('empleado_tipo_dni');
+            $table->unsignedBigInteger('empleado_tipo_num_doc_iden');
             $table->decimal('sueldo_bruto', 10, 2);
             $table->date('fecha_inicio');
             $table->date('fecha_fin');
@@ -25,11 +25,11 @@ return new class extends Migration
             $table->integer('horas_trabajo');
             
             $table->foreign('empleado_tipo_id')
-                ->references('id')
+                ->references('id_tipo_empleado')
                 ->on('empleado_tipos')
                 ->onDelete('cascade');
-            $table->foreign('empleado_tipo_dni')
-                ->references('dni')
+            $table->foreign('empleado_tipo_num_doc_iden')
+                ->references('num_doc_iden')
                 ->on('empleado_tipos')
                 ->onDelete('cascade');
             

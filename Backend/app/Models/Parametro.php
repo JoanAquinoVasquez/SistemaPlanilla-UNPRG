@@ -10,9 +10,18 @@ class Parametro extends Model
     /** @use HasFactory<\Database\Factories\ParametroFactory> */
     use HasFactory;
 
-    // Agrega los campos que permiten asignación masiva
-    protected $fillable = ['nombre', 'valor'];
+    // Campos rellenables
+    protected $fillable = [
+        'nombre',
+        'valor',
+        'documento_id',
+        'estado',
+    ];
 
+    /**
+     * Relación muchos a uno con Documento.
+     * Un Parametro pertenece a un Documento.
+     */
     public function documento()
     {
         return $this->belongsTo(Documento::class);
@@ -21,5 +30,6 @@ class Parametro extends Model
     public function formulaParametros()
     {
         return $this->hasMany(FormulaParametro::class);
-    }
+    } 
+    
 }

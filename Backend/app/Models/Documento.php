@@ -7,13 +7,23 @@ use Illuminate\Database\Eloquent\Model;
 
 class Documento extends Model
 {
-    /** @use HasFactory<\Database\Factories\DocumentoFactory> */
     use HasFactory;
-    // Agrega los campos que permiten asignación masiva
-    protected $fillable = ['nombre', 'tipo', 'anio'];
 
+    // Campos rellenables
+    protected $fillable = [
+        'nombre',
+        'tipo',
+        'fecha_vigencia',
+        'fecha_fin',
+        'estado',
+    ];
+
+    /**
+     * Relación uno a muchos con Parametro.
+     * Un Documento puede tener múltiples Parametros asociados.
+     */
     public function parametros()
     {
-        return $this->hasMany(Parametro::class);
+        return $this->hasMany(Parametro::class, 'documento_id');
     }
 }

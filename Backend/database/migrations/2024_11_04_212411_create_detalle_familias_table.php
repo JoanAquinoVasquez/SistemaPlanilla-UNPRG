@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('detalle_familias', function (Blueprint $table) {
             $table->id('dni');
-            $table->unsignedBigInteger('empleado_dni');
+            $table->unsignedBigInteger('empleado_num_doc_iden');
             $table->unsignedBigInteger('parentesco_id');
             $table->string('nombres', 50);
             $table->string('apellido_paterno', 50);
@@ -25,8 +25,8 @@ return new class extends Migration
             $table->string('discapacidad');
             $table->integer('estado');
 
-            $table->foreign('empleado_dni')
-                ->references('dni')
+            $table->foreign('empleado_num_doc_iden')
+                ->references('num_doc_iden')
                 ->on('empleados')
                 ->onDelete('cascade');
             $table->foreign('parentesco_id')

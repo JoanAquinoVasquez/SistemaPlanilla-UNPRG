@@ -20,6 +20,7 @@ Route::middleware(['auth:api'])->group(function () {
     Route::post('logout', [AuthController::class, 'logout']);
     Route::delete('users/{id}', [UserController::class, 'destroy']);
 
+    Route::apiResource('bancos', BancoController::class);
     //Documento
     Route::apiResource('documentos', DocumentoController::class);
     //Formula

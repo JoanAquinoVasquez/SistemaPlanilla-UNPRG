@@ -72,4 +72,13 @@ class User extends Authenticatable implements JWTSubject
     {
         return [];
     }
+
+    /**
+     * Relación uno a muchos con Planilla.
+     * Un User puede tener múltiples Planillas.
+     */
+    public function planillas()
+    {
+        return $this->hasMany(Planilla::class, 'user_id');
+    }
 }

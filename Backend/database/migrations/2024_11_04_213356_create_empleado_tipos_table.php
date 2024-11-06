@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('empleado_tipos', function (Blueprint $table) {
-            $table->unsignedBigInteger('id'); //PK
-            $table->unsignedBigInteger('dni'); //FK como PK
+            $table->unsignedBigInteger('id_tipo_empleado'); //FK como PK
+            $table->unsignedBigInteger('num_doc_iden'); //FK como PK
 
             $table->unsignedBigInteger('banco_id'); //FK
             $table->integer('tipo_cuenta');
@@ -21,12 +21,18 @@ return new class extends Migration
             $table->unsignedBigInteger('numero_cuenta');
 
             // Clave primaria compuesta (dni, codigo)
-            $table->primary(['id', 'dni']);
+            $table->primary(['id_tipo_empleado', 'num_doc_iden']);
             
-            $table->foreign('dni')
-                ->references('dni')
+            $table->foreign('id_tipo_empleado')
+                ->references('id')
+                ->on('tipo_empleados')
+                ->onDelete('cascade');
+
+            $table->foreign('num_doc_iden')
+                ->references('num_doc_iden')
                 ->on('empleados')
                 ->onDelete('cascade');
+
             $table->foreign('banco_id')
                 ->references('id')
                 ->on('bancos')

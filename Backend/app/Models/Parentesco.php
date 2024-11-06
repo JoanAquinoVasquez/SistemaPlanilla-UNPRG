@@ -7,6 +7,18 @@ use Illuminate\Database\Eloquent\Model;
 
 class Parentesco extends Model
 {
-    /** @use HasFactory<\Database\Factories\ParentescoFactory> */
     use HasFactory;
+
+    protected $fillable = [
+        'grado_parentesco',
+    ];
+
+    /**
+     * Relación uno a muchos con DetalleFamilia.
+     * Un Parentesco puede aplicarse a varios DetalleFamilia.
+     */
+    public function familiares()
+    {
+        return $this->hasMany(DetalleFamilia::class, 'parentesco_id');
+    }
 }

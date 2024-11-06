@@ -5,46 +5,59 @@ namespace App\Http\Controllers;
 use App\Models\Banco;
 use Dotenv\Validator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class BancoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        $bancos = Banco::all();
+        try {
+            $bancos = Banco::all();
 
-        if ($bancos->isEmpty()) {
             $data = [
-                'message' => 'No se han encontrado bancos',
-                'status' => 200
+                'message' => $bancos->isEmpty() ? 'No se han encontrado bancos' : 'Bancos encontrados',
+                'status' => 200,
+                'data' => $bancos
             ];
-            return response()->json($data, 200); // Cambiado a 200
+
+            return response()->json($data, 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Ocurrió un error al recuperar los bancos.',
+                'status' => 500,
+                'error' => $e->getMessage() // En producción, evita enviar mensajes de error específicos
+            ], 500);
         }
-
-        return response()->json($bancos, 200);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        /* Validator::make */
+        $validatedData = $request->validate([
+            'nombre' => 'required|string|max:255',
+            'descripcion' => 'required|string|max:255'
+        ]);
+
+        try {
+            // Creación del banco
+            $banco = Banco::create($validatedData);
+
+            // Respuesta exitosa
+            return response()->json([
+                'message' => 'Banco creado exitosamente',
+                'status' => 201,
+                'data' => $banco
+            ], 201);
+        } catch (\Exception $e) {
+            // Manejo de errores: registro en logs y respuesta genérica
+            Log::error("Error al crear banco: " . $e->getMessage());
+            
+            return response()->json([
+                'message' => 'Ocurrió un error al crear el banco. Por favor, intente nuevamente.',
+                'status' => 500
+            ], 500);
+        }
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Banco $banco)
     {
         //

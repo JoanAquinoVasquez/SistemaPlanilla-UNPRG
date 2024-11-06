@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Cuotas;
+use App\Models\DetalleAportacion;
 use Illuminate\Http\Request;
 
-class CuotasController extends Controller
+class DetalleAportacionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -34,7 +34,7 @@ class CuotasController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Cuotas $cuotas)
+    public function show(DetalleAportacion $detalleAportacion)
     {
         //
     }
@@ -42,7 +42,7 @@ class CuotasController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Cuotas $cuotas)
+    public function edit(DetalleAportacion $detalleAportacion)
     {
         //
     }
@@ -50,7 +50,7 @@ class CuotasController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Cuotas $cuotas)
+    public function update(Request $request, DetalleAportacion $detalleAportacion)
     {
         //
     }
@@ -58,7 +58,7 @@ class CuotasController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Cuotas $cuotas)
+    public function destroy(DetalleAportacion $detalleAportacion)
     {
         //
     }

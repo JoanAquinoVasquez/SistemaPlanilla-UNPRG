@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Vacacione;
+use App\Models\Remuneracion;
 use Illuminate\Http\Request;
 
-class VacacioneController extends Controller
+class RemuneracionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -34,7 +34,7 @@ class VacacioneController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Vacacione $vacacione)
+    public function show(Remuneracion $remuneracion)
     {
         //
     }
@@ -42,7 +42,7 @@ class VacacioneController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Vacacione $vacacione)
+    public function edit(Remuneracion $remuneracion)
     {
         //
     }
@@ -50,7 +50,7 @@ class VacacioneController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Vacacione $vacacione)
+    public function update(Request $request, Remuneracion $remuneracion)
     {
         //
     }
@@ -58,7 +58,7 @@ class VacacioneController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Vacacione $vacacione)
+    public function destroy(Remuneracion $remuneracion)
     {
         //
     }

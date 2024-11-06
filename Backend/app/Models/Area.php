@@ -5,8 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Vacacione extends Model
+class Area extends Model
 {
-    /** @use HasFactory<\Database\Factories\VacacioneFactory> */
+    /** @use HasFactory<\Database\Factories\AreaFactory> */
     use HasFactory;
 }

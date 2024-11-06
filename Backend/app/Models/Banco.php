@@ -11,7 +11,25 @@ class Banco extends Model
     use HasFactory;
 
     protected $fillable = [
-        'nombres',
-        'descripcion'
-    ];    
+        'nombre',
+        'descripcion',
+    ];
+
+    /**
+     * Relación uno a muchos con EmpleadoTipo.
+     * Un Banco puede tener múltiples cuentas de empleados.
+     */
+    public function empleadoTipos()
+    {
+        return $this->hasMany(EmpleadoTipo::class, 'banco_id');
+    }
+
+    /**
+     * Relación uno a muchos con Prestamo.
+     * Un Banco puede tener múltiples préstamos asociados.
+     */
+    public function prestamos()
+    {
+        return $this->hasMany(Prestamo::class, 'banco_id');
+    }
 }

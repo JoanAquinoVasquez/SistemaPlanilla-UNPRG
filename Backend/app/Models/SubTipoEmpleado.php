@@ -9,4 +9,29 @@ class SubTipoEmpleado extends Model
 {
     /** @use HasFactory<\Database\Factories\SubTipoEmpleadoFactory> */
     use HasFactory;
+
+    protected $fillable = [
+        'tipo_empleado_id',
+        'nombre',
+        'descripcion'
+    ];
+    
+    /**
+     * Relación muchos a uno con TipoEmpleado.
+     * Un SubTipoEmpleado pertenece a un TipoEmpleado.
+     */
+    public function tipoEmpleado()
+    {
+        return $this->belongsTo(TipoEmpleado::class, 'tipo_empleado_id');
+    }
+
+    /**
+     * Relación uno a muchos con CategoriaEmpleado.
+     * Un SubTipoEmpleado puede tener muchas CategoriaEmpleado.
+     */
+    public function categorias()
+    {
+        return $this->hasMany(CategoriaEmpleado::class, 'sub_tipo_empleado_id');
+    }
+    
 }
