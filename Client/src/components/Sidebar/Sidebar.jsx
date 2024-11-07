@@ -3,11 +3,11 @@ import { FaCaretDown, FaCaretUp } from 'react-icons/fa';
 import { Link } from '@nextui-org/react';
 import imgcollapsed from '../../assets/Isotipos/isotipo_variante_02.png';
 import './sidebar.css';
-import routes from './routesSidebar.jsx';
+import useRoutes from './routesSidebar.jsx';
 
 const SidebarMenu = () => {
     const [expandedLinks, setExpandedLinks] = useState({});
-
+    const routes = useRoutes(); // Llama al hook para obtener los routes dinámicos
     const toggleLink = (link) => {
         setExpandedLinks((prevState) => ({
             ...prevState,
@@ -43,6 +43,8 @@ const SidebarMenu = () => {
             </div>
         ))
     );
+      
+    
 
     return (
         <div className="sidebar shadow-lg flex flex-col w-60" style={{background:"#ffffff"}}>
@@ -68,11 +70,7 @@ const SidebarMenu = () => {
                     {renderMenuItems(routes.configItems)}
                 </ul>
             </nav>
-
-            
         </div>
-
-        
     );
 };
 

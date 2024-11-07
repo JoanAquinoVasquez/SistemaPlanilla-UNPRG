@@ -3,7 +3,7 @@ import Inicio from "../Inicio/Inicio";
 import Practicantes from "../../pages/Practicantes/Practicantes";
 import SidebarMenu from "../../components/Sidebar/Sidebar";
 import Navbar from "../../components/Navbar/Navbar";
-import LeyesParametros from "../../pages/Configuracion/LeyesParametros";
+import LeyesParametros from "../../pages/Configuracion/Documentos";
 import "./Dashboard.css";
 import { UserProvider } from "./../../components/Navbar/UserContext";
 
@@ -20,8 +20,8 @@ function Dashboard() {
         <div className="px-4 contenido-cambiante mb-3">
           <Routes>
             <Route path="/inicio" element={<Inicio />} />
-            <Route path="/personal/practicantes" element={<Practicantes />} />
-            <Route path="/configuracion/leyesparametros" element={<LeyesParametros />} />
+            <Route path="/personal/practicante" element={<Practicantes />} />
+            <Route path="/configuracion/documentos" element={<LeyesParametros />} />
           </Routes>
         </div>
       </div>

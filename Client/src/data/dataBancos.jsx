@@ -9,7 +9,7 @@ export default function useBancos() {
     const fetchBancos = async () => {
       try {
         const response = await axios.get("/bancos", {});
-        const bancosData = response.data.data.map((banco) => ({
+        const bancosData = response.data.map((banco) => ({
           label: banco.nombre,
           value: banco.id,
         }));

@@ -3,7 +3,7 @@ import ReusableInput from "../Inputs/InputField";
 import RenderFileUpload from "../Inputs/RenderFileUpload";
 import PropTypes from "prop-types";
 import useBancos from "../../Data/DataBancos";
-import { unidadesUniversidad } from "../../Data/DataUnidad";
+import useAreas from "../../Data/DataUnidad";
 import { aportes } from "../../Data/DataAportes";
 import { IoSearchSharp } from "react-icons/io5";
 import { useState } from "react";
@@ -11,6 +11,7 @@ import { CalendarDate } from "@internationalized/date";
 export default function Modal_New_Practicante({ isOpen, onClose }) {
   const [selectedDocumento, setSelectedDocumento] = useState("");
   const bancos = useBancos();
+  const areas = useAreas();
   const handleSelectChange = (value) => {
     setSelectedDocumento(value);
   };
@@ -73,7 +74,7 @@ export default function Modal_New_Practicante({ isOpen, onClose }) {
                 <h2 className="absolute -top-3 left-4 bg-white px-2 text-lg font-semibold">Datos Laborales</h2>
 
                 <div className="flex flex-wrap md:flex-nowrap gap-4 mt-4 items-center">
-                  <Autocomplete label="Unidad Laboral" variant="flat" defaultItems={unidadesUniversidad} className="flex-1 min-w-[150px]" isRequired style={{ paddingLeft: "0px", paddingBottom: "0px" }}>
+                  <Autocomplete label="Unidad Laboral" variant="flat" defaultItems={areas} className="flex-1 min-w-[150px]" isRequired style={{ paddingLeft: "0px", paddingBottom: "0px" }}>
                     {(item) => <AutocompleteItem key={item.value}>{item.label}</AutocompleteItem>}
                   </Autocomplete>
 

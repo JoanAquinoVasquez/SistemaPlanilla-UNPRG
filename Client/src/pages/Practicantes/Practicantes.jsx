@@ -205,7 +205,7 @@ export default function Practicantes() {
   return (
     <div>
       <Modal_New_Practicante isOpen={isOpen} onClose={onOpenChange} />
-      <Breadcrumb paths={[{ name: "Inicio", href: "/inicio" }, { name: "Personal", href: "/personal" }, { name: "Practicantes"}]} />
+      <Breadcrumb paths={[{ name: "Inicio", href: "/inicio" }, { name: "Personal", href: "/personal" }, { name: "Practicantes", href:"/personal/practicantes"}]} />
       <div className="bg-white rounded-lg p-4 shadow-md mt-5">
         <p className="flex items-center text-xl font-medium text-800">
           <MdSummarize className="mr-2" />

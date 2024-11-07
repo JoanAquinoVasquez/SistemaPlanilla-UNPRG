@@ -24,7 +24,7 @@ const INITIAL_VISIBLE_COLUMNS = [
   "accciones",
 ];
 
-export default function Practicantes() {
+export default function Documentos() {
   const { documentos } = useDocumentos();
 
   const [filterValue, setFilterValue] = useState("");
@@ -224,7 +224,7 @@ export default function Practicantes() {
 
   return (
     <div>
-      <Breadcrumb paths={[{ name: "Leyes y Parámetros", href: "/configuracion/leyesparametros"}]} />
+      <Breadcrumb paths={[{ name: "Documentos", href: "/configuracion/documentos"}]} />
       <div className="bg-white rounded-lg p-4 shadow-md mt-5">
         <p className="flex items-center text-xl font-medium text-800">
           <MdSummarize className="mr-2" />
