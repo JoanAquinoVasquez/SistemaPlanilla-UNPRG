@@ -2,7 +2,7 @@ import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, Autoc
 import ReusableInput from "../Inputs/InputField";
 import RenderFileUpload from "../Inputs/RenderFileUpload";
 import PropTypes from "prop-types";
-import { bancos } from "../../Data/DataBancos";
+import useBancos from "../../Data/DataBancos";
 import { unidadesUniversidad } from "../../Data/DataUnidad";
 import { aportes } from "../../Data/DataAportes";
 import { IoSearchSharp } from "react-icons/io5";
@@ -10,7 +10,7 @@ import { useState } from "react";
 import { CalendarDate } from "@internationalized/date";
 export default function Modal_New_Practicante({ isOpen, onClose }) {
   const [selectedDocumento, setSelectedDocumento] = useState("");
-
+  const bancos = useBancos();
   const handleSelectChange = (value) => {
     setSelectedDocumento(value);
   };
@@ -58,7 +58,7 @@ export default function Modal_New_Practicante({ isOpen, onClose }) {
                 <section className="relative flex-1 p-4 border border-gray-300 rounded-lg mt-4 md:mt-0">
                   <h2 className="absolute -top-3 left-4 bg-white px-2 text-lg font-semibold">Datos Bancarios</h2>
                   <div className="flex flex-row md:flex-col w-full justify-around gap-4 mt-4 items-center">
-                    <Autocomplete label="Banco" variant="flat" defaultItems={bancos} className="w-full md:max-w-[200px]" style={{paddingLeft: "0px", paddingBottom: "0px"}}>
+                    <Autocomplete label="Banco" variant="flat" defaultItems={bancos} className="w-full md:max-w-[200px]" style={{ paddingLeft: "0px", paddingBottom: "0px" }}>
                       {(item) => <AutocompleteItem key={item.value}>{item.label}</AutocompleteItem>}
                     </Autocomplete>
                     {["Número de cuenta", "CCI"].map((label) => (
@@ -73,14 +73,14 @@ export default function Modal_New_Practicante({ isOpen, onClose }) {
                 <h2 className="absolute -top-3 left-4 bg-white px-2 text-lg font-semibold">Datos Laborales</h2>
 
                 <div className="flex flex-wrap md:flex-nowrap gap-4 mt-4 items-center">
-                  <Autocomplete label="Unidad Laboral" variant="flat" defaultItems={unidadesUniversidad} className="flex-1 min-w-[150px]" isRequired style={{paddingLeft: "0px", paddingBottom: "0px"}}>
+                  <Autocomplete label="Unidad Laboral" variant="flat" defaultItems={unidadesUniversidad} className="flex-1 min-w-[150px]" isRequired style={{ paddingLeft: "0px", paddingBottom: "0px" }}>
                     {(item) => <AutocompleteItem key={item.value}>{item.label}</AutocompleteItem>}
                   </Autocomplete>
-    
-                  <Autocomplete label="Aportante" variant="flat" defaultItems={aportes} className="flex-1 min-w-[150px]" isRequired style={{paddingLeft: "0px", paddingBottom: "0px"}}>
+
+                  <Autocomplete label="Aportante" variant="flat" defaultItems={aportes} className="flex-1 min-w-[150px]" isRequired style={{ paddingLeft: "0px", paddingBottom: "0px" }}>
                     {(item) => <AutocompleteItem key={item.value}>{item.label}</AutocompleteItem>}
                   </Autocomplete>
-                  
+
                   <Tabs radius="lg">
                     <Tab key="preprofesional" title="PRE-PROFESIONAL" />
                     <Tab key="profesional" title="PROFESIONAL" />

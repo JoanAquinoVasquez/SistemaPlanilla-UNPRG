@@ -1,0 +1,17 @@
+import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
+
+
+export default function LeyesParametros() {
+  return (
+    <div>
+      <Breadcrumb
+        paths={[
+          { name: "Leyes y Parámetros" },
+        ]}
+      />
+      <div className="bg-white rounded-lg p-4 shadow-md mt-5">
+        <h1>LeyesParametros</h1>
+      </div>
+    </div>
+  );
+}

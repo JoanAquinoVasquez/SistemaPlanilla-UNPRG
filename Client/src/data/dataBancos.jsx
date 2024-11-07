@@ -1,15 +1,26 @@
-export const bancos = [
-  { label: "Banco de Crédito del Perú (BCP)", value: "bcp" },
-  { label: "Interbank", value: "interbank" },
-  { label: "BBVA Perú", value: "bbva" },
-  { label: "Scotiabank Perú", value: "scotiabank" },
-  { label: "Banco Pichincha", value: "banco_pichincha" },
-  { label: "Banco Falabella", value: "banco_falabella" },
-  { label: "MiBanco", value: "mibanco" },
-  { label: "Banco GNB", value: "banco_gnb" },
-  { label: "Banco de la Nación", value: "banco_nacion" },
-  { label: "Caja Arequipa", value: "caja_arequipa" },
-  { label: "Caja Huancayo", value: "caja_huancayo" },
-  { label: "Caja Piura", value: "caja_piura" },
-  { label: "Financiera Confianza", value: "financiera_confianza" },
-];
+// Databancos.jsx
+import { useEffect, useState } from "react";
+import axios from "axios";
+
+export default function useBancos() {
+  const [bancos, setBancos] = useState([]);
+
+  useEffect(() => {
+    const fetchBancos = async () => {
+      try {
+        const response = await axios.get("/bancos", {});
+        const bancosData = response.data.data.map((banco) => ({
+          label: banco.nombre,
+          value: banco.id,
+        }));
+        setBancos(bancosData);
+      } catch (error) {
+        console.error("Error al cargar los bancos:", error);
+      }
+    };
+
+    fetchBancos();
+  }, []);
+
+  return bancos;
+}

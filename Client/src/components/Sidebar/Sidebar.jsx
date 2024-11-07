@@ -19,9 +19,9 @@ const SidebarMenu = () => {
         items.map(({ to, icon, text, subLinks }) => (
             <div key={to}>
                 <li className="li-sidebar flex items-center pl-6 px-4 w-full">
-                    <Link href={to} className="flex items-center w-full hover-effect" style={{color: "#747474"}}>
+                    <Link href={to} className="flex items-center w-full hover-effect " style={{color: "#747474"}}>
                         {icon}
-                        <span className="ml-4">{text}</span>
+                        <span className="ml-4 text-ellipsis overflow-hidden whitespace-nowrap">{text}</span>
                     </Link>
                     {subLinks && (
                         <button onClick={() => toggleLink(to)} className="ml-auto" style={{color: "#747474"}}>
@@ -59,7 +59,7 @@ const SidebarMenu = () => {
                 <ul className="space-y-1.5 px-3">
                     {renderMenuItems(routes.menuItems)}
 
-                    <div className="px-4 text-gray-500 font-semibold">Personal</div>
+                    <div className="px-4 text-gray-500 font-semibold">Empleados</div>
                     <hr className="mx-6"/>
                     {renderMenuItems(routes.personalItems)}
 
