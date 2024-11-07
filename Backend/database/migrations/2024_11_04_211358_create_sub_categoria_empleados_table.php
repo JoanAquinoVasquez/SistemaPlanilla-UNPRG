@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreignId('categoria_empleado_id')
                 ->constrained('categoria_empleados')
                 ->onDelete('cascade');
+            $table->boolean('estado')->default(1);
             $table->timestamps();
         });
     }

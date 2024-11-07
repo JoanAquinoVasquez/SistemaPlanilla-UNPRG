@@ -18,6 +18,7 @@ return new class extends Migration
                 ->onDelete('cascade');
             $table->string('nombre', 100);
             $table->text('descripcion')->nullable();
+            $table->boolean('estado')->default(1); // Estado activo/inactivo para eliminación lógica
             $table->timestamps();
         });
     }

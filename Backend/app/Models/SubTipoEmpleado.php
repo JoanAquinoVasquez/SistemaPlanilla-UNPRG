@@ -13,9 +13,10 @@ class SubTipoEmpleado extends Model
     protected $fillable = [
         'tipo_empleado_id',
         'nombre',
-        'descripcion'
+        'descripcion',
+        'estado'
     ];
-    
+
     /**
      * Relación muchos a uno con TipoEmpleado.
      * Un SubTipoEmpleado pertenece a un TipoEmpleado.
@@ -33,5 +34,4 @@ class SubTipoEmpleado extends Model
     {
         return $this->hasMany(CategoriaEmpleado::class, 'sub_tipo_empleado_id');
     }
-    
 }

@@ -11,11 +11,13 @@ class TipoEmpleado extends Model
 
     protected $fillable = [
         'nombre',
-        'descripcion'
+        'descripcion',
+        'estado'
     ];
 
-    
-    public function subTipoEmpleado(){
+
+    public function subTipoEmpleado()
+    {
         return $this->hasMany(SubTipoEmpleado::class, 'tipo_empleado_id');
     }
 
@@ -26,6 +28,6 @@ class TipoEmpleado extends Model
     public function empleados()
     {
         return $this->belongsToMany(Empleado::class, 'empleado_tipos', 'id_tipo_empleado', 'num_doc_iden')
-                    ->withPivot('banco_id', 'tipo_cuenta', 'cci', 'numero_cuenta');
+            ->withPivot('banco_id', 'tipo_cuenta', 'cci', 'numero_cuenta');
     }
 }

@@ -13,6 +13,7 @@ class SubCategoriaEmpleado extends Model
         'categoria_empleado_id',
         'nombre',
         'descripcion',
+        'estado'
     ];
 
     /**

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreignId('tipo_empleado_id')
                 ->constrained('tipo_empleados')
                 ->onDelete('cascade');
+            $table->boolean('estado')->default(1); // Estado activo/inactivo para eliminación lógica
 
             $table->timestamps();
         });

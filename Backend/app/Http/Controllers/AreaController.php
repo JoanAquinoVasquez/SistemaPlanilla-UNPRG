@@ -4,62 +4,133 @@ namespace App\Http\Controllers;
 
 use App\Models\Area;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class AreaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        try {
+            $areas = Area::all();
+            return response()->json($areas, 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Error al obtener las áreas',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        try {
+            $validated = $request->validate([
+                'nombre' => 'required|string|max:255',
+                'oficina' => 'nullable|string|max:255',
+                'unidad' => 'nullable|string|max:255',
+                'facultad' => 'nullable|string|max:255',
+                'escuela' => 'nullable|string|max:255',
+                'estado' => 'required|boolean'
+            ]);
+
+            $area = Area::create($validated);
+
+            return response()->json([
+                'message' => 'Área registrada exitosamente',
+                'data' => $area
+            ], 201);
+        } catch (ValidationException $e) {
+            return response()->json([
+                'message' => 'Error de validación',
+                'errors' => $e->errors()
+            ], 422);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Error al crear el área',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Area $area)
+    public function show($id)
     {
-        //
+        $area = Area::find($id);
+
+        if (!$area) {
+            return response()->json([
+                'message' => "El área con ID {$id} no existe"
+            ], 404);
+        }
+
+        try {
+            return response()->json($area, 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Error al mostrar el área',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Area $area)
+    public function update(Request $request, $id)
     {
-        //
+        $area = Area::find($id);
+
+        if (!$area) {
+            return response()->json([
+                'message' => "El área con ID {$id} no existe"
+            ], 404);
+        }
+
+        try {
+            $validated = $request->validate([
+                'nombre' => 'sometimes|string|max:255',
+                'oficina' => 'nullable|string|max:255',
+                'unidad' => 'nullable|string|max:255',
+                'facultad' => 'nullable|string|max:255',
+                'escuela' => 'nullable|string|max:255',
+                'estado' => 'sometimes|boolean'
+            ]);
+
+            $area->update($validated);
+
+            return response()->json([
+                'message' => 'Área actualizada exitosamente',
+                'data' => $area
+            ], 200);
+        } catch (ValidationException $e) {
+            return response()->json([
+                'message' => 'Error de validación',
+                'errors' => $e->errors()
+            ], 422);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Error al actualizar el área',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Area $area)
+    public function destroy($id)
     {
-        //
-    }
+        $area = Area::find($id);
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Area $area)
-    {
-        //
+        if (!$area) {
+            return response()->json([
+                'message' => "El área con ID {$id} no existe"
+            ], 404);
+        }
+
+        try {
+            $area->update(['estado' => false]);
+            return response()->json([
+                'message' => 'Área inactivada exitosamente'
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Error al inactivar el área',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 }

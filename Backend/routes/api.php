@@ -1,6 +1,7 @@
 <?php
 
-
+use App\Http\Controllers\AreaController;
+use App\Http\Controllers\AreaEmpleadoTipoController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\UserController;
 use App\Http\Controllers\DocumentoController;
@@ -8,6 +9,20 @@ use App\Http\Controllers\FormulaController;
 use App\Http\Controllers\FormulaParametroController;
 use App\Http\Controllers\ParametroController;
 use App\Http\Controllers\BancoController;
+use App\Http\Controllers\CategoriaEmpleadoController;
+use App\Http\Controllers\ContratoController;
+use App\Http\Controllers\ControlAsistenciaController;
+use App\Http\Controllers\CuotaController;
+use App\Http\Controllers\DetalleFamiliaController;
+use App\Http\Controllers\EmpleadoController;
+use App\Http\Controllers\EmpleadoTipoController;
+use App\Http\Controllers\LicenciaController;
+use App\Http\Controllers\ParentescoController;
+use App\Http\Controllers\PrestamoController;
+use App\Http\Controllers\SubCategoriaEmpleadoController;
+use App\Http\Controllers\SubTipoEmpleadoController;
+use App\Http\Controllers\TipoEmpleadoController;
+use App\Http\Controllers\VacacionController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -19,8 +34,8 @@ Route::middleware(['auth:api'])->group(function () {
     Route::get('users/{id}', [UserController::class, 'show']);
     Route::post('logout', [AuthController::class, 'logout']);
     Route::delete('users/{id}', [UserController::class, 'destroy']);
+    Route::post('/logout', [AuthController::class, 'logout']);
 
-    Route::apiResource('bancos', BancoController::class);
     //Documento
     Route::apiResource('documentos', DocumentoController::class);
     //Formula
@@ -29,7 +44,40 @@ Route::middleware(['auth:api'])->group(function () {
     Route::apiResource('parametros', ParametroController::class);
     //FormulaParametro
     Route::apiResource('formula-parametro', FormulaParametroController::class);
-    Route::post('/logout', [AuthController::class, 'logout']);
+    //TipoEmpleado
+    Route::apiResource('tipo-empleados', TipoEmpleadoController::class);
+    //SubTipoEmpleado
+    Route::apiResource('sub-tipo-empleados', SubTipoEmpleadoController::class);
+    //CategoriaEmpleado
+    Route::apiResource('categoria-empleados', CategoriaEmpleadoController::class);
+    //SubCategoriaEmpleado
+    Route::apiResource('sub-categoria-empleados', SubCategoriaEmpleadoController::class);
+    //Parentesco
+    Route::apiResource('parentescos', ParentescoController::class);
+    //Empleado  
+    Route::apiResource('empleados', EmpleadoController::class);
+    //DetalleFamilia
+    Route::apiResource('detalle-familias', DetalleFamiliaController::class);
+    //Banco
+    Route::apiResource('bancos', BancoController::class);
+    //EmpleadoTIpo
+    Route::apiResource('empleado-tipos', EmpleadoTipoController::class);
+    //ControlAsistencia
+    Route::apiResource('control-asistencias', ControlAsistenciaController::class);
+    //Contrato
+    Route::apiResource('contratos', ContratoController::class);
+    //Prestamo
+    Route::apiResource('prestamos', PrestamoController::class);
+    //Cuota
+    Route::apiResource('cuotas', CuotaController::class);
+    //Vacacion
+    Route::apiResource('vacaciones', VacacionController::class);
+    //Licencia
+    Route::apiResource('licencias', LicenciaController::class);
+    //Area
+    Route::apiResource('areas', AreaController::class);
+    //AreaEmpleadoTipo
+    Route::apiResource('area-empleado-tipos', AreaEmpleadoTipoController::class);
 });
 
 Route::post('/google-login', [AuthController::class, 'googleLogin']);
