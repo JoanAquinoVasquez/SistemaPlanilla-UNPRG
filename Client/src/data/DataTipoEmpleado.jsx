@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 export default function useTipoEmpleado() {
-  const [tipoempleado, setTipoEmpleados] = useState([]); // Renombrar para mayor claridad
+  const [tipoempleado, setTipoEmpleados] = useState([]); 
 
   useEffect(() => {
     const fetchTipoEmpleados = async () => {
@@ -13,7 +13,7 @@ export default function useTipoEmpleado() {
         }));
         console.log("tipoempleadoData", tipoempleadoData);
 
-        setTipoEmpleados(tipoempleadoData); // Actualizar el estado correctamente
+        setTipoEmpleados(tipoempleadoData); 
       } catch (error) {
         console.error("Error al cargar los tipo empleados:", error);
       }
