@@ -12,26 +12,30 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('detalle_familias', function (Blueprint $table) {
-            $table->id('dni');
-            $table->unsignedBigInteger('empleado_num_doc_iden');
-            $table->unsignedBigInteger('parentesco_id');
+            $table->string('tipo_doc', 30); // Tipo de documento (DNI, Pasaporte, etc.)
+            $table->string('num_doc', 20); // Número de documento, clave primaria junto con tipo_doc            $table->string('nombres', 50);
             $table->string('nombres', 50);
             $table->string('apellido_paterno', 50);
             $table->string('apellido_materno', 50);
-            $table->string('telefono', 12);
+            $table->string('telefono', 15)->nullable();
             $table->date('fecha_nacimiento');
-            $table->string('nivel_escolaridad');
-            $table->string('dependiente');
-            $table->string('discapacidad');
-            $table->integer('estado');
+            $table->string('nivel_escolaridad', 50)->nullable();
+            $table->boolean('dependiente')->default(false);
+            $table->boolean('discapacidad')->default(false);
+            $table->boolean('estado')->default(true);
 
+            // Establecer clave primaria compuesta
+            $table->primary(['tipo_doc', 'num_doc']);
+
+            // Definir la columna antes de establecer la clave foránea
+            $table->string('empleado_num_doc_iden', 20);
             $table->foreign('empleado_num_doc_iden')
                 ->references('num_doc_iden')
                 ->on('empleados')
                 ->onDelete('cascade');
-            $table->foreign('parentesco_id')
-                ->references('id')
-                ->on('parentescos')
+
+            $table->foreignId('parentesco_id')
+                ->constrained('parentescos')
                 ->onDelete('cascade');
 
             $table->timestamps();

@@ -12,30 +12,23 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('empleado_tipos', function (Blueprint $table) {
-            $table->unsignedBigInteger('id_tipo_empleado'); //FK como PK
-            $table->unsignedBigInteger('num_doc_iden'); //FK como PK
+            $table->foreignId('id_tipo_empleado')
+                ->constrained('tipo_empleados')
+                ->onDelete('cascade'); // FK y parte de la PK
+            $table->string('num_doc_iden', 20); // Cambiado a string para coincidir con el tipo en 'empleados' y parte de la PK
 
-            $table->unsignedBigInteger('banco_id'); //FK
-            $table->integer('tipo_cuenta');
-            $table->integer('cci');
-            $table->unsignedBigInteger('numero_cuenta');
-
+            $table->foreignId('banco_id')
+                ->constrained('bancos')
+                ->onDelete('cascade'); // FK a la tabla bancos
+            $table->string('tipo_cuenta', 50)->comment('Tipos posibles: ahorros, corriente, plazo_fijo, sueldo, cts');
+            $table->string('cci', 20); // CCI como cadena alfanumérica
+            $table->string('numero_cuenta', 20); // Número de cuenta como cadena para soportar valores con ceros iniciales
             // Clave primaria compuesta (dni, codigo)
             $table->primary(['id_tipo_empleado', 'num_doc_iden']);
-            
-            $table->foreign('id_tipo_empleado')
-                ->references('id')
-                ->on('tipo_empleados')
-                ->onDelete('cascade');
 
             $table->foreign('num_doc_iden')
                 ->references('num_doc_iden')
                 ->on('empleados')
-                ->onDelete('cascade');
-
-            $table->foreign('banco_id')
-                ->references('id')
-                ->on('bancos')
                 ->onDelete('cascade');
 
             $table->timestamps();

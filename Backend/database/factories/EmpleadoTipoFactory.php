@@ -3,21 +3,26 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Models\Empleado;
+use App\Models\TipoEmpleado;
+use App\Models\Banco;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\EmpleadoTipo>
- */
 class EmpleadoTipoFactory extends Factory
 {
     /**
      * Define the model's default state.
-     *
-     * @return array<string, mixed>
      */
-    public function definition(): array
+    public function definition()
     {
         return [
-            //
+            'id_tipo_empleado' => TipoEmpleado::inRandomOrder()->first()->id,
+            'num_doc_iden' => Empleado::inRandomOrder()->first()->num_doc_iden,
+            'banco_id' => Banco::inRandomOrder()->first()->id,
+            'tipo_cuenta' => $this->faker->randomElement(['ahorros', 'corriente', 'plazo_fijo', 'sueldo', 'cts']),
+            'cci' => $this->faker->numerify('#############'),
+            'numero_cuenta' => $this->faker->numerify('############'),
+            'created_at' => now(),
+            'updated_at' => now(),
         ];
     }
 }

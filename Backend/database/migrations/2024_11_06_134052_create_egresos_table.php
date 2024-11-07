@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('egresos', function (Blueprint $table) {
             $table->id();
             $table->foreignId('formula_parametro_id')->constrained()->onDelete('cascade'); 
-            $table->string('concept');
+            $table->string('concepto');
             $table->boolean('sujeto_ley');
             $table->timestamps();
         });

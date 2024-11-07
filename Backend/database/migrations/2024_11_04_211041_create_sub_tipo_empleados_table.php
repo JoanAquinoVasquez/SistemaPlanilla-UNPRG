@@ -13,13 +13,11 @@ return new class extends Migration
     {
         Schema::create('sub_tipo_empleados', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('tipo_empleado_id');
-            $table->string('nombre');
+            $table->string('nombre', 100);
             $table->text('descripcion')->nullable();
-            
-            $table->foreign('tipo_empleado_id')
-                ->references('id')
-                ->on('tipo_empleados')
+
+            $table->foreignId('tipo_empleado_id')
+                ->constrained('tipo_empleados')
                 ->onDelete('cascade');
 
             $table->timestamps();

@@ -12,18 +12,18 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('empleados', function (Blueprint $table) {
-            $table->id('num_doc_iden');
+            $table->string('num_doc_iden')->primary();
             $table->string('nombres', 50);
             $table->string('apellido_paterno', 50);
             $table->string('apellido_materno', 50);
-            $table->string('tipo_doc_iden', 150);
+            $table->string('tipo_doc_iden', 50);
             $table->date('fecha_nacimiento');
             $table->string('sexo', 50);
-            $table->string('estado_civil', 30);
+            $table->enum('estado_civil', ['Soltero', 'Casado', 'Viudo', 'Divorciado'])->nullable();
             $table->string('direccion')->nullable();
-            $table->string('telefono', 12);
-            $table->string('email');
-            $table->integer('estado');
+            $table->string('telefono', 15);
+            $table->string('email')->unique();
+            $table->integer('estado')->default(true);
             $table->timestamps();
         });
     }

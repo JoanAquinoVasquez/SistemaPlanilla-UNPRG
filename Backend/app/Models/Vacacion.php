@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Vacacion extends Model
 {
     use HasFactory;
+    protected $table = 'vacaciones';
+
 
     // Campos rellenables
     protected $fillable = [

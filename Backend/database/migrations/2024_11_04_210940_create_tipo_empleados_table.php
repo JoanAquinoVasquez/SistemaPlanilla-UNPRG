@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('tipo_empleados', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre');
+            $table->string('nombre', 50);
             $table->text('descripcion')->nullable();
             $table->timestamps();
         });

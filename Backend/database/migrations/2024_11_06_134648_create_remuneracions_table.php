@@ -14,22 +14,25 @@ return new class extends Migration
         Schema::create('remuneracions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('planilla_id')->constrained()->onDelete('cascade');
-            $table->unsignedBigInteger('empleado_tipo_id');
-            $table->unsignedBigInteger('empleado_tipo_num_doc_iden');
-            $table->decimal('sueldo_bruto', 8, 2);
-            $table->decimal('total_ingreso', 8, 2);
-            $table->decimal('total_egreso', 8, 2);
-            $table->decimal('sueldo_aporte', 8, 2);
-            $table->decimal('sueldo_neto', 8, 2);
 
-            $table->foreign('empleado_tipo_id')
-                ->references('id_tipo_empleado')
-                ->on('empleado_tipos')
+            // Claves foráneas a 'empleado_tipos'
+            $table->foreignId('empleado_tipo_id')
+                ->constrained('empleado_tipos', 'id_tipo_empleado')
                 ->onDelete('cascade');
+
+            $table->string('empleado_tipo_num_doc_iden', 20);
             $table->foreign('empleado_tipo_num_doc_iden')
                 ->references('num_doc_iden')
                 ->on('empleado_tipos')
                 ->onDelete('cascade');
+
+            // Campos de remuneración
+            $table->decimal('sueldo_bruto', 10, 2);
+            $table->decimal('total_ingreso', 10, 2);
+            $table->decimal('total_egreso', 10, 2);
+            $table->decimal('sueldo_aporte', 10, 2);
+            $table->decimal('sueldo_neto', 10, 2);
+
 
             $table->timestamps();
         });

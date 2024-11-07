@@ -13,17 +13,19 @@ return new class extends Migration
     {
         Schema::create('area_empleado_tipos', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('empleado_tipo_id');
-            $table->unsignedBigInteger('empleado_tipo_num_doc_iden');
-            $table->foreignId('area_id')->constrained()->onDelete('cascade'); // Clave foránea a 'formulas'
-            $table->foreign('empleado_tipo_id')
-                ->references('id_tipo_empleado')
-                ->on('empleado_tipos')
+            // Claves foráneas para empleado_tipo_id y empleado_tipo_num_doc_iden
+            $table->foreignId('empleado_tipo_id')
+                ->constrained('empleado_tipos', 'id_tipo_empleado')
                 ->onDelete('cascade');
+
+            $table->string('empleado_tipo_num_doc_iden', 20);
             $table->foreign('empleado_tipo_num_doc_iden')
                 ->references('num_doc_iden')
                 ->on('empleado_tipos')
                 ->onDelete('cascade');
+
+            $table->foreignId('area_id')->constrained()->onDelete('cascade'); // Clave foránea a 'formulas'
+            $table->boolean('estado')->default(1); // Usar booleano para activo/inactivo
             $table->timestamps();
         });
     }

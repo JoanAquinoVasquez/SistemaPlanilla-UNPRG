@@ -13,15 +13,17 @@ return new class extends Migration
     {
         Schema::create('cuotas', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('prestamo_id');
-            $table->date('fecha');
-            $table->decimal('monto', 8, 2);
-            $table->integer('estado');
 
-            $table->foreign('prestamo_id')
-                ->references('id')
-                ->on('prestamos')
+            // Clave foránea a la tabla prestamos
+            $table->foreignId('prestamo_id')
+                ->constrained()
                 ->onDelete('cascade');
+
+
+            $table->date('fecha');
+            $table->decimal('monto', 10, 2);
+            $table->boolean('estado')->default(1); // Cambiado a booleano si solo indica activo/inactivo
+
 
             $table->timestamps();
         });

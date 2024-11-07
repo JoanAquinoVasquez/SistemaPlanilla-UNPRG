@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('unidad')->nullable();
             $table->string('facultad')->nullable();
             $table->string('escuela')->nullable();
-            $table->integer('estado');
+            $table->boolean('estado')->default(1); // Usado booleano para activo/inactivo            $table->timestamps();
             $table->timestamps();
         });
     }

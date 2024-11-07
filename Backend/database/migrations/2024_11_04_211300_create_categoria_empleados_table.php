@@ -13,15 +13,11 @@ return new class extends Migration
     {
         Schema::create('categoria_empleados', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('sub_tipo_empleado_id');
-            $table->string('nombre');
-            $table->text('descripcion')->nullable();
-            
-            $table->foreign('sub_tipo_empleado_id')
-                ->references('id')
-                ->on('sub_tipo_empleados')
+            $table->foreignId('sub_tipo_empleado_id')
+                ->constrained('sub_tipo_empleados')
                 ->onDelete('cascade');
-
+            $table->string('nombre', 100);
+            $table->text('descripcion')->nullable();
             $table->timestamps();
         });
     }

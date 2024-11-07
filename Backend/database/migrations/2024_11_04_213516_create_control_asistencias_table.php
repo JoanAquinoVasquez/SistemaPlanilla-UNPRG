@@ -13,23 +13,23 @@ return new class extends Migration
     {
         Schema::create('control_asistencias', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('empleado_tipo_id');
-            $table->unsignedBigInteger('empleado_tipo_num_doc_iden');
-            $table->integer('numero_asistencias');
-            $table->integer('numero_inaasistencias');
-            $table->integer('numero_tardanzas');
-            $table->integer('periodo');
-            $table->integer('numero_permisos'); 
-
-            $table->foreign('empleado_tipo_id')
-                ->references('id_tipo_empleado')
-                ->on('empleado_tipos')
+            // Clave foránea a 'empleado_tipos' usando 'foreignId' para 'empleado_tipo_id'
+            $table->foreignId('empleado_tipo_id')
+                ->constrained('empleado_tipos', 'id_tipo_empleado')
                 ->onDelete('cascade');
+
+            // Clave foránea manual para 'empleado_tipo_num_doc_iden'
+            $table->string('empleado_tipo_num_doc_iden', 20);
             $table->foreign('empleado_tipo_num_doc_iden')
                 ->references('num_doc_iden')
                 ->on('empleado_tipos')
                 ->onDelete('cascade');
 
+            $table->integer('numero_asistencias');
+            $table->integer('numero_inasistencias');
+            $table->integer('numero_tardanzas');
+            $table->date('periodo');
+            $table->integer('numero_permisos');
             $table->timestamps();
         });
     }

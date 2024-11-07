@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('documentos', function (Blueprint $table) {
             $table->id();
             $table->string('nombre', 255);
-            $table->string('tipo',255);
+            $table->string('tipo', 50);
             $table->date('fecha_vigencia');
             $table->date('fecha_fin')->nullable();
             $table->boolean('estado')->default(true);

@@ -13,7 +13,9 @@ return new class extends Migration
     {
         Schema::create('parentescos', function (Blueprint $table) {
             $table->id();
-            $table->string('grado_parentesco');
+            $table->string('nombre'); // Ejemplo: Padre, Hermano, Primo, etc.
+            $table->enum('tipo', ['consanguinidad', 'afinidad']); // Indica si es consanguinidad o afinidad
+            $table->string('nivel'); // Ejemplo: primer grado, segundo grado, etc.
             $table->timestamps();
         });
     }
