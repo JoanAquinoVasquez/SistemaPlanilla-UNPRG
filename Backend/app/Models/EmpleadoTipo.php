@@ -21,6 +21,7 @@ class EmpleadoTipo extends Model
         'tipo_cuenta',
         'cci',
         'numero_cuenta',
+        'estado'
     ];
 
     /**

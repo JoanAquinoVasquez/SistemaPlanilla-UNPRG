@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('tipo_cuenta', 50)->comment('Tipos posibles: ahorros, corriente, plazo_fijo, sueldo, cts');
             $table->string('cci', 20); // CCI como cadena alfanumérica
             $table->string('numero_cuenta', 20); // Número de cuenta como cadena para soportar valores con ceros iniciales
+            $table->boolean('estado')->default(true); // Estado del empleado en el tipo
             // Clave primaria compuesta (dni, codigo)
             $table->primary(['id_tipo_empleado', 'num_doc_iden']);
 
