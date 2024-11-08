@@ -21,6 +21,7 @@ class EmpleadoTipoFactory extends Factory
             'tipo_cuenta' => $this->faker->randomElement(['ahorros', 'corriente', 'plazo_fijo', 'sueldo', 'cts']),
             'cci' => $this->faker->numerify('#############'),
             'numero_cuenta' => $this->faker->numerify('############'),
+            'estado' => $this->faker->randomElement([0,1]),
             'created_at' => now(),
             'updated_at' => now(),
         ];

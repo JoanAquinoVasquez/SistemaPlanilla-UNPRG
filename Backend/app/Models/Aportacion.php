@@ -12,7 +12,7 @@ class Aportacion extends Model
     // Campos rellenables
     protected $fillable = [
         'formula_parametro_id',
-        'concept',
+        'concepto',
         'sujeto_ley',
     ];
 

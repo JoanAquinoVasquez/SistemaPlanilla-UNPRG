@@ -9,6 +9,8 @@ class Planilla extends Model
 {
     use HasFactory;
 
+    public $timestamps = true;
+    
     // Campos rellenables
     protected $fillable = [
         'user_id',

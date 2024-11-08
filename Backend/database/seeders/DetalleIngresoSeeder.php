@@ -28,7 +28,8 @@ class DetalleIngresoSeeder extends Seeder
                         'remuneracion_id' => $remuneracion->id,
                         'empleado_tipo_id' => $empleadoTipo->id_tipo_empleado,
                         'empleado_tipo_num_doc_iden' => $empleadoTipo->num_doc_iden,
-                        'monto' => rand(100, 1000), // Valor aleatorio para simular el monto de ingreso
+                        'monto' => rand(10, 100),
+                        //'monto' => rand(100, 1000), // Valor aleatorio para simular el monto de ingreso
                     ]);
                 }
             }

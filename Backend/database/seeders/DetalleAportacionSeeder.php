@@ -27,7 +27,8 @@ class DetalleAportacionSeeder extends Seeder
                         'remuneracion_id' => $remuneracion->id,
                         'empleado_tipo_id' => $empleadoTipo->id_tipo_empleado,
                         'empleado_tipo_num_doc_iden' => $empleadoTipo->num_doc_iden,
-                        'monto' => rand(50, 500), // Valor aleatorio para el monto de la aportación
+                        'monto' => rand(10, 100),
+                        /* 'monto' => rand(50, 500), */ // Valor aleatorio para el monto de la aportación
                     ]);
                 }
             }

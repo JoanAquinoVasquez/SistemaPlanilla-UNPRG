@@ -28,6 +28,7 @@ class EmpleadoTipoSeeder extends Seeder
                     'tipo_cuenta' => collect(['ahorros', 'corriente', 'plazo_fijo', 'sueldo', 'cts'])->random(),
                     'cci' => fake()->numerify('#############'),
                     'numero_cuenta' => fake()->numerify('############'),
+                    'estado' => collect([0,1])->random()
                 ]);
             }
         }
