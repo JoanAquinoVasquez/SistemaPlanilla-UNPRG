@@ -1,11 +1,9 @@
-
 import { useState } from "react";
 import topBarImage from "../../assets/Barra/barra_colores_ofic.jpg";
 import logoWithTextImage from "../../assets/Isotipos/isotipo_variante_02.png";
 import rightPanelImage from "../../assets/Img/panelderechaImage.png";
 import { useNavigate } from "react-router-dom"; // Importa useNavigate
 import { GOOGLE_CLIENT_ID } from "../../../config";
-
 
 // Importa los componentes necesarios desde @react-oauth/google
 import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
@@ -22,13 +20,17 @@ function Login() {
 
     // Enviar el token al backend (Laravel) para la validación
     try {
-      const response = await axios.post(
-        "/google-login",
-        { token }
-      );
+      const response = await axios.post("/google-login", { token });
+      // Verifica si se recibe el expiration y se guarda en sessionStorage
+      const expiration = response.data.expiration;
+      if (expiration) {
+        sessionStorage.setItem("tokenExpiration", expiration);
+      } else {
+        throw new Error("No se recibió la expiración del token.");
+      }
       // console.log('Respuesta del backend:', response.data);
       // Aquí puedes manejar el token JWT que recibes del backend
-      const userId = response.data.user_id;  // ID del usuario devuelto por el backend
+      const userId = response.data.user_id; // ID del usuario devuelto por el backend
       Cookies.set("userId", userId, { expires: 7 });
       // console.log('Cookie jwtToken:', Cookies.get('jwtToken')); // Verifica si la cookie se establece
       navigate("/inicio"); // Redirigir a la página deseada

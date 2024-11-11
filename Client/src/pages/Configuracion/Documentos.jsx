@@ -15,6 +15,7 @@ import {
   DropdownItem,
   Chip,
   Pagination,
+  useDisclosure,
 } from "@nextui-org/react";
 import { PlusIcon } from "../../components/Icons.jsx/PlusIcon";
 import { VerticalDotsIcon } from "../../components/Icons.jsx/VerticalDotsIcon";
@@ -25,6 +26,7 @@ import useDocumentos from "../../Data/DataDocumentos";
 import { capitalize } from "./utils";
 import { MdSummarize } from "react-icons/md";
 import Spinner from "../../components/Spinner/Spinner.jsx"; // Importa el componente Spinner
+import Modal_New_Documento from "../../components/Modal/New_Documento.jsx";
 
 const statusColorMap = {
   1: "success",
@@ -42,13 +44,13 @@ const INITIAL_VISIBLE_COLUMNS = [
 
 export default function Documentos() {
   const { documentos, loading } = useDocumentos(); // Obtén el estado de carga desde el hook
-
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [filterValue, setFilterValue] = useState("");
   const [selectedKeys, setSelectedKeys] = useState(new Set([]));
   const [visibleColumns, setVisibleColumns] = useState(
     new Set(INITIAL_VISIBLE_COLUMNS)
   );
-  const [statusFilter, setStatusFilter] = useState(new Set([]));
+  const [statusFilter, setStatusFilter] = useState("all");
   const [rowsPerPage, setRowsPerPage] = useState(15);
   const [sortDescriptor, setSortDescriptor] = useState({
     column: "name",
@@ -63,35 +65,22 @@ export default function Documentos() {
   }, [visibleColumns]);
 
   const filteredItems = useMemo(() => {
-    let filteredDocumentos = [...documentos];
-
+    let filteredUsers = [...documentos];
     if (filterValue) {
-      filteredDocumentos = filteredDocumentos.filter((doc) =>
-        doc.nombre.toLowerCase().includes(filterValue.toLowerCase())
+      filteredUsers = filteredUsers.filter((user) =>
+        user.name.toLowerCase().includes(filterValue.toLowerCase())
       );
     }
-
-    if (statusFilter.size > 0) {
-      filteredDocumentos = filteredDocumentos.filter((doc) =>
-        statusFilter.has(doc.estado)
+    if (statusFilter !== "all" && statusFilter.size !== statusOptions.length) {
+      filteredUsers = filteredUsers.filter((doc) =>
+        statusFilter.has(doc.estado.toString())
       );
-    }
 
-    return filteredDocumentos;
-  }, [filterValue, statusFilter, documentos]);
+console.log("filteredUsers",filteredUsers);    }
+    return filteredUsers;
+  }, [filterValue, statusFilter,documentos]);
 
-  const toggleStatusFilter = (key) => {
-    setStatusFilter((prevFilter) => {
-      const newFilter = new Set(prevFilter);
-      const numKey = Number(key);
-      if (newFilter.has(numKey)) {
-        newFilter.delete(numKey); // Si el estado ya está, lo eliminamos
-      } else {
-        newFilter.add(numKey); // Si no está, lo agregamos
-      }
-      return newFilter;
-    });
-  };
+
   const pages = Math.ceil(filteredItems.length / rowsPerPage);
 
   const items = useMemo(() => {
@@ -107,7 +96,6 @@ export default function Documentos() {
       return sortDescriptor.direction === "descending" ? -cmp : cmp;
     });
   }, [sortDescriptor, items]);
-
   const renderCell = useCallback((documento, columnKey) => {
     const cellValue = documento[columnKey];
     switch (columnKey) {
@@ -177,7 +165,7 @@ export default function Documentos() {
             onValueChange={onSearchChange}
           />
           <div className="flex sm:flex-row gap-3 w-full sm:w-auto ml-auto">
-            <Dropdown>
+          <Dropdown>
               <DropdownTrigger className="w-full sm:w-auto hidden md:flex lg:flex xl:flex">
                 <Button
                   endContent={<ChevronDownIcon className="text-small" />}
@@ -188,17 +176,15 @@ export default function Documentos() {
                 </Button>
               </DropdownTrigger>
               <DropdownMenu
-                selectionMode="multiple"
+                disallowEmptySelection
+                aria-label="Table Columns"
                 closeOnSelect={false}
-                aria-label="Filtro de estado"
+                selectedKeys={statusFilter}
+                selectionMode="multiple"
+                onSelectionChange={setStatusFilter}
               >
                 {statusOptions.map((status) => (
-                  <DropdownItem
-                    key={status.uid}
-                    className="capitalize"
-                    onClick={() => toggleStatusFilter(status.uid)}
-                    selected={statusFilter.has(status.uid)} // Aseguramos que muestre el estado seleccionado
-                  >
+                  <DropdownItem key={status.uid} className="capitalize">
                     {capitalize(status.name)}
                   </DropdownItem>
                 ))}
@@ -235,6 +221,8 @@ export default function Documentos() {
               color="primary"
               endContent={<PlusIcon />}
               className="w-full sm:w-auto"
+              onPress={onOpen}
+
             >
               Nuevo
             </Button>
@@ -247,7 +235,7 @@ export default function Documentos() {
               className="bg-transparent text-default-400 text-small"
               onChange={onRowsPerPageChange}
             >
-              {[5, 10, 15].map((option) => (
+              {[15, 10, 5].map((option) => (
                 <option key={option} value={option}>
                   {option}
                 </option>
@@ -264,6 +252,7 @@ export default function Documentos() {
       visibleColumns,
       onRowsPerPageChange,
       onClear,
+      onOpen,
     ]
   );
 
@@ -282,18 +271,22 @@ export default function Documentos() {
         />
         <div className="hidden sm:flex w-[30%] justify-end gap-2">
           <Button
-            isDisabled={pages === 1}
+            isDisabled={page === 1} // Deshabilitar si está en la primera página
             size="sm"
             variant="flat"
-            onPress={() => setPage(page - 1)}
+            onPress={() => {
+              if (page > 1) setPage(page - 1);
+            }}
           >
             Anterior
           </Button>
           <Button
-            isDisabled={pages === 1}
+            isDisabled={page === pages} // Deshabilitar si está en la última página
             size="sm"
             variant="flat"
-            onPress={() => setPage(page + 1)}
+            onPress={() => {
+              if (page < pages) setPage(page + 1);
+            }}
           >
             Siguiente
           </Button>
@@ -303,7 +296,6 @@ export default function Documentos() {
     [page, pages]
   );
 
-  
   if (loading) {
     return (
       <div className="loading-overlay">
@@ -314,6 +306,8 @@ export default function Documentos() {
 
   return (
     <div>
+      <Modal_New_Documento isOpen={isOpen} onClose={onOpenChange} />
+
       <Breadcrumb
         paths={[{ name: "Documentos", href: "/configuracion/documentos" }]}
       />

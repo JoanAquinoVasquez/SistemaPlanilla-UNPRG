@@ -44,7 +44,7 @@ Route::middleware(['auth:api'])->group(function () {
     Route::post('logout', [AuthController::class, 'logout']);
     Route::delete('users/{id}', [UserController::class, 'destroy']);
     Route::post('/logout', [AuthController::class, 'logout']);
-
+    Route::post('/refresh-token', [AuthController::class, 'refreshToken']);
     //Documento
     Route::apiResource('documentos', DocumentoController::class);
     //Formula
@@ -108,13 +108,10 @@ Route::middleware(['auth:api'])->group(function () {
 
     //Planilla
     Route::apiResource('planillas', PlanillaController::class); */
-
-    Route::get('/generar-planilla', [PlanillaController::class, 'generarPlanilla']);
-    Route::get('/generar-boleta/{id_tipo_empleado}/{num_doc_iden}', [PlanillaController::class, 'generarBoletaIndividual']);
-    Route::get('/exportar-reporte-practicante', [ExportController::class, 'exportExcel']);
 });
 
-Route::get('/testingExport', [ExportController::class, 'exportExcel']);
+Route::get('/generar-planilla', [PlanillaController::class, 'generarPlanilla']);
+Route::get('/generar-boleta/{id_tipo_empleado}/{num_doc_iden}', [PlanillaController::class, 'generarBoletaIndividual']);
 
 
 Route::post('/google-login', [AuthController::class, 'googleLogin']);

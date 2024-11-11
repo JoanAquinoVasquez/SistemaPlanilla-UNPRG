@@ -26,6 +26,7 @@ export const UserProvider = ({ children }) => {
         // Guardar datos en el estado y en sessionStorage
         setUserData(fetchedUserData);
         sessionStorage.setItem("userData", JSON.stringify(fetchedUserData));
+        Cookies.remove("userId");
       } catch (error) {
         console.error("Error fetching user data:", error);
       }

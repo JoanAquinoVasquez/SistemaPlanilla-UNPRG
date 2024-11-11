@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
@@ -135,12 +136,13 @@ class AuthController extends Controller
 
                 // Genera el token JWT
                 $jwtToken = JWTAuth::fromUser($user);
+                $expiration = Carbon::now()->addMinutes(config('jwt.ttl'))->timestamp;
 
                 // Devuelve el token JWT y el ID del usuario
                 // Configura la cookie segura con el JWT
-                $cookie = cookie('token', $jwtToken, 60, '/', null, true, true, false, 'Strict');
-
-                return response()->json(['message' => 'Autenticado con éxito', 'user_id' => $user->id])
+                $cookie = cookie('token', $jwtToken, config('jwt.ttl'), '/', null, true, true, false, 'Strict');
+                Log::info([$user->id, $expiration]);
+                return response()->json(['message' => 'Autenticado con éxito', 'user_id' => $user->id, 'expiration' => $expiration])
                     ->withCookie($cookie);
             } else {
                 return response()->json(['error' => 'Usuario no encontrado'], 404);
@@ -172,6 +174,22 @@ class AuthController extends Controller
         }
     }
 
+    public function refreshToken()
+    {
+        try {
+            $user = JWTAuth::parseToken()->authenticate();
+            $newToken = JWTAuth::fromUser($user);
+            $newExpiration = Carbon::now()->addMinutes(config('jwt.ttl'))->timestamp;
+
+            // Configura la nueva cookie con el token renovado
+            $cookie = cookie('token', $newToken, config('jwt.ttl'), '/', null, true, true, false, 'Strict');
+
+            return response()->json(['message' => 'Token renovado', 'newToken' => $newToken, 'expiration' => $newExpiration])
+                ->withCookie($cookie);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'No se pudo renovar el token'], 401);
+        }
+    }
 
     // // Método para manejar el login desde el frontend con token de Google
     // public function handleGoogleCallback(Request $request)
