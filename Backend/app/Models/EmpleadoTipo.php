@@ -51,6 +51,11 @@ class EmpleadoTipo extends Model
         return $this->belongsTo(Banco::class, 'banco_id');
     }
 
+    // Definimos la relación uno a uno con Aportacion
+    public function aportacion()
+    {
+        return $this->belongsTo(Aportacion::class, 'aportacion_id');
+    }
     /**
      * Relación uno a muchos con ControlAsistencia.
      * Un EmpleadoTipo puede tener múltiples registros de ControlAsistencia.
@@ -58,7 +63,7 @@ class EmpleadoTipo extends Model
     public function asistencias()
     {
         return $this->hasMany(ControlAsistencia::class, 'empleado_tipo_id', 'id_tipo_empleado')
-                    ->where('empleado_tipo_num_doc_iden', $this->num_doc_iden);
+            ->where('empleado_tipo_num_doc_iden', $this->num_doc_iden);
     }
 
     /**
@@ -68,9 +73,9 @@ class EmpleadoTipo extends Model
     public function contratos()
     {
         return $this->hasMany(Contrato::class, 'empleado_tipo_id', 'id_tipo_empleado')
-                    ->where('empleado_tipo_num_doc_iden', $this->num_doc_iden);
+            ->where('empleado_tipo_num_doc_iden', $this->num_doc_iden);
     }
-    
+
     /**
      * Relación uno a muchos con Prestamo.
      * Un EmpleadoTipo puede tener múltiples préstamos asociados.
@@ -78,7 +83,7 @@ class EmpleadoTipo extends Model
     public function prestamos()
     {
         return $this->hasMany(Prestamo::class, 'empleado_tipo_id', 'id_tipo_empleado')
-                    ->where('empleado_tipo_num_doc_iden', $this->num_doc_iden);
+            ->where('empleado_tipo_num_doc_iden', $this->num_doc_iden);
     }
 
     /**
@@ -88,7 +93,7 @@ class EmpleadoTipo extends Model
     public function vacaciones()
     {
         return $this->hasMany(Vacacion::class, 'empleado_tipo_id', 'id_tipo_empleado')
-                    ->where('empleado_tipo_num_doc_iden', $this->num_doc_iden);
+            ->where('empleado_tipo_num_doc_iden', $this->num_doc_iden);
     }
 
     /**
@@ -98,7 +103,7 @@ class EmpleadoTipo extends Model
     public function licencias()
     {
         return $this->hasMany(Licencia::class, 'empleado_tipo_id', 'id_tipo_empleado')
-                    ->where('empleado_tipo_num_doc_iden', $this->num_doc_iden);
+            ->where('empleado_tipo_num_doc_iden', $this->num_doc_iden);
     }
 
     /**
@@ -108,7 +113,7 @@ class EmpleadoTipo extends Model
     public function remuneraciones()
     {
         return $this->hasMany(Remuneracion::class, 'empleado_tipo_id', 'id_tipo_empleado')
-                    ->where('empleado_tipo_num_doc_iden', $this->num_doc_iden);
+            ->where('empleado_tipo_num_doc_iden', $this->num_doc_iden);
     }
 
     /**
@@ -118,7 +123,7 @@ class EmpleadoTipo extends Model
     public function detalleAportaciones()
     {
         return $this->hasMany(DetalleAportacion::class, 'empleado_tipo_id', 'id_tipo_empleado')
-                    ->where('empleado_tipo_num_doc_iden', $this->num_doc_iden);
+            ->where('empleado_tipo_num_doc_iden', $this->num_doc_iden);
     }
 
     /**
@@ -128,7 +133,7 @@ class EmpleadoTipo extends Model
     public function detallesEgreso()
     {
         return $this->hasMany(DetalleEgreso::class, 'empleado_tipo_id', 'id_tipo_empleado')
-                    ->where('empleado_tipo_num_doc_iden', $this->num_doc_iden);
+            ->where('empleado_tipo_num_doc_iden', $this->num_doc_iden);
     }
 
     /**
@@ -138,6 +143,6 @@ class EmpleadoTipo extends Model
     public function detallesIngreso()
     {
         return $this->hasMany(DetalleIngreso::class, 'empleado_tipo_id', 'id_tipo_empleado')
-                    ->where('empleado_tipo_num_doc_iden', $this->num_doc_iden);
+            ->where('empleado_tipo_num_doc_iden', $this->num_doc_iden);
     }
 }

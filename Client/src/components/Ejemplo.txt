@@ -15,3 +15,14 @@ export default function LeyesParametros() {
     </div>
   );
 }
+
+import ExportarExcelButton from "../../components/ExportExcel/ExportarExcelButton";
+
+<Button color="primary" endContent={<PlusIcon />} className="w-full sm:w-auto" onPress={onOpen}>
+            Nuevo
+          </Button>
+          <ExportarExcelButton /> 
+          {/* <Button auto light className="w-full sm:w-auto" onClick={exportarExcel}>
+            <FaUpload className="mr-2" />
+            Exportar
+          </Button> */}

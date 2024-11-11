@@ -11,7 +11,7 @@ class ParametroController extends Controller
     public function index()
     {
         try {
-            $parametros = Parametro::all();
+            $parametros = Parametro::with('documento')->get();
             return response()->json($parametros, 200);
         } catch (\Exception $e) {
             return response()->json([
@@ -52,7 +52,7 @@ class ParametroController extends Controller
 
     public function show($id)
     {
-        $parametro = Parametro::find($id);
+        $parametro = Parametro::with('documento')->find($id);
 
         if (!$parametro) {
             return response()->json([

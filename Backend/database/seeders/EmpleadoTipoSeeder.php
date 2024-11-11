@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Aportacion;
 use Illuminate\Database\Seeder;
 use App\Models\EmpleadoTipo;
 use App\Models\TipoEmpleado;
@@ -18,11 +19,13 @@ class EmpleadoTipoSeeder extends Seeder
         $empleados = Empleado::all();
         $bancos = Banco::all();
         $tiposEmpleado = TipoEmpleado::all();
+        $aportaciones = Aportacion::all();
 
         foreach ($empleados as $empleado) {
             foreach ($tiposEmpleado as $tipo) {
                 EmpleadoTipo::create([
                     'id_tipo_empleado' => $tipo->id,
+                    'aportacion_id'  => $aportaciones->random()->id,
                     'num_doc_iden' => $empleado->num_doc_iden,
                     'banco_id' => $bancos->random()->id,
                     'tipo_cuenta' => collect(['ahorros', 'corriente', 'plazo_fijo', 'sueldo', 'cts'])->random(),

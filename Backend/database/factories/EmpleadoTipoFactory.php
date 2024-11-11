@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Aportacion;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\Empleado;
 use App\Models\TipoEmpleado;
@@ -18,6 +19,7 @@ class EmpleadoTipoFactory extends Factory
             'id_tipo_empleado' => TipoEmpleado::inRandomOrder()->first()->id,
             'num_doc_iden' => Empleado::inRandomOrder()->first()->num_doc_iden,
             'banco_id' => Banco::inRandomOrder()->first()->id,
+            'aportacion_id' => Aportacion::inRandomOrder()->first()->id,
             'tipo_cuenta' => $this->faker->randomElement(['ahorros', 'corriente', 'plazo_fijo', 'sueldo', 'cts']),
             'cci' => $this->faker->numerify('#############'),
             'numero_cuenta' => $this->faker->numerify('############'),

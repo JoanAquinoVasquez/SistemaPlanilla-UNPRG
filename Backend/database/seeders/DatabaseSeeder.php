@@ -31,8 +31,7 @@ class DatabaseSeeder extends Seeder
             ParentescoSeeder::class,
             EmpleadoSeeder::class,
             DetalleFamiliaSeeder::class,
-            BancoSeeder::class,
-            EmpleadoTipoSeeder::class,
+            BancoSeeder::class,            
             ControlAsistenciaSeeder::class,
             ContratoSeeder::class,
             VacacionSeeder::class,
@@ -42,6 +41,7 @@ class DatabaseSeeder extends Seeder
             EgresoSeeder::class,
             IngresoSeeder::class,
             AportacionSeeder::class,
+            EmpleadoTipoSeeder::class,
        
             PrestamoSeeder::class,
             DocumentoSeeder::class,

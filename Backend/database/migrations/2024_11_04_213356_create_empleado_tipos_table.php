@@ -16,7 +16,14 @@ return new class extends Migration
                 ->constrained('tipo_empleados')
                 ->onDelete('cascade'); // FK y parte de la PK
             $table->string('num_doc_iden', 20); // Cambiado a string para coincidir con el tipo en 'empleados' y parte de la PK
-
+            
+            $table->unsignedBigInteger('aportacion_id'); // Asegúrate de que es del mismo tipo que `id` en `aportacions`
+            
+            $table->foreign('aportacion_id')
+                ->references('id')
+                ->on('aportacions')
+                ->onDelete('cascade');
+                
             $table->foreignId('banco_id')
                 ->constrained('bancos')
                 ->onDelete('cascade'); // FK a la tabla bancos
@@ -24,7 +31,7 @@ return new class extends Migration
             $table->string('cci', 20); // CCI como cadena alfanumérica
             $table->string('numero_cuenta', 20); // Número de cuenta como cadena para soportar valores con ceros iniciales
             $table->boolean('estado')->default(true);
-            
+
             // Clave primaria compuesta (dni, codigo)
             $table->primary(['id_tipo_empleado', 'num_doc_iden']);
 
@@ -32,11 +39,11 @@ return new class extends Migration
                 ->references('num_doc_iden')
                 ->on('empleados')
                 ->onDelete('cascade');
-            
+
             $table->timestamps();
         });
     }
-    
+
     /**
      * Reverse the migrations.
      */

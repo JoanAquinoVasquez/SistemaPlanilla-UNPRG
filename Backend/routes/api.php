@@ -21,6 +21,7 @@ use App\Http\Controllers\DetalleIngresoController;
 use App\Http\Controllers\EgresoController;
 use App\Http\Controllers\EmpleadoController;
 use App\Http\Controllers\EmpleadoTipoController;
+use App\Http\Controllers\ExportController;
 use App\Http\Controllers\IngresoController;
 use App\Http\Controllers\LicenciaController;
 use App\Http\Controllers\ParentescoController;
@@ -70,6 +71,8 @@ Route::middleware(['auth:api'])->group(function () {
     Route::apiResource('bancos', BancoController::class);
     //EmpleadoTIpo
     Route::apiResource('empleado-tipos', EmpleadoTipoController::class);
+    //Listar Practicantes 
+    Route::get('practicantes', [EmpleadoTipoController::class, 'allPracticantes']);
     //ControlAsistencia
     Route::apiResource('control-asistencias', ControlAsistenciaController::class);
     //Contrato
@@ -93,7 +96,6 @@ Route::middleware(['auth:api'])->group(function () {
     Route::apiResource('egresos', EgresoController::class);
     //Aportacion
     Route::apiResource('aportaciones', AportacionController::class);
-
     //DetalleIngreso
     Route::apiResource('detalle-ingresos', DetalleIngresoController::class);
     //DetalleEgreso
@@ -106,10 +108,13 @@ Route::middleware(['auth:api'])->group(function () {
 
     //Planilla
     Route::apiResource('planillas', PlanillaController::class); */
+
+    Route::get('/generar-planilla', [PlanillaController::class, 'generarPlanilla']);
+    Route::get('/generar-boleta/{id_tipo_empleado}/{num_doc_iden}', [PlanillaController::class, 'generarBoletaIndividual']);
+    Route::get('/exportar-reporte-practicante', [ExportController::class, 'exportExcel']);
 });
 
-Route::get('/generar-planilla', [PlanillaController::class, 'generarPlanilla']);
-Route::get('/generar-boleta/{id_tipo_empleado}/{num_doc_iden}', [PlanillaController::class, 'generarBoletaIndividual']);
+Route::get('/testingExport', [ExportController::class, 'exportExcel']);
 
 
 Route::post('/google-login', [AuthController::class, 'googleLogin']);
