@@ -19,7 +19,7 @@ function Navbar() {
   const userData = useUser();
   const navigate = useNavigate();
 
-  if (!userData) return <Spinner/>;
+  if (!userData) return <Spinner label="Cargando..."/>; 
 
   const handleLogout = () => {
     // Hacer una solicitud de cierre de sesión al backend
@@ -27,7 +27,6 @@ function Navbar() {
       .post("/logout", {}, { withCredentials: true })
       .then(() => {
         // Elimina las cookies de sesión y limpia los datos de usuario
-        Cookies.remove("userId");
         Cookies.remove("token"); // Elimina la cookie principal también
         sessionStorage.removeItem("userData");
         // Actualizar el estado global a no autenticado

@@ -282,18 +282,22 @@ export default function Documentos() {
         />
         <div className="hidden sm:flex w-[30%] justify-end gap-2">
           <Button
-            isDisabled={pages === 1}
+            isDisabled={page === 1} // Deshabilitar si está en la primera página
             size="sm"
             variant="flat"
-            onPress={() => setPage(page - 1)}
+            onPress={() => {
+              if (page > 1) setPage(page - 1);
+            }}
           >
             Anterior
           </Button>
           <Button
-            isDisabled={pages === 1}
+            isDisabled={page === pages} // Deshabilitar si está en la última página
             size="sm"
             variant="flat"
-            onPress={() => setPage(page + 1)}
+            onPress={() => {
+              if (page < pages) setPage(page + 1);
+            }}
           >
             Siguiente
           </Button>
@@ -303,7 +307,6 @@ export default function Documentos() {
     [page, pages]
   );
 
-  
   if (loading) {
     return (
       <div className="loading-overlay">

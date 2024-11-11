@@ -10,7 +10,7 @@ export default function useDocumentos() {
       try {
         setLoading(true); // Inicia la carga
         const response = await axios.get(
-          "http://localhost:8000/api/documentos"
+          "/documentos"
         );
         const documentosData = response.data.map((documento) => ({
           id: documento.id,

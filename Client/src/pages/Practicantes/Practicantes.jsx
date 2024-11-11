@@ -1,5 +1,22 @@
 import { useMemo, useCallback, useState } from "react";
-import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Input, Button, DropdownTrigger, Dropdown, DropdownMenu, DropdownItem, Chip, User, Pagination, useDisclosure } from "@nextui-org/react";
+import {
+  Table,
+  TableHeader,
+  TableColumn,
+  TableBody,
+  TableRow,
+  TableCell,
+  Input,
+  Button,
+  DropdownTrigger,
+  Dropdown,
+  DropdownMenu,
+  DropdownItem,
+  Chip,
+  User,
+  Pagination,
+  useDisclosure,
+} from "@nextui-org/react";
 import { PlusIcon } from "../../components/Icons.jsx/PlusIcon";
 import { VerticalDotsIcon } from "../../components/Icons.jsx/VerticalDotsIcon";
 import { SearchIcon } from "../../components/Icons.jsx/SearchIcon";
@@ -31,23 +48,34 @@ export default function Practicantes() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [filterValue, setFilterValue] = useState("");
   const [selectedKeys, setSelectedKeys] = useState(new Set([]));
-  const [visibleColumns, setVisibleColumns] = useState(new Set(INITIAL_VISIBLE_COLUMNS));
+  const [visibleColumns, setVisibleColumns] = useState(
+    new Set(INITIAL_VISIBLE_COLUMNS)
+  );
   const [statusFilter, setStatusFilter] = useState("all");
   const [rowsPerPage, setRowsPerPage] = useState(15);
-  const [sortDescriptor, setSortDescriptor] = useState({ column: "name", direction: "ascending" });
+  const [sortDescriptor, setSortDescriptor] = useState({
+    column: "name",
+    direction: "ascending",
+  });
   const [page, setPage] = useState(1);
 
   const headerColumns = useMemo(() => {
-    return visibleColumns === "all" ? columns : columns.filter((column) => visibleColumns.has(column.uid));
+    return visibleColumns === "all"
+      ? columns
+      : columns.filter((column) => visibleColumns.has(column.uid));
   }, [visibleColumns]);
 
   const filteredItems = useMemo(() => {
     let filteredUsers = [...users];
     if (filterValue) {
-      filteredUsers = filteredUsers.filter((user) => user.name.toLowerCase().includes(filterValue.toLowerCase()));
+      filteredUsers = filteredUsers.filter((user) =>
+        user.name.toLowerCase().includes(filterValue.toLowerCase())
+      );
     }
     if (statusFilter !== "all" && statusFilter.size !== statusOptions.length) {
-      filteredUsers = filteredUsers.filter((user) => statusFilter.has(user.estado));
+      filteredUsers = filteredUsers.filter((user) =>
+        statusFilter.has(user.estado)
+      );
     }
     return filteredUsers;
   }, [filterValue, statusFilter]);
@@ -72,9 +100,24 @@ export default function Practicantes() {
     const cellValue = user[columnKey];
     switch (columnKey) {
       case "name":
-        return <User description={user.email} name={cellValue} className="font-medium text-sm capitalize text-default-500" />;
+        return (
+          <User
+            description={user.email}
+            name={cellValue}
+            className="font-medium text-sm capitalize text-default-500"
+          />
+        );
       case "estado":
-        return <Chip className="capitalize text-sm font-medium" color={statusColorMap[user.estado]} size="sm" variant="flat">{cellValue}</Chip>;
+        return (
+          <Chip
+            className="capitalize text-sm font-medium"
+            color={statusColorMap[user.estado]}
+            size="sm"
+            variant="flat"
+          >
+            {cellValue}
+          </Chip>
+        );
       case "accciones":
         return (
           <div className="relative flex justify-center items-center gap-2">
@@ -92,7 +135,11 @@ export default function Practicantes() {
           </div>
         );
       default:
-        return <p className="font-medium capitalize text-sm text-default-500">{cellValue}</p>;
+        return (
+          <p className="font-medium capitalize text-sm text-default-500">
+            {cellValue}
+          </p>
+        );
     }
   }, []);
 
@@ -111,101 +158,169 @@ export default function Practicantes() {
     setPage(1);
   }, []);
 
-  const topContent = useMemo(() => (
-    <div className="flex flex-col gap-4">
-      <div className="flex flex-col sm:flex-row justify-between gap-3 items-end sm:items-center flex-wrap">
-        <Input
-          isClearable
-          className="w-full xl:max-w-[44%] focus:outline-none "
-          placeholder="Buscar al practicante "
-          startContent={<SearchIcon />}
-          value={filterValue}
-          onClear={onClear}
-          onValueChange={onSearchChange}
+  const topContent = useMemo(
+    () => (
+      <div className="flex flex-col gap-4">
+        <div className="flex flex-col sm:flex-row justify-between gap-3 items-end sm:items-center flex-wrap">
+          <Input
+            isClearable
+            className="w-full xl:max-w-[44%] focus:outline-none "
+            placeholder="Buscar al practicante "
+            startContent={<SearchIcon />}
+            value={filterValue}
+            onClear={onClear}
+            onValueChange={onSearchChange}
+          />
+          <div className="flex sm:flex-row gap-3 w-full sm:w-auto ml-auto">
+            <Dropdown>
+              <DropdownTrigger className="w-full sm:w-auto hidden md:flex lg:flex xl:flex">
+                <Button
+                  endContent={<ChevronDownIcon className="text-small" />}
+                  variant="flat"
+                  className="w-full sm:w-auto"
+                >
+                  Estado
+                </Button>
+              </DropdownTrigger>
+              <DropdownMenu
+                disallowEmptySelection
+                aria-label="Table Columns"
+                closeOnSelect={false}
+                selectedKeys={statusFilter}
+                selectionMode="multiple"
+                onSelectionChange={setStatusFilter}
+              >
+                {statusOptions.map((status) => (
+                  <DropdownItem key={status.uid} className="capitalize">
+                    {capitalize(status.name)}
+                  </DropdownItem>
+                ))}
+              </DropdownMenu>
+            </Dropdown>
+            <Dropdown>
+              <DropdownTrigger className="w-full hidden md:flex lg:flex xl:flex">
+                <Button
+                  endContent={<ChevronDownIcon className="text-small" />}
+                  variant="flat"
+                  className="w-full sm:w-auto"
+                >
+                  Columnas
+                </Button>
+              </DropdownTrigger>
+              <DropdownMenu
+                disallowEmptySelection
+                aria-label="Table Columns"
+                closeOnSelect={false}
+                selectedKeys={visibleColumns}
+                selectionMode="multiple"
+                onSelectionChange={setVisibleColumns}
+              >
+                {columns.map((column) => (
+                  <DropdownItem key={column.uid} className="capitalize">
+                    {capitalize(column.name)}
+                  </DropdownItem>
+                ))}
+              </DropdownMenu>
+            </Dropdown>
+            <Button
+              color="primary"
+              endContent={<PlusIcon />}
+              className="w-full sm:w-auto"
+              onPress={onOpen}
+            >
+              Nuevo
+            </Button>
+            <Button auto light className="w-full sm:w-auto">
+              <FaUpload className="mr-2" />
+              Exportar
+            </Button>
+          </div>
+        </div>
+        <div className="flex justify-between items-center">
+          <span className="text-default-400 text-small">
+            Total: {users.length} usuarios
+          </span>
+          <label className="flex items-center text-default-400 text-small">
+            Filas por página:
+            <select
+              className="bg-transparent text-default-400 text-small"
+              onChange={onRowsPerPageChange}
+            >
+              {[5, 10, 15].map((option) => (
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select>
+          </label>
+        </div>
+      </div>
+    ),
+    [
+      filterValue,
+      onSearchChange,
+      statusFilter,
+      visibleColumns,
+      onRowsPerPageChange,
+      onClear,
+      onOpen,
+    ]
+  );
+
+  const bottomContent = useMemo(
+    () => (
+      <div className="py-2 px-2 flex justify-between items-center">
+        <span className="w-[30%] text-small text-default-400">
+          {selectedKeys === "all"
+            ? "All items selected"
+            : `${selectedKeys.size} de ${filteredItems.length} seleccionados`}
+        </span>
+        <Pagination
+          isCompact
+          showControls
+          showShadow
+          color="primary"
+          page={page}
+          total={pages}
+          onChange={setPage}
         />
-        <div className="flex sm:flex-row gap-3 w-full sm:w-auto ml-auto">
-          <Dropdown>
-            <DropdownTrigger className="w-full sm:w-auto hidden md:flex lg:flex xl:flex">
-              <Button endContent={<ChevronDownIcon className="text-small" />} variant="flat" className="w-full sm:w-auto">
-                Estado
-              </Button>
-            </DropdownTrigger>
-            <DropdownMenu
-              disallowEmptySelection
-              aria-label="Table Columns"
-              closeOnSelect={false}
-              selectedKeys={statusFilter}
-              selectionMode="multiple"
-              onSelectionChange={setStatusFilter}
-            >
-              {statusOptions.map((status) => (
-                <DropdownItem key={status.uid} className="capitalize">
-                  {capitalize(status.name)}
-                </DropdownItem>
-              ))}
-            </DropdownMenu>
-          </Dropdown>
-          <Dropdown>
-            <DropdownTrigger className="w-full hidden md:flex lg:flex xl:flex">
-              <Button endContent={<ChevronDownIcon className="text-small" />} variant="flat" className="w-full sm:w-auto">
-                Columnas
-              </Button>
-            </DropdownTrigger>
-            <DropdownMenu
-              disallowEmptySelection
-              aria-label="Table Columns"
-              closeOnSelect={false}
-              selectedKeys={visibleColumns}
-              selectionMode="multiple"
-              onSelectionChange={setVisibleColumns}
-            >
-              {columns.map((column) => (
-                <DropdownItem key={column.uid} className="capitalize">
-                  {capitalize(column.name)}
-                </DropdownItem>
-              ))}
-            </DropdownMenu>
-          </Dropdown>
-          <Button color="primary" endContent={<PlusIcon />} className="w-full sm:w-auto" onPress={onOpen}>
-            Nuevo
+        <div className="hidden sm:flex w-[30%] justify-end gap-2">
+          <Button
+            isDisabled={page === 1} // Deshabilitar si está en la primera página
+            size="sm"
+            variant="flat"
+            onPress={() => {
+              if (page > 1) setPage(page - 1);
+            }}
+          >
+            Anterior
           </Button>
-          <Button auto light className="w-full sm:w-auto">
-            <FaUpload className="mr-2" />
-            Exportar
+          <Button
+            isDisabled={page === pages} // Deshabilitar si está en la última página
+            size="sm"
+            variant="flat"
+            onPress={() => {
+              if (page < pages) setPage(page + 1);
+            }}
+          >
+            Siguiente
           </Button>
         </div>
       </div>
-      <div className="flex justify-between items-center">
-        <span className="text-default-400 text-small">Total: {users.length} usuarios</span>
-        <label className="flex items-center text-default-400 text-small">
-          Filas por página:
-          <select className="bg-transparent text-default-400 text-small" onChange={onRowsPerPageChange}>
-            {[5, 10, 15].map((option) => (
-              <option key={option} value={option}>{option}</option>
-            ))}
-          </select>
-        </label>
-      </div>
-    </div>
-  ), [filterValue, onSearchChange, statusFilter, visibleColumns, onRowsPerPageChange, onClear, onOpen]);
-
-  const bottomContent = useMemo(() => (
-    <div className="py-2 px-2 flex justify-between items-center">
-      <span className="w-[30%] text-small text-default-400">
-        {selectedKeys === "all" ? "All items selected" : `${selectedKeys.size} de ${filteredItems.length} seleccionados`}
-      </span>
-      <Pagination isCompact showControls showShadow color="primary" page={page} total={pages} onChange={setPage} />
-      <div className="hidden sm:flex w-[30%] justify-end gap-2">
-        <Button isDisabled={pages === 1} size="sm" variant="flat" onPress={() => setPage(page - 1)}>Anterior</Button>
-        <Button isDisabled={pages === 1} size="sm" variant="flat" onPress={() => setPage(page + 1)}>Siguiente</Button>
-      </div>
-    </div>
-  ), [selectedKeys, filteredItems.length, page, pages]);
+    ),
+    [selectedKeys, filteredItems.length, page, pages]
+  );
 
   return (
     <div>
       <Modal_New_Practicante isOpen={isOpen} onClose={onOpenChange} />
-      <Breadcrumb paths={[{ name: "Inicio", href: "/inicio" }, { name: "Personal", href: "/personal" }, { name: "Practicantes", href:"/personal/practicantes"}]} />
+      <Breadcrumb
+        paths={[
+          { name: "Inicio", href: "/inicio" },
+          { name: "Personal", href: "/personal" },
+          { name: "Practicantes", href: "/personal/practicantes" },
+        ]}
+      />
       <div className="bg-white rounded-lg p-4 shadow-md mt-5">
         <p className="flex items-center text-xl font-medium text-800">
           <MdSummarize className="mr-2" />
@@ -229,15 +344,24 @@ export default function Practicantes() {
         >
           <TableHeader columns={headerColumns}>
             {(column) => (
-              <TableColumn key={column.uid} align={column.uid === "accciones" ? "center" : "start"} allowsSorting={column.sortable}>
+              <TableColumn
+                key={column.uid}
+                align={column.uid === "accciones" ? "center" : "start"}
+                allowsSorting={column.sortable}
+              >
                 {column.name}
               </TableColumn>
             )}
           </TableHeader>
-          <TableBody emptyContent={"No se encontraron usuarios"} items={sortedItems}>
+          <TableBody
+            emptyContent={"No se encontraron usuarios"}
+            items={sortedItems}
+          >
             {(item) => (
               <TableRow key={item.id}>
-                {(columnKey) => <TableCell>{renderCell(item, columnKey)}</TableCell>}
+                {(columnKey) => (
+                  <TableCell>{renderCell(item, columnKey)}</TableCell>
+                )}
               </TableRow>
             )}
           </TableBody>
