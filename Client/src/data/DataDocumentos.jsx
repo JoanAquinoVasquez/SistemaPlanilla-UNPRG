@@ -38,7 +38,6 @@ export default function useDocumentos() {
 
 // Columnas fijas para la tabla de documentos
 export const columns = [
-  { name: "ID", uid: "id", sortable: true },
   { name: "NOMBRE", uid: "nombre", sortable: true },
   { name: "TIPO", uid: "tipo", sortable: true },
   { name: "FECHA VIGENCIA", uid: "fecha_vigencia", sortable: true },
@@ -49,6 +48,6 @@ export const columns = [
 
 // Opciones fijas para el estado de los documentos (solo Activo e Inactivo)
 export const statusOptions = [
-  { name: "Activo", uid: 1 },
-  { name: "Inactivo", uid: 0 },
+  { name: "Activo", uid: "1" },
+  { name: "Inactivo", uid: "2" },
 ];

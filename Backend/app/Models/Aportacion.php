@@ -51,4 +51,10 @@ class Aportacion extends Model
     {
         return $this->hasMany(DetalleIngreso::class, 'aportacions_id');
     }
+
+    // Definimos la relación uno a uno con EmpleadoTipo
+    public function empleadoTipo()
+    {
+        return $this->hasOne(EmpleadoTipo::class, 'aportacion_id');
+    }
 }

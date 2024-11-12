@@ -246,7 +246,7 @@ export default function Practicantes() {
               className="bg-transparent text-default-400 text-small"
               onChange={onRowsPerPageChange}
             >
-              {[5, 10, 15].map((option) => (
+              {[15, 10, 5].map((option) => (
                 <option key={option} value={option}>
                   {option}
                 </option>

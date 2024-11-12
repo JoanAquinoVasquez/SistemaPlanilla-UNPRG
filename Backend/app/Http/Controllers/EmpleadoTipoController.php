@@ -74,6 +74,21 @@ class EmpleadoTipoController extends Controller
         }
     }
 
+
+    public function allPracticantes()
+    {
+        try {
+            $practicantes = EmpleadoTipo::with('tipoEmpleado.subTipoEmpleado')
+            ->where('id_tipo_empleado', 3)->get();
+            return response()->json($practicantes, 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Error al obtener los tipos de empleados',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
     public function update(Request $request, $idTipoEmpleado, $numDocIden)
     {
         $empleadoTipo = EmpleadoTipo::where('id_tipo_empleado', $idTipoEmpleado)
