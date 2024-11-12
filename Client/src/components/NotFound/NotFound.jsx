@@ -12,25 +12,26 @@ const NotFound = () => {
                 className="absolute top-0 left-0 w-full h-5 object-cover"
             />
             
-            <div className="flex flex-col sm:flex-row sm:justify-between sm:w-full sm:max-w-screen-lg items-center sm:space-x-8 space-y-6 sm:space-y-0">
-                {/* Logo */}
-                <div className="w-full sm:w-auto">
+            <div className="px-4 flex flex-col sm:flex-row sm:justify-between sm:w-full sm:max-w-screen-lg items-center sm:space-x-8 space-y-6 sm:space-y-0">
+                {/* Logo - visible en md, lg y xl */}
+                <div className="hidden md:block w-full md:w-auto">
                     <img
                         src={logounprg}
                         alt="Logo UNPRG"
-                        className="w-80 object-contain mx-auto sm:mx-0"
+                        className="w-80 object-contain mx-auto md:mx-0"
                     />
                 </div>
 
                 {/* 404 Text */}
-                <div className="text-center">
-                    <h1 className="text-9xl font-extrabold text-gray-800">404 :(</h1>
+                <div className="text-center w-full">
+                    <h1 className="text-8xl font-extrabold text-gray-800">404 :(</h1>
                     <p className="text-3xl text-gray-600 mb-6 mt-4">Oops! La página que buscas no existe.</p>
                     <Link 
                         to="/inicio" 
-                        className="text-3xl text-blue-600 hover:text-blue-800 transition duration-300 ease-in-out"
+                        className="text-3xl text-[#2873B4] hover:bg-[#2873B4] rounded-lg hover:text-white  px-2 transition duration-300 ease-in-out"
                     >
                         Volver al inicio
+                        
                     </Link>
                 </div>
             </div>
