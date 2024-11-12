@@ -25,8 +25,8 @@ import { columns, users, statusOptions } from "../../data/datapracticantes";
 import { capitalize } from "./utils";
 import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
 import { MdSummarize } from "react-icons/md";
-import { FaUpload } from "react-icons/fa";
 import Modal_New_Practicante from "../../components/Modal/New_Practicante";
+import ExportarExcelButton from "../../components/ExportExcel/ExportarExcelButton";
 
 const statusColorMap = {
   activo: "success",
@@ -230,10 +230,8 @@ export default function Practicantes() {
             >
               Nuevo
             </Button>
-            <Button auto light className="w-full sm:w-auto">
-              <FaUpload className="mr-2" />
-              Exportar
-            </Button>
+            <ExportarExcelButton /> 
+
           </div>
         </div>
         <div className="flex justify-between items-center">
