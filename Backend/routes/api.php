@@ -37,6 +37,8 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::middleware(['auth:api'])->group(function () {
+    Route::get('/check-auth', [AuthController::class, 'checkAuth']); // Nueva ruta para verificar autenticación
+
     // Route::post('register', [AuthController::class, 'register']);
     // Route::post('login', [AuthController::class, 'login'])->name('login');
     Route::get('users', [UserController::class, 'index']);
@@ -115,4 +117,3 @@ Route::get('/generar-boleta/{id_tipo_empleado}/{num_doc_iden}', [PlanillaControl
 
 
 Route::post('/google-login', [AuthController::class, 'googleLogin']);
-Route::get('/check-auth', [AuthController::class, 'checkAuth']); // Nueva ruta para verificar autenticación

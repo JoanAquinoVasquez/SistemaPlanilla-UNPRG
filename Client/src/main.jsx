@@ -17,19 +17,19 @@ createRoot(document.getElementById("root")).render(
   <StrictMode>
     <NextUIProvider>
       <Router>
-        <SessionManager>
-          <Routes>
-            <Route path="/" element={<Login />} />
-            <Route
-              path="/*"
-              element={
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route
+            path="/*"
+            element={
+              <SessionManager>
                 <ProtectedRoute>
                   <Dashboard />
                 </ProtectedRoute>
-              }
-            />
-          </Routes>
-        </SessionManager>
+              </SessionManager>
+            }
+          />
+        </Routes>
       </Router>
     </NextUIProvider>
   </StrictMode>
