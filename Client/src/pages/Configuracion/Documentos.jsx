@@ -21,11 +21,11 @@ import { PlusIcon } from "../../components/Icons.jsx/PlusIcon";
 import { VerticalDotsIcon } from "../../components/Icons.jsx/VerticalDotsIcon";
 import { SearchIcon } from "../../components/Icons.jsx/SearchIcon";
 import { ChevronDownIcon } from "../../components/Icons.jsx/ChevronDownIcon";
-import { columns, statusOptions } from "../../Data/DataDocumentos";
-import useDocumentos from "../../Data/DataDocumentos";
+import { columns, statusOptions } from "../../data/DataDocumentos";
+import useDocumentos from "../../data/DataDocumentos";
 import { capitalize } from "./utils";
 import { MdSummarize } from "react-icons/md";
-import Spinner from "../../components/Spinner/Spinner.jsx"; // Importa el componente Spinner
+import Spinner from "../../components/Spinner/Spinner.jsx";
 import Modal_New_Documento from "../../components/Modal/New_Documento.jsx";
 
 const statusColorMap = {
@@ -66,13 +66,11 @@ export default function Documentos() {
 
   const filteredItems = useMemo(() => {
     let filteredUsers = [...documentos];
-     // Filtrar por el valor de búsqueda
-  if (filterValue) {
-    filteredUsers = filteredUsers.filter((doc) =>
-      doc.nombre.toLowerCase().includes(filterValue.toLowerCase())
-  );
-  }
-    console.log("filteredUsers", filteredUsers);
+    if (filterValue) {
+      filteredUsers = filteredUsers.filter((doc) =>
+        doc.nombre.toLowerCase().includes(filterValue.toLowerCase())
+      );
+    }
     if (statusFilter !== "all" && statusFilter.size !== statusOptions.length) {
       filteredUsers = filteredUsers.filter((doc) =>
         statusFilter.has(doc.estado.toString())
@@ -224,7 +222,6 @@ export default function Documentos() {
               endContent={<PlusIcon />}
               className="w-full sm:w-auto"
               onPress={onOpen}
-              onRefresh={fetchDocumentos}
             >
               Nuevo
             </Button>
@@ -255,7 +252,6 @@ export default function Documentos() {
       onRowsPerPageChange,
       onClear,
       onOpen,
-      fetchDocumentos
     ]
   );
 
@@ -309,7 +305,11 @@ export default function Documentos() {
 
   return (
     <div>
-      <Modal_New_Documento isOpen={isOpen} onClose={onOpenChange} />
+      <Modal_New_Documento
+        isOpen={isOpen}
+        onClose={onOpenChange}
+        onDocumentCreated={fetchDocumentos}
+      />
 
       <Breadcrumb
         paths={[{ name: "Documentos", href: "/configuracion/documentos" }]}

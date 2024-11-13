@@ -18,7 +18,8 @@ import { tiposdocs } from "../../Data/DataTipoDoc";
 import axios from "axios";
 import { CalendarDate } from "@internationalized/date";
 import { toast, Toaster } from "react-hot-toast";
-export default function Modal_New_Documento({ isOpen, onClose, onRefresh }) {
+
+export default function Modal_New_Documento({ isOpen, onClose, onDocumentCreated }) {
     const [nombre, setNombre] = useState("");
     const [tipo, setTipo] = useState("");
     const [fechaVigencia, setFechaVigencia] = useState(null);
@@ -27,7 +28,6 @@ export default function Modal_New_Documento({ isOpen, onClose, onRefresh }) {
 
     const handleSave = async () => {
         try {
-            // Validar campos requeridos
             if (!fechaVigencia) {
                 toast.error("La fecha de inicio es requerida.");
                 return;
@@ -40,14 +40,11 @@ export default function Modal_New_Documento({ isOpen, onClose, onRefresh }) {
                 toast.error("El tipo de documento es requerido.");
                 return;
             }
-    
-            // Validar relación entre fechas
             if (fechaVigencia && fechaFin && new Date(fechaFin) < new Date(fechaVigencia)) {
                 toast.error("La fecha de fin no puede ser menor a la fecha de inicio.");
                 return;
             }
-    
-            // Si todas las validaciones pasan, prepara los datos
+
             const data = {
                 nombre,
                 tipo,
@@ -55,33 +52,26 @@ export default function Modal_New_Documento({ isOpen, onClose, onRefresh }) {
                 fecha_fin: fechaFin || null,
                 estado,
             };
-    
-            // Intentar guardar los datos
+
             await axios.post("/documentos", data);
             toast.success("Documento guardado correctamente.");
-            // Llama a onRefresh para actualizar la lista
-            if (onRefresh) {
-                await onRefresh();
+
+            // Llama a onDocumentCreated para actualizar la lista de documentos en el componente padre
+            if (onDocumentCreated) {
+                onDocumentCreated();
             }
-            // Restablecer el estado después de guardar
-   
-    
-            // Retrasar el cierre del modal
-            setTimeout(() => {
-                onClose();
-                setNombre("");
-                setTipo("");
-                setFechaVigencia(null);
-                setFechaFin(null);
-                setEstado(true);
-            }, 2000); // Cierra el modal después de 2 segundos
+
+            // Restablece el estado y cierra el modal inmediatamente después de guardar
+            setNombre("");
+            setTipo("");
+            setFechaVigencia(null);
+            setFechaFin(null);
+            setEstado(true);
+            onClose();
         } catch (error) {
-            // Captura cualquier otro error inesperado
             toast.error("Error al guardar el documento: " + (error.response?.data?.message || error.message));
         }
     };
-    
-    
 
     return (
         <Modal
@@ -179,5 +169,5 @@ export default function Modal_New_Documento({ isOpen, onClose, onRefresh }) {
 Modal_New_Documento.propTypes = {
     isOpen: PropTypes.bool,
     onClose: PropTypes.func,
-    onRefresh: PropTypes.func,
+    onDocumentCreated: PropTypes.func, // Cambié onRefresh a onDocumentCreated
 };
