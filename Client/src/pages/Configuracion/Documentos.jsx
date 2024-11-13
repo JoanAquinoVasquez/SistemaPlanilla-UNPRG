@@ -43,7 +43,7 @@ const INITIAL_VISIBLE_COLUMNS = [
 ];
 
 export default function Documentos() {
-  const { documentos, loading } = useDocumentos(); // Obtén el estado de carga desde el hook
+  const { documentos, loading, fetchDocumentos } = useDocumentos(); // Obtén el estado de carga desde el hook
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [filterValue, setFilterValue] = useState("");
   const [selectedKeys, setSelectedKeys] = useState(new Set([]));
@@ -66,19 +66,21 @@ export default function Documentos() {
 
   const filteredItems = useMemo(() => {
     let filteredUsers = [...documentos];
-    if (filterValue) {
-      filteredUsers = filteredUsers.filter((user) =>
-        user.name.toLowerCase().includes(filterValue.toLowerCase())
-      );
-    }
+     // Filtrar por el valor de búsqueda
+  if (filterValue) {
+    filteredUsers = filteredUsers.filter((doc) =>
+      doc.nombre.toLowerCase().includes(filterValue.toLowerCase())
+  );
+  }
+    console.log("filteredUsers", filteredUsers);
     if (statusFilter !== "all" && statusFilter.size !== statusOptions.length) {
       filteredUsers = filteredUsers.filter((doc) =>
         statusFilter.has(doc.estado.toString())
       );
 
-console.log("filteredUsers",filteredUsers);    }
+    }
     return filteredUsers;
-  }, [filterValue, statusFilter,documentos]);
+  }, [filterValue, statusFilter, documentos]);
 
 
   const pages = Math.ceil(filteredItems.length / rowsPerPage);
@@ -165,7 +167,7 @@ console.log("filteredUsers",filteredUsers);    }
             onValueChange={onSearchChange}
           />
           <div className="flex sm:flex-row gap-3 w-full sm:w-auto ml-auto">
-          <Dropdown>
+            <Dropdown>
               <DropdownTrigger className="w-full sm:w-auto hidden md:flex lg:flex xl:flex">
                 <Button
                   endContent={<ChevronDownIcon className="text-small" />}
@@ -222,7 +224,7 @@ console.log("filteredUsers",filteredUsers);    }
               endContent={<PlusIcon />}
               className="w-full sm:w-auto"
               onPress={onOpen}
-
+              onRefresh={fetchDocumentos}
             >
               Nuevo
             </Button>
@@ -253,6 +255,7 @@ console.log("filteredUsers",filteredUsers);    }
       onRowsPerPageChange,
       onClear,
       onOpen,
+      fetchDocumentos
     ]
   );
 

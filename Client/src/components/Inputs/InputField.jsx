@@ -1,15 +1,30 @@
 import { Input } from "@nextui-org/react";
 import PropTypes from "prop-types";
 
-export default function ReusableInput({ label, type = "text", className = "", isRequired = true }) {
+export default function ReusableInput({
+    label,
+    type = "text",
+    className = "",
+    isRequired = true,
+    onChange,
+    value,
+}) {
+    const handleClear = () => {
+        if (onChange) {
+            onChange({ target: { value: "" } }); // Simular un evento de cambio con valor vacío
+        }
+    };
+
     return (
         <Input
-            isRequired={isRequired} /* Propiedad para hacer que el input sea obligatorio*/ 
-            type={type}  /*Tipo de input, por defecto es "text"*/ 
-            label={label} /*Etiqueta que describe el input (por ejemplo, "Nombre Completo", "DNI", etc.)*/ 
-            className={className} /*Clase CSS personalizada que se puede pasar para modificar el estilo del input*/ 
-            style={{ paddingBottom: "0px", paddingLeft: "0px" }} /*Estilos en línea específicos para eliminar el padding inferior e izquierdo*/ 
-            onClear={() => console.log(`${label} input cleared`)} /*Callback que se ejecuta cuando el input es borrado, por ejemplo, al hacer clic en el botón de limpiar*/
+            isRequired={isRequired} // Indica si el input es obligatorio
+            type={type} // Tipo de input (texto, contraseña, etc.)
+            label={label} // Etiqueta del input
+            className={className} // Clase CSS personalizada
+            style={{ paddingBottom: "0px", paddingLeft: "0px" }} // Estilos personalizados
+            onClear={handleClear} // Manejar el evento onClear
+            onChange={onChange} // Callback para manejar cambios
+            value={value} // Asignar el valor controlado
         />
     );
 }
@@ -19,4 +34,6 @@ ReusableInput.propTypes = {
     type: PropTypes.string,
     className: PropTypes.string,
     isRequired: PropTypes.bool,
+    onChange: PropTypes.func,
+    value: PropTypes.string,
 };
