@@ -3,7 +3,7 @@ import { FaCaretDown, FaCaretUp } from 'react-icons/fa';
 import { Link } from '@nextui-org/react';
 import imgcollapsed from '../../assets/Isotipos/isotipo_variante_02.png';
 import './sidebar.css';
-import useRoutes from './routesSidebar.jsx';
+import useRoutes from './RoutesSidebar.jsx';
 
 const SidebarMenu = () => {
     const [expandedLinks, setExpandedLinks] = useState({});
