@@ -1,7 +1,7 @@
 // useRoutes.js
 import { FaHome, FaChartBar, FaUserGraduate, FaUserCog, FaWallet, FaCog, FaMinus } from "react-icons/fa";
 import { IoCalendarSharp, IoDocumentTextSharp  } from "react-icons/io5";
-import useTipoEmpleado from "../../Data/DataTipoEmpleado";
+import useTipoEmpleado from "../../data/DataTipoEmpleado";
 import { TiFlowParallel } from "react-icons/ti";
 
 const useRoutes = () => {

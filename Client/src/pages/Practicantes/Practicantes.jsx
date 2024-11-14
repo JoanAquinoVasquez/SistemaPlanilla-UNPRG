@@ -21,7 +21,7 @@ import { PlusIcon } from "../../components/Icons.jsx/PlusIcon";
 import { VerticalDotsIcon } from "../../components/Icons.jsx/VerticalDotsIcon";
 import { SearchIcon } from "../../components/Icons.jsx/SearchIcon";
 import { ChevronDownIcon } from "../../components/Icons.jsx/ChevronDownIcon";
-import { columns, users, statusOptions } from "../../data/datapracticantes";
+import { columns, users, statusOptions } from "../../data/dataPracticantes";
 import { capitalize } from "./utils";
 import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
 import { MdSummarize } from "react-icons/md";

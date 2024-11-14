@@ -14,7 +14,7 @@ import {
 } from "@nextui-org/react";
 import ReusableInput from "../Inputs/InputField";
 import PropTypes from "prop-types";
-import { tiposdocs } from "../../Data/DataTipoDoc";
+import { tiposdocs } from "../../data/DataTipoDoc";
 import axios from "axios";
 import { CalendarDate } from "@internationalized/date";
 import { toast, Toaster } from "react-hot-toast";
