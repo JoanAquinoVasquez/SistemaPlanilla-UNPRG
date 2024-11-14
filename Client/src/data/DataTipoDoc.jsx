@@ -1,6 +1,6 @@
 export const tiposdocs = [
-    { label: "Ley", value: "ley" },
-    { label: "Reglamento", value: "reglamento" },
-    { label: "Decreto", value: "decreto" },
+    { label: "Ley", value: "Ley" },
+    { label: "Reglamento", value: "Reglamento" },
+    { label: "Decreto", value: "Decreto" },
   ];
   
