@@ -16,7 +16,6 @@ import ReusableInput from "../Inputs/InputField";
 import PropTypes from "prop-types";
 import { tiposdocs } from "../../data/DataTipoDoc";
 import axios from "axios";
-import { CalendarDate } from "@internationalized/date";
 import { toast, Toaster } from "react-hot-toast";
 
 export default function Modal_New_Documento({ isOpen, onClose, onDocumentCreated }) {
@@ -54,20 +53,19 @@ export default function Modal_New_Documento({ isOpen, onClose, onDocumentCreated
             };
 
             await axios.post("/documentos", data);
-            toast.success("Documento guardado correctamente.");
-
-            // Llama a onDocumentCreated para actualizar la lista de documentos en el componente padre
-            if (onDocumentCreated) {
-                onDocumentCreated();
-            }
-
-            // Restablece el estado y cierra el modal inmediatamente después de guardar
             setNombre("");
             setTipo("");
             setFechaVigencia(null);
             setFechaFin(null);
             setEstado(true);
             onClose();
+            onDocumentCreated();
+
+            setTimeout(() => {
+                toast.success("Documento guardado correctamente.");
+            }, 1000); // Retraso de 1 segundo
+
+
         } catch (error) {
             toast.error("Error al guardar el documento: " + (error.response?.data?.message || error.message));
         }
@@ -81,6 +79,8 @@ export default function Modal_New_Documento({ isOpen, onClose, onDocumentCreated
             placement="top-center"
             size="3xl"
         >
+            <Toaster position="top-right" reverseOrder={false} />
+
             <ModalContent>
                 {(closeModal) => (
                     <>
@@ -88,7 +88,6 @@ export default function Modal_New_Documento({ isOpen, onClose, onDocumentCreated
                             Nuevo Documento
                         </ModalHeader>
                         <ModalBody>
-                             <Toaster position="top-right" reverseOrder={false} />
 
                             <div className="flex flex-col md:flex-row gap-4">
                                 <section className="relative flex-[3] p-4 border border-gray-300 rounded-lg">
@@ -105,6 +104,7 @@ export default function Modal_New_Documento({ isOpen, onClose, onDocumentCreated
                                             variant="flat"
                                             defaultItems={tiposdocs}
                                             className="flex-1 min-w-200"
+                                            style={{ paddingLeft: "0", paddingBottom: "0" }}
                                             onSelectionChange={(key) => setTipo(key)}
                                         >
                                             {(item) => (
@@ -118,7 +118,6 @@ export default function Modal_New_Documento({ isOpen, onClose, onDocumentCreated
                                         <DatePicker
                                             isRequired
                                             label="Fecha de inicio de vigencia"
-                                            placeholderValue={new CalendarDate(2024, 11, 6)}
                                             className="flex-1 min-w-200"
                                             aria-label="Fecha de inicio"
                                             onChange={(value) =>
@@ -127,7 +126,6 @@ export default function Modal_New_Documento({ isOpen, onClose, onDocumentCreated
                                         />
                                         <DatePicker
                                             label="Fecha de Fin"
-                                            placeholderValue={new CalendarDate(2024, 11, 6)}
                                             className="flex-1 min-w-200"
                                             aria-label="Fecha de fin"
                                             onChange={(value) =>
@@ -135,14 +133,18 @@ export default function Modal_New_Documento({ isOpen, onClose, onDocumentCreated
                                             }
                                         />
                                         <RadioGroup
-                                            value={estado.toString()}
-                                            onChange={(value) =>
-                                                setEstado(value === "true")
-                                            }
+                                            value={estado ? "true" : "false"}
+                                            onChange={(e) => {
+                                                const value = e.target.value;
+                                                const nuevoEstado = value === "true";
+                                                setEstado(nuevoEstado);
+                                                console.log("Estado después de setEstado:", nuevoEstado);
+                                            }}
                                         >
                                             <Radio value="true">Activo</Radio>
                                             <Radio value="false">Inactivo</Radio>
                                         </RadioGroup>
+
                                     </div>
                                 </section>
                             </div>

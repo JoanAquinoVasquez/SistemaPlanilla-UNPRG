@@ -48,5 +48,5 @@ export const columns = [
 // Opciones fijas para el estado de los documentos (solo Activo e Inactivo)
 export const statusOptions = [
   { name: "Activo", uid: "1" },
-  { name: "Inactivo", uid: "2" },
+  { name: "Inactivo", uid: "0" },
 ];
