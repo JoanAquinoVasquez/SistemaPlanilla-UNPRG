@@ -13,22 +13,12 @@ class Remuneracion extends Model
     protected $fillable = [
         'planilla_id',
         'empleado_tipo_id',
-        'empleado_tipo_num_doc_iden',
         'sueldo_bruto',
         'total_ingreso',
         'total_egreso',
         'sueldo_aporte',
-        'sueldo_neto',
+        'sueldo_neto'
     ];
-
-    /**
-     * Relación muchos a uno con Planilla.
-     * Una Remuneracion pertenece a una Planilla.
-     */
-    public function planilla()
-    {
-        return $this->belongsTo(Planilla::class, 'planilla_id');
-    }
 
     /**
      * Relación muchos a uno con EmpleadoTipo.
@@ -36,8 +26,16 @@ class Remuneracion extends Model
      */
     public function empleadoTipo()
     {
-        return $this->belongsTo(EmpleadoTipo::class, 'empleado_tipo_id', 'id_tipo_empleado')
-            ->where('empleado_tipo_num_doc_iden', 'num_doc_iden');
+        return $this->belongsTo(EmpleadoTipo::class);
+    }
+
+    /**
+     * Relación muchos a uno con Planilla.
+     * Una Remuneracion pertenece a una Planilla.
+     */
+    public function planilla()
+    {
+        return $this->belongsTo(Planilla::class);
     }
 
     /**
@@ -46,7 +44,7 @@ class Remuneracion extends Model
      */
     public function detalleAportaciones()
     {
-        return $this->hasMany(DetalleAportacion::class, 'remuneracion_id');
+        return $this->hasMany(DetalleAportacion::class);
     }
 
     /**
@@ -55,7 +53,7 @@ class Remuneracion extends Model
      */
     public function detallesEgreso()
     {
-        return $this->hasMany(DetalleEgreso::class, 'remuneracion_id');
+        return $this->hasMany(DetalleEgreso::class);
     }
 
     /**
@@ -64,6 +62,6 @@ class Remuneracion extends Model
      */
     public function detallesIngreso()
     {
-        return $this->hasMany(DetalleIngreso::class, 'remuneracion_id');
+        return $this->hasMany(DetalleIngreso::class);
     }
 }

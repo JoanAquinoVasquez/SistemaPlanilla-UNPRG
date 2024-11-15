@@ -12,33 +12,20 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('empleado_tipos', function (Blueprint $table) {
-            $table->foreignId('id_tipo_empleado')
-                ->constrained('tipo_empleados')
-                ->onDelete('cascade'); // FK y parte de la PK
-            $table->string('num_doc_iden', 20); // Cambiado a string para coincidir con el tipo en 'empleados' y parte de la PK
-            
-            $table->unsignedBigInteger('aportacion_id'); // Asegúrate de que es del mismo tipo que `id` en `aportacions`
-            
-            $table->foreign('aportacion_id')
-                ->references('id')
-                ->on('aportacions')
-                ->onDelete('cascade');
-                
-            $table->foreignId('banco_id')
-                ->constrained('bancos')
-                ->onDelete('cascade'); // FK a la tabla bancos
+            $table->id();
+
+            $table->foreignId('tipo_empleado_id')->constrained()->onDelete('cascade');
+            $table->string('empleado_num_doc_iden', 20);
+/*             $table->foreignId('aportacion_id')->constrained()->onDelete('cascade');
+ */            $table->foreignId('banco_id')->constrained()->onDelete('cascade');
+
             $table->string('tipo_cuenta', 50)->comment('Tipos posibles: ahorros, corriente, plazo_fijo, sueldo, cts');
-            $table->string('cci', 20); // CCI como cadena alfanumérica
-            $table->string('numero_cuenta', 20); // Número de cuenta como cadena para soportar valores con ceros iniciales
+            $table->string('cci', 20);
+            $table->string('numero_cuenta', 20);
             $table->boolean('estado')->default(true);
 
-            // Clave primaria compuesta (dni, codigo)
-            $table->primary(['id_tipo_empleado', 'num_doc_iden']);
-
-            $table->foreign('num_doc_iden')
-                ->references('num_doc_iden')
-                ->on('empleados')
-                ->onDelete('cascade');
+            // Agregar la restricción de clave foránea manualmente
+            $table->foreign('empleado_num_doc_iden')->references('num_doc_iden')->on('empleados')->onDelete('cascade');
 
             $table->timestamps();
         });

@@ -15,20 +15,12 @@ return new class extends Migration
             $table->id();
             $table->foreignId('aportacions_id')->constrained()->onDelete('cascade');
             $table->foreignId('remuneracion_id')->constrained()->onDelete('cascade');
-            // Clave foránea a 'empleado_tipos' para 'empleado_tipo_id'
-            $table->foreignId('empleado_tipo_id')
-                ->constrained('empleado_tipos', 'id_tipo_empleado')
-                ->onDelete('cascade');
-
-            // Clave foránea manual para 'empleado_tipo_num_doc_iden'
-            $table->string('empleado_tipo_num_doc_iden', 20);
-            $table->foreign('empleado_tipo_num_doc_iden')
-                ->references('num_doc_iden')
-                ->on('empleado_tipos')
-                ->onDelete('cascade');
+            $table->foreignId('empleado_tipo_id')->constrained()->onDelete('cascade');
 
             // Campo de monto
             $table->decimal('monto', 10, 2);
+            $table->date('fecha_inicio');
+            $table->date('fecha_fin');
             $table->timestamps();
         });
     }

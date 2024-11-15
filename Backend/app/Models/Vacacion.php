@@ -14,20 +14,15 @@ class Vacacion extends Model
     // Campos rellenables
     protected $fillable = [
         'empleado_tipo_id',
-        'empleado_tipo_num_doc_iden',
         'estado',
         'numero_dias',
         'periodo',
-        'detalle',
+        'detalle'
     ];
 
-    /**
-     * Relación muchos a uno con EmpleadoTipo.
-     * Una Vacacion pertenece a un EmpleadoTipo.
-     */
+    // Relación con el modelo EmpleadoTipo
     public function empleadoTipo()
     {
-        return $this->belongsTo(EmpleadoTipo::class, 'empleado_tipo_id', 'id_tipo_empleado')
-                    ->where('empleado_tipo_num_doc_iden', 'num_doc_iden');
+        return $this->belongsTo(EmpleadoTipo::class);
     }
 }

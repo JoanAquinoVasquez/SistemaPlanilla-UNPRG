@@ -21,8 +21,7 @@ class RemuneracionSeeder extends Seeder
             foreach ($empleadoTipos as $empleadoTipo) {
                 Remuneracion::create([
                     'planilla_id' => $planilla->id,
-                    'empleado_tipo_id' => $empleadoTipo->id_tipo_empleado,
-                    'empleado_tipo_num_doc_iden' => $empleadoTipo->num_doc_iden,
+                    'empleado_tipo_id' => $empleadoTipo->id,
                     'sueldo_bruto' => rand(1000, 5000), // Ejemplo de valor aleatorio de sueldo bruto
                     'total_ingreso' => rand(2000, 6000), // Ejemplo de valor aleatorio de ingreso total
                     'total_egreso' => rand(500, 1500), // Ejemplo de valor aleatorio de egreso total

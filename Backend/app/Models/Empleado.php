@@ -43,7 +43,8 @@ class Empleado extends Model
      */
     public function tipos()
     {
-        return $this->belongsToMany(TipoEmpleado::class, 'empleado_tipos', 'num_doc_iden', 'id_tipo_empleado')
-                    ->withPivot('banco_id', 'tipo_cuenta', 'cci', 'numero_cuenta');
+        return $this->belongsToMany(TipoEmpleado::class, 'empleado_tipos', 'empleado_num_doc_iden', 'tipo_empleado_id')
+            ->withPivot('aportacion_id', 'banco_id', 'tipo_cuenta', 'cci', 'numero_cuenta', 'estado')
+            ->withTimestamps();
     }
 }

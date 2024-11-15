@@ -24,14 +24,14 @@ class EmpleadoTipoSeeder extends Seeder
         foreach ($empleados as $empleado) {
             foreach ($tiposEmpleado as $tipo) {
                 EmpleadoTipo::create([
-                    'id_tipo_empleado' => $tipo->id,
-                    'aportacion_id'  => $aportaciones->random()->id,
-                    'num_doc_iden' => $empleado->num_doc_iden,
+                    'tipo_empleado_id' => $tipo->id,
+                    'empleado_num_doc_iden' => $empleado->num_doc_iden,
+                    /* 'aportacion_id'  => $aportaciones->random()->id, */
                     'banco_id' => $bancos->random()->id,
                     'tipo_cuenta' => collect(['ahorros', 'corriente', 'plazo_fijo', 'sueldo', 'cts'])->random(),
                     'cci' => fake()->numerify('#############'),
                     'numero_cuenta' => fake()->numerify('############'),
-                    'estado' => collect([0,1])->random()
+                    'estado' => collect([0, 1])->random()
                 ]);
             }
         }

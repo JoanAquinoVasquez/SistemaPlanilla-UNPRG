@@ -11,12 +11,20 @@ class DetalleAportacion extends Model
 
     // Campos rellenables
     protected $fillable = [
-        'aportacions_id',
-        'remuneracion_id',
         'empleado_tipo_id',
-        'empleado_tipo_num_doc_iden',
-        'monto',
+        'remuneracion_id',
+        'aportacions_id',
+        'monto'
     ];
+
+    /**
+     * Relación muchos a uno con EmpleadoTipo.
+     * Un DetalleAportacion pertenece a un EmpleadoTipo.
+     */
+    public function empleadoTipo()
+    {
+        return $this->belongsTo(EmpleadoTipo::class);
+    }
 
     /**
      * Relación muchos a uno con Aportacion.
@@ -24,7 +32,7 @@ class DetalleAportacion extends Model
      */
     public function aportacion()
     {
-        return $this->belongsTo(Aportacion::class, 'aportacions_id');
+        return $this->belongsTo(Aportacion::class);
     }
 
     /**
@@ -33,16 +41,6 @@ class DetalleAportacion extends Model
      */
     public function remuneracion()
     {
-        return $this->belongsTo(Remuneracion::class, 'remuneracion_id');
-    }
-
-    /**
-     * Relación muchos a uno con EmpleadoTipo.
-     * Un DetalleAportacion pertenece a un EmpleadoTipo.
-     */
-    public function empleadoTipo()
-    {
-        return $this->belongsTo(EmpleadoTipo::class, 'empleado_tipo_id', 'id_tipo_empleado')
-            ->where('empleado_tipo_num_doc_iden', 'num_doc_iden');
+        return $this->belongsTo(Remuneracion::class);
     }
 }

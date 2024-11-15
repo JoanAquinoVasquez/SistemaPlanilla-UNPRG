@@ -17,11 +17,23 @@ class AportacionSeeder extends Seeder
 
         $aportaciones = [
             [
-                'concepto' => 'Aporte a AFP',
+                'concepto' => 'AFP Habitat',
                 'sujeto_ley' => true,
             ],
             [
-                'concepto' => 'Aporte a ONP',
+                'concepto' => 'AFP Integra',
+                'sujeto_ley' => true,
+            ],
+            [
+                'concepto' => 'Prima AFP',
+                'sujeto_ley' => true,
+            ],
+            [
+                'concepto' => 'Profuturo AFP',
+                'sujeto_ley' => true,
+            ],
+            [
+                'concepto' => 'ONP',
                 'sujeto_ley' => true,
             ],
             [

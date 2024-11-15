@@ -7,6 +7,7 @@ use App\Models\DetalleAportacion;
 use App\Models\Aportacion;
 use App\Models\Remuneracion;
 use App\Models\EmpleadoTipo;
+use Carbon\Carbon;
 
 class DetalleAportacionSeeder extends Seeder
 {
@@ -25,9 +26,10 @@ class DetalleAportacionSeeder extends Seeder
                     DetalleAportacion::create([
                         'aportacions_id' => $aportacion->id,
                         'remuneracion_id' => $remuneracion->id,
-                        'empleado_tipo_id' => $empleadoTipo->id_tipo_empleado,
-                        'empleado_tipo_num_doc_iden' => $empleadoTipo->num_doc_iden,
-                        'monto' => rand(10, 100),
+                        'empleado_tipo_id' => $empleadoTipo->id,
+                        'monto' => rand(10, 50),
+                        'fecha_inicio' => Carbon::now()->subMonth()->startOfMonth(),
+                        'fecha_fin' => Carbon::now()->subMonth()->endOfMonth(),
                         /* 'monto' => rand(50, 500), */ // Valor aleatorio para el monto de la aportación
                     ]);
                 }

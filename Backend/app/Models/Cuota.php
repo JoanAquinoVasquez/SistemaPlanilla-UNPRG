@@ -23,6 +23,6 @@ class Cuota extends Model
      */
     public function prestamo()
     {
-        return $this->belongsTo(Prestamo::class, 'prestamo_id');
+        return $this->belongsTo(Prestamo::class);
     }
 }

@@ -12,14 +12,13 @@ class Prestamo extends Model
     // Campos rellenables
     protected $fillable = [
         'empleado_tipo_id',
-        'empleado_tipo_num_doc_iden',
         'banco_id',
         'fecha_inicio',
         'fecha_fin',
         'monto_prestado',
         'monto_restante',
         'numero_cuotas',
-        'estado',
+        'estado'
     ];
 
     /**
@@ -28,8 +27,7 @@ class Prestamo extends Model
      */
     public function empleadoTipo()
     {
-        return $this->belongsTo(EmpleadoTipo::class, 'empleado_tipo_id', 'id_tipo_empleado')
-            ->where('empleado_tipo_num_doc_iden', 'num_doc_iden');
+        return $this->belongsTo(EmpleadoTipo::class);
     }
 
     /**
@@ -38,7 +36,7 @@ class Prestamo extends Model
      */
     public function banco()
     {
-        return $this->belongsTo(Banco::class, 'banco_id');
+        return $this->belongsTo(Banco::class);
     }
 
     /**
@@ -47,7 +45,6 @@ class Prestamo extends Model
      */
     public function cuotas()
     {
-        return $this->hasMany(Cuota::class, 'prestamo_id');
+        return $this->hasMany(Cuota::class);
     }
-
 }

@@ -13,28 +13,15 @@ return new class extends Migration
     {
         Schema::create('prestamos', function (Blueprint $table) {
             $table->id();
-            // Claves foráneas a empleado_tipos
-            $table->foreignId('empleado_tipo_id')
-                ->constrained('empleado_tipos', 'id_tipo_empleado')
-                ->onDelete('cascade');
-
-            $table->string('empleado_tipo_num_doc_iden', 20);
-            $table->foreign('empleado_tipo_num_doc_iden')
-                ->references('num_doc_iden')
-                ->on('empleado_tipos')
-                ->onDelete('cascade');
-
-            // Clave foránea a bancos
-            $table->foreignId('banco_id')
-                ->constrained()
-                ->onDelete('cascade');
+            $table->foreignId('empleado_tipo_id')->constrained()->onDelete('cascade');
+            $table->foreignId('banco_id')->constrained()->onDelete('cascade');
 
             $table->date('fecha_inicio');
             $table->date('fecha_fin');
             $table->decimal('monto_prestado', 10, 2); // Cambiado de numeric a decimal
             $table->decimal('monto_restante', 10, 2); // Cambiado de numeric a decimal
             $table->integer('numero_cuotas');
-            $table->boolean('estado')->default(1); // Estado activo/inactivo como booleano
+            $table->boolean('estado')->default(true); // Estado activo/inactivo como booleano
 
             $table->timestamps();
         });

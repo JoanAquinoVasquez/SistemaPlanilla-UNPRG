@@ -23,8 +23,7 @@ class PrestamoSeeder extends Seeder
         foreach ($empleadoTipos as $empleadoTipo) {
             foreach ($bancos as $banco) {
                 Prestamo::create([
-                    'empleado_tipo_id' => $empleadoTipo->id_tipo_empleado,
-                    'empleado_tipo_num_doc_iden' => $empleadoTipo->num_doc_iden,
+                    'empleado_tipo_id' => $empleadoTipo->id,
                     'banco_id' => $banco->id,
                     'fecha_inicio' => Carbon::now()->subMonths(rand(1, 24)),
                     'fecha_fin' => Carbon::now()->addMonths(rand(1, 24)),

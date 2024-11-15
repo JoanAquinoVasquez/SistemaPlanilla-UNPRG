@@ -17,8 +17,7 @@ class ContratoSeeder extends Seeder
 
         foreach ($empleadoTipos as $empleadoTipo) {
             Contrato::create([
-                'empleado_tipo_id' => $empleadoTipo->id_tipo_empleado,
-                'empleado_tipo_num_doc_iden' => $empleadoTipo->num_doc_iden,
+                'empleado_tipo_id' => $empleadoTipo->id,
                 'sueldo_bruto' => fake()->randomFloat(2, 1500, 5000),
                 'fecha_inicio' => fake()->dateTimeBetween('-2 years', 'now')->format('Y-m-d'),
                 'fecha_fin' => fake()->dateTimeBetween('now', '+1 year')->format('Y-m-d'),

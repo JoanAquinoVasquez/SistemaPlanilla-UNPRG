@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Aportacion;
+use App\Models\Contrato;
 use App\Models\DetalleAportacion;
 use App\Models\DetalleEgreso;
 use App\Models\DetalleIngreso;
@@ -10,6 +11,7 @@ use App\Models\Empleado;
 use App\Models\EmpleadoTipo;
 use App\Models\Planilla;
 use App\Models\Remuneracion;
+use Google\Service\ServiceControl\Auth;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -37,18 +39,19 @@ class PlanillaController extends Controller
             //} else {
             // Si no existe, crear una nueva planilla
             $planilla = Planilla::create([
-                'user_id' => 1,
+                'user_id' => 1, //Auth::User->id();
                 'fecha_inicio' => $fechaInicio,
                 'fecha_fin' => $fechaFin,
                 'fecha_generacion' => now(),
                 'estado' => 1
             ]);
-            //}
+            //}                
 
             // Obtener todos los tipos de empleados junto con sus datos de empleados relacionados
             $empleadoTipos = EmpleadoTipo::where('estado', 1)
                 ->with(['empleado', 'tipoEmpleado'])
                 ->get();
+            //return $empleadoTipos;
 
             // Verificar si hay empleados disponibles
             if ($empleadoTipos->isEmpty()) {
@@ -62,36 +65,79 @@ class PlanillaController extends Controller
 
             foreach ($empleadoTipos as $empleadoTipo) {
                 try {
-                    // Verificar si existe la remuneración para el empleado actual
-                    $remuneracion = Remuneracion::where('empleado_tipo_num_doc_iden', $empleadoTipo->num_doc_iden)
+                    // Obtener el contrato activo del empleado y su sueldo bruto
+                    Log::info("Procesando empleado con ID: {$empleadoTipo->id}");
+
+                    // Obtener el contrato activo del empleado y su sueldo bruto
+                    $contrato = Contrato::where('empleado_tipo_id', $empleadoTipo->id)
+                        ->where('estado', true)
                         ->first();
 
-                    if (!$remuneracion) {
-                        throw new \Exception("No se encontró remuneración para el empleado con DNI: {$empleadoTipo->num_doc_iden}");
+                    if (!$contrato) {
+                        throw new \Exception("No se encontró contrato activo para el empleado con ID: {$empleadoTipo->id}");
                     }
 
-                    $sueldobruto = $remuneracion->sueldo_bruto ?? 0;
+                    Log::info("Contrato encontrado para empleado con ID: {$empleadoTipo->id}");
 
-                    // Calcular los egresos (descuentos)
-                    $egresos = DetalleEgreso::where('empleado_tipo_num_doc_iden', $empleadoTipo->num_doc_iden)
+                    $sueldoBruto = $contrato->sueldo_bruto;
+
+                    // Crear una entrada en la tabla remuneracion
+                    $remuneracion = Remuneracion::create([
+                        'planilla_id' => $planilla->id,
+                        'empleado_tipo_id' => $empleadoTipo->id,
+                        'sueldo_bruto' => $sueldoBruto,
+                        'total_ingreso' => 0.0,
+                        'total_egreso' => 0.0,
+                        'sueldo_aporte' => 0.0,
+                        'sueldo_neto' => 0.0
+                    ]);
+
+                    Log::info("Remuneración creada para empleado con ID: {$empleadoTipo->id}");
+
+                    // Filtrar y calcular los ingresos adicionales dentro del periodo
+                    $ingresos = DetalleIngreso::where('empleado_tipo_id', $empleadoTipo->id)
+                        ->where(function ($query) use ($fechaInicio, $fechaFin) {
+                            $query->whereBetween('fecha_inicio', [$fechaInicio, $fechaFin])
+                                ->orWhereBetween('fecha_fin', [$fechaInicio, $fechaFin]);
+                        })
                         ->sum('monto');
 
-                    // Calcular los aportes
-                    $aportes = DetalleAportacion::where('empleado_tipo_num_doc_iden', $empleadoTipo->num_doc_iden)
+
+                    // Filtrar y calcular los egresos dentro del periodo
+                    $egresos = DetalleEgreso::where('empleado_tipo_id', $empleadoTipo->id)
+                        ->where(function ($query) use ($fechaInicio, $fechaFin) {
+                            $query->whereBetween('fecha_inicio', [$fechaInicio, $fechaFin])
+                                ->orWhereBetween('fecha_fin', [$fechaInicio, $fechaFin]);
+                        })
                         ->sum('monto');
 
-                    // Calcular los ingresos adicionales
-                    $ingresos = DetalleIngreso::where('empleado_tipo_num_doc_iden', $empleadoTipo->num_doc_iden)
+                    // Filtrar y calcular los aportes dentro del periodo
+                    $aportes = DetalleAportacion::where('empleado_tipo_id', $empleadoTipo->id)
+                        ->where(function ($query) use ($fechaInicio, $fechaFin) {
+                            $query->whereBetween('fecha_inicio', [$fechaInicio, $fechaFin])
+                                ->orWhereBetween('fecha_fin', [$fechaInicio, $fechaFin]);
+                        })
                         ->sum('monto');
 
                     // Calcular el sueldo neto
-                    $sueldo_neto = $sueldobruto + $ingresos - $egresos;
+                    $sueldo_neto = $sueldoBruto + $ingresos - $egresos - $aportes;
+
+                    // Calcular el sueldo neto
+                    $sueldoNeto = $sueldoBruto + $ingresos - $egresos - $aportes;
+
+                    // Actualizar la remuneración con los valores calculados
+                    $remuneracion->update([
+                        'total_ingreso' => $ingresos,
+                        'total_egreso' => $egresos,
+                        'sueldo_aporte' => $aportes,
+                        'sueldo_neto' => $sueldoNeto
+                    ]);
 
                     // Agregar el resultado al array de planillas
                     $planillas[] = [
                         'id_planilla' => $planilla->id,
                         'empleado' => [
-                            'num_doc_iden' => $empleadoTipo->num_doc_iden,
+                            'num_doc_iden' => $empleadoTipo->empleado->num_doc_iden,
                             'nombres' => $empleadoTipo->empleado->nombres,
                             'apellido_paterno' => $empleadoTipo->empleado->apellido_paterno,
                             'apellido_materno' => $empleadoTipo->empleado->apellido_materno,
@@ -100,18 +146,17 @@ class PlanillaController extends Controller
                             'id_tipo_empleado' => $empleadoTipo->id_tipo_empleado,
                             'nombre' => $empleadoTipo->tipoEmpleado->nombre,
                         ],
-                        'sueldo_bruto' => $sueldobruto,
+                        'sueldo_bruto' => $sueldoBruto,
                         'ingresos' => $ingresos,
                         'egresos' => $egresos,
                         'aportes' => $aportes,
                         'sueldo_neto' => $sueldo_neto,
                     ];
                 } catch (\Exception $e) {
-                    Log::error("Error al procesar empleado con DNI: {$empleadoTipo->num_doc_iden} - {$e->getMessage()}");
+                    Log::error("Error al procesar empleado con ID: {$empleadoTipo->id} - {$e->getMessage()}");
                     continue;
                 }
             }
-
             // Verificar si se generaron planillas
             if (empty($planillas)) {
                 return response()->json([
@@ -137,15 +182,11 @@ class PlanillaController extends Controller
         }
     }
 
-    public function generarBoletaIndividual($id_tipo_empleado, $num_doc_iden): JsonResponse
+    public function generarBoletaIndividual($id): JsonResponse
     {
         try {
             // Obtener el empleado por su tipo y número de documento
-            $empleadoTipo = EmpleadoTipo::where('id_tipo_empleado', $id_tipo_empleado)
-                ->whereHas('empleado', function ($query) use ($num_doc_iden) {
-                    $query->where('num_doc_iden', $num_doc_iden);
-                })
-                ->with(['empleado', 'tipoEmpleado'])
+            $empleadoTipo = EmpleadoTipo::where('id', $id)
                 ->first();
 
             // Verificar si el empleado existe
@@ -157,8 +198,7 @@ class PlanillaController extends Controller
             }
 
             // Obtener la remuneración del empleado
-            $remuneracion = Remuneracion::where('empleado_tipo_num_doc_iden', $num_doc_iden)
-                ->where('empleado_tipo_id', $id_tipo_empleado)
+            $remuneracion = Remuneracion::where('empleado_tipo_num_doc_iden', $empleadoTipo->num_doc_iden)
                 ->first();
 
             // Verificar si existe información de remuneración
@@ -172,22 +212,19 @@ class PlanillaController extends Controller
             $sueldobruto = $remuneracion->sueldo_bruto ?? 0;
 
             // Calcular los egresos (descuentos)
-            $egresos = DB::table('detalle_egresos')
-                ->where('empleado_tipo_num_doc_iden', $num_doc_iden)
+            $egresos = DetalleEgreso::where('empleado_tipo_num_doc_iden', $empleadoTipo->num_doc_iden)
                 ->sum('monto');
 
             // Calcular los aportes
-            $aportes = DB::table('detalle_aportacions')
-                ->where('empleado_tipo_num_doc_iden', $num_doc_iden)
+            $aportes = DetalleAportacion::where('empleado_tipo_num_doc_iden', $empleadoTipo->num_doc_iden)
                 ->sum('monto');
 
             // Calcular los ingresos adicionales
-            $ingresos = DB::table('detalle_ingresos')
-                ->where('empleado_tipo_num_doc_iden', $num_doc_iden)
+            $ingresos = DetalleIngreso::where('empleado_tipo_num_doc_iden', $empleadoTipo->num_doc_iden)
                 ->sum('monto');
 
             // Calcular el sueldo neto
-            $sueldo_neto = $sueldobruto + $ingresos - $egresos - $aportes;
+            $sueldo_neto = $sueldobruto + $ingresos - $egresos;
 
             // Crear la boleta de pago con los detalles
             $boleta = [

@@ -17,8 +17,7 @@ class LicenciaSeeder extends Seeder
 
         foreach ($empleadoTipos as $empleadoTipo) {
             Licencia::create([
-                'empleado_tipo_id' => $empleadoTipo->id_tipo_empleado,
-                'empleado_tipo_num_doc_iden' => $empleadoTipo->num_doc_iden,
+                'empleado_tipo_id' => $empleadoTipo->id,
                 'estado' => true,
                 'numero_dias' => fake()->numberBetween(1, 15), // Número de días de licencia
                 'goze' => fake()->boolean(), // Indica si la licencia es con goce de haber

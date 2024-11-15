@@ -11,20 +11,19 @@ class DetalleEgreso extends Model
 
     // Campos rellenables
     protected $fillable = [
-        'aportacions_id',
-        'remuneracion_id',
         'empleado_tipo_id',
-        'empleado_tipo_num_doc_iden',
-        'monto',
+        'remuneracion_id',
+        'egreso_id',
+        'monto'
     ];
 
     /**
      * Relación muchos a uno con Aportacion.
      * Un DetalleEgreso pertenece a una Aportacion.
      */
-    public function aportacion()
+    public function egresos()
     {
-        return $this->belongsTo(Aportacion::class, 'aportacions_id');
+        return $this->belongsTo(Egreso::class);
     }
 
     /**
@@ -33,7 +32,7 @@ class DetalleEgreso extends Model
      */
     public function remuneracion()
     {
-        return $this->belongsTo(Remuneracion::class, 'remuneracion_id');
+        return $this->belongsTo(Remuneracion::class);
     }
 
     /**
@@ -42,7 +41,6 @@ class DetalleEgreso extends Model
      */
     public function empleadoTipo()
     {
-        return $this->belongsTo(EmpleadoTipo::class, 'empleado_tipo_id', 'id_tipo_empleado')
-            ->where('empleado_tipo_num_doc_iden', 'num_doc_iden');
+        return $this->belongsTo(EmpleadoTipo::class);
     }
 }

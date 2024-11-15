@@ -4,9 +4,10 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\DetalleIngreso;
-use App\Models\Aportacion;
 use App\Models\Remuneracion;
 use App\Models\EmpleadoTipo;
+use App\Models\Ingreso;
+use Carbon\Carbon;
 
 class DetalleIngresoSeeder extends Seeder
 {
@@ -16,19 +17,20 @@ class DetalleIngresoSeeder extends Seeder
     public function run()
     {
         // Obtener todas las aportaciones, remuneraciones y tipos de empleados
-        $aportaciones = Aportacion::all();
+        $ingresos = Ingreso::all();
         $remuneraciones = Remuneracion::all();
         $empleadoTipos = EmpleadoTipo::all();
 
-        foreach ($aportaciones as $aportacion) {
+        foreach ($ingresos as $ingreso) {
             foreach ($remuneraciones as $remuneracion) {
                 foreach ($empleadoTipos as $empleadoTipo) {
                     DetalleIngreso::create([
-                        'aportacions_id' => $aportacion->id,
+                        'ingreso_id' => $ingreso->id,
                         'remuneracion_id' => $remuneracion->id,
-                        'empleado_tipo_id' => $empleadoTipo->id_tipo_empleado,
-                        'empleado_tipo_num_doc_iden' => $empleadoTipo->num_doc_iden,
-                        'monto' => rand(10, 100),
+                        'empleado_tipo_id' => $empleadoTipo->id,
+                        'monto' => rand(10, 50),
+                        'fecha_inicio' => Carbon::now()->subMonth()->startOfMonth(),
+                        'fecha_fin' => Carbon::now()->subMonth()->endOfMonth(),
                         //'monto' => rand(100, 1000), // Valor aleatorio para simular el monto de ingreso
                     ]);
                 }

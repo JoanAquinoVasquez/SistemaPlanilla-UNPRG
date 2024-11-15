@@ -29,16 +29,16 @@ class Aportacion extends Model
      * Relación uno a muchos con DetalleAportacion.
      * Una Aportacion puede tener múltiples DetalleAportacion.
      */
-    public function detalles()
+    public function detalleAportaciones()
     {
-        return $this->hasMany(DetalleAportacion::class, 'aportacions_id');
+        return $this->hasMany(DetalleAportacion::class, 'aportacion_id');
     }
 
     /**
      * Relación uno a muchos con DetalleEgreso.
      * Una Aportacion puede tener múltiples DetalleEgreso.
      */
-    public function detallesEgreso()
+    public function detallesEgresos()
     {
         return $this->hasMany(DetalleEgreso::class, 'aportacions_id');
     }
@@ -47,14 +47,15 @@ class Aportacion extends Model
      * Relación uno a muchos con DetalleIngreso.
      * Una Aportacion puede tener múltiples DetalleIngreso.
      */
-    public function detallesIngreso()
+    public function detallesIngresos()
     {
         return $this->hasMany(DetalleIngreso::class, 'aportacions_id');
     }
 
+
     // Definimos la relación uno a uno con EmpleadoTipo
-    public function empleadoTipo()
+    /* public function empleadoTipo()
     {
         return $this->hasOne(EmpleadoTipo::class, 'aportacion_id');
-    }
+    } */
 }

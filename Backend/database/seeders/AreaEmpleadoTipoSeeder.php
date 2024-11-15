@@ -14,17 +14,24 @@ class AreaEmpleadoTipoSeeder extends Seeder
      */
     public function run()
     {
-        $areas = Area::all();
+        // Obtener todos los empleados y áreas
         $empleadoTipos = EmpleadoTipo::all();
+        $areas = Area::all();
 
+        // Iterar por cada empleado_tipo
         foreach ($empleadoTipos as $empleadoTipo) {
-            foreach ($areas->random(5) as $area) {
+            $isFirst = true; // Usado para asignar estado true solo al primer área
+
+            foreach ($areas as $area) {
+                // Crear el registro usando el modelo AreaEmpleadoTipo
                 AreaEmpleadoTipo::create([
-                    'empleado_tipo_id' => $empleadoTipo->id_tipo_empleado,
-                    'empleado_tipo_num_doc_iden' => $empleadoTipo->num_doc_iden,
+                    'empleado_tipo_id' => $empleadoTipo->id,
                     'area_id' => $area->id,
-                    'estado' => true,
+                    'estado' => $isFirst ? true : false, // Asigna true solo al primer área
                 ]);
+                
+                // Después del primer área, establecer isFirst a false para que los siguientes sean estado false
+                $isFirst = false;
             }
         }
     }

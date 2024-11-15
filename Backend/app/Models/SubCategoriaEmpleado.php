@@ -20,8 +20,9 @@ class SubCategoriaEmpleado extends Model
      * Relación muchos a uno con CategoriaEmpleado.
      * Una SubCategoriaEmpleado pertenece a una CategoriaEmpleado.
      */
+    // Relación muchos a uno: Una SubCategoriaEmpleado pertenece a una CategoriaEmpleado
     public function categoriaEmpleado()
     {
-        return $this->belongsTo(CategoriaEmpleado::class, 'categoria_empleado_id');
+        return $this->belongsTo(CategoriaEmpleado::class, 'id_categoria');
     }
 }

@@ -15,10 +15,7 @@ return new class extends Migration
             $table->id();
 
             // Clave foránea a la tabla prestamos
-            $table->foreignId('prestamo_id')
-                ->constrained()
-                ->onDelete('cascade');
-
+            $table->foreignId('prestamo_id')->constrained()->onDelete('cascade');
 
             $table->date('fecha');
             $table->decimal('monto', 10, 2);

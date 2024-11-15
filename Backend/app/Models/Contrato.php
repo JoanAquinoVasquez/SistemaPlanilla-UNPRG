@@ -11,7 +11,6 @@ class Contrato extends Model
 
     protected $fillable = [
         'empleado_tipo_id',
-        'empleado_tipo_num_doc_iden',
         'sueldo_bruto',
         'fecha_inicio',
         'fecha_fin',
@@ -19,16 +18,12 @@ class Contrato extends Model
         'tipo_documento',
         'numero_documento',
         'regimen_laboral',
-        'horas_trabajo',
+        'horas_trabajo'
     ];
 
-    /**
-     * Relación muchos a uno con EmpleadoTipo.
-     * Un Contrato pertenece a un EmpleadoTipo.
-     */
+    // Relación con el modelo EmpleadoTipo
     public function empleadoTipo()
     {
-        return $this->belongsTo(EmpleadoTipo::class, 'empleado_tipo_id', 'id_tipo_empleado')
-                    ->where('empleado_tipo_num_doc_iden', 'num_doc_iden');
+        return $this->belongsTo(EmpleadoTipo::class);
     }
 }

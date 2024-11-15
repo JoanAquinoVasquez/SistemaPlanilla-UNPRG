@@ -71,8 +71,7 @@ Route::middleware(['auth:api'])->group(function () {
     Route::apiResource('bancos', BancoController::class);
     //EmpleadoTIpo
     Route::apiResource('empleado-tipos', EmpleadoTipoController::class);
-    //Listar Practicantes 
-    Route::get('practicantes', [EmpleadoTipoController::class, 'allPracticantes']);
+
     //ControlAsistencia
     Route::apiResource('control-asistencias', ControlAsistenciaController::class);
     //Contrato
@@ -89,7 +88,6 @@ Route::middleware(['auth:api'])->group(function () {
     Route::apiResource('areas', AreaController::class);
     //AreaEmpleadoTipo
     Route::apiResource('area-empleado-tipos', AreaEmpleadoTipoController::class);
-
     //Ingreso
     Route::apiResource('ingresos', IngresoController::class);
     //Egreso
@@ -103,16 +101,24 @@ Route::middleware(['auth:api'])->group(function () {
     //DetalleAportacion
     Route::apiResource('detalle-aportaciones', DetalleAportacionController::class);
 
+    Route::get('practicantes/{id}', [EmpleadoTipoController::class, 'allPracticantes']);
     //Remuneracion
     /* Route::apiResource('remuneraciones', RemuneracionController::class);
 
     //Planilla
     Route::apiResource('planillas', PlanillaController::class); */
+
+    //Generacion de reporte en Excel para Practicante
+    Route::get('/exportar-reporte-practicante', [ExportController::class, 'exportExcel']);
 });
 
+//Generacion de Planilla para todos los EmpleadoTipo
 Route::get('/generar-planilla', [PlanillaController::class, 'generarPlanilla']);
+//Generacion de Planilla
 Route::get('/generar-boleta/{id_tipo_empleado}/{num_doc_iden}', [PlanillaController::class, 'generarBoletaIndividual']);
 
+//Listar Todos los EmpleadoTipo 
+Route::get('all-empleado-tipo/{id}', [EmpleadoTipoController::class, 'getEmpleadoTipoData']);
 
 Route::post('/google-login', [AuthController::class, 'googleLogin']);
 Route::get('/check-auth', [AuthController::class, 'checkAuth']); // Nueva ruta para verificar autenticación

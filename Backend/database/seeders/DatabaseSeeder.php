@@ -20,34 +20,41 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             UsersTableSeeder::class,
+            EmpleadoSeeder::class,
             DocumentoSeeder::class,
+            BancoSeeder::class,
             FormulaSeeder::class,
+            AreaSeeder::class,
+            TipoEmpleadoSeeder::class,
+
             ParametroSeeder::class,
             FormulaParametroSeeder::class,
-            TipoEmpleadoSeeder::class,
+
             SubTipoEmpleadoSeeder::class,
             CategoriaEmpleadoSeeder::class,
             SubCategoriaEmpleadoSeeder::class,
-            ParentescoSeeder::class,
-            EmpleadoSeeder::class,
+
+            ParentescoSeeder::class,            
             DetalleFamiliaSeeder::class,
-            BancoSeeder::class,            
-            ControlAsistenciaSeeder::class,
-            ContratoSeeder::class,
-            VacacionSeeder::class,
-            LicenciaSeeder::class,
-            AreaSeeder::class,
-            AreaEmpleadoTipoSeeder::class,
+
             EgresoSeeder::class,
             IngresoSeeder::class,
             AportacionSeeder::class,
+
             EmpleadoTipoSeeder::class,
-       
+            AreaEmpleadoTipoSeeder::class,
+
+            ContratoSeeder::class,
+            ControlAsistenciaSeeder::class,            
+            VacacionSeeder::class,
+            LicenciaSeeder::class,
+
             PrestamoSeeder::class,
-            DocumentoSeeder::class,
             CuotaSeeder::class,
+                        
             PlanillaSeeder::class,
             RemuneracionSeeder::class,
+            
             DetalleAportacionSeeder::class,
             DetalleEgresoSeeder::class,
             DetalleIngresoSeeder::class,
