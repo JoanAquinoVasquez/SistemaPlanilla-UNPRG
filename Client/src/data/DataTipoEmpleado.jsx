@@ -11,7 +11,6 @@ export default function useTipoEmpleado() {
         const tipoempleadoData = response.data.map((empleado) => ({
           label: empleado.nombre,
         }));
-        console.log("tipoempleadoData", tipoempleadoData);
 
         setTipoEmpleados(tipoempleadoData); 
       } catch (error) {

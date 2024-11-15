@@ -11,6 +11,8 @@
   
   .li-sidebar:hover {
     background-color: #daeffc; 
+    color-interpolation-filters: #a31b4f;
+    color: #fdf1f4;
     border-radius: 5px;
   }
   

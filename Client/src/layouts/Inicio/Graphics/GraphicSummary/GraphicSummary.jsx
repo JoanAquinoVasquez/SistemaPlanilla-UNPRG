@@ -7,7 +7,7 @@ import {
   Button,
   Checkbox,
 } from "@nextui-org/react";
-import { FaFilter, FaRegUser, FaMoneyBill, FaUpload } from "react-icons/fa";
+import { FaFilter, FaUpload } from "react-icons/fa";
 import {
   LineChart,
   Line,
@@ -23,7 +23,6 @@ import {
   categories,
   categoryColors,
 } from "../../../../data/dataSalarios";
-import CustomCard from "../../../../components/Cards/Cards";
 
 export default function GraphicSummary() {
   const [selectedCategories, setSelectedCategories] = useState([]);
@@ -61,53 +60,12 @@ export default function GraphicSummary() {
     });
   }, [selectedCategories]);
 
-  const totalFilteredValue = useMemo(() => {
-    if (selectedCategories.length === 1 && selectedSubcategory) {
-      return salaryData.reduce((total, data) => {
-        return total + (data[selectedSubcategory] || 0);
-      }, 0);
-    } else {
-      return salaryData.reduce((total, data) => {
-        let sum = 0;
-        selectedCategories.forEach((category) => {
-          sum += categories[category].reduce(
-            (catSum, subcat) => catSum + (data[subcat] || 0),
-            0
-          );
-        });
-        return total + sum;
-      }, 0);
-    }
-  }, [selectedCategories, selectedSubcategory]);
 
   return (
     <div className="bg-white flex" style={{ height: "max-content" }}>
-      {/* Aquí las tarjetas estarán visibles solo en pantallas lg o más grandes */}
-      <div className="cards-pensionistas flex flex-col gap-4 justify-between mr-5 hidden lg:flex">
-        <CustomCard
-          icon={<FaRegUser size={40} />}
-          iconColor="text-purple-400"
-          backgroundColor="#f4f4fb"
-          title="Total del personal"
-          value="1,256"
-        />
-        <CustomCard
-          icon={<FaRegUser size={40} />}
-          iconColor="text-yellow-400"
-          backgroundColor="#fff4e5"
-          title="Docentes Contratados"
-          value="456"
-        />
-        <CustomCard
-          icon={<FaMoneyBill size={40} />}
-          iconColor="text-blue-400"
-          backgroundColor="#f1f9fe"
-          title="Monto"
-          value={`S/. ${new Intl.NumberFormat("es").format(totalFilteredValue)}`}
-        />
-      </div>
 
-      <div className="rounded-lg px-4 shadow-md w-full" style={{ height: "max-content" }}>
+
+      <div className="rounded-lg px-4  w-full" style={{ height: "max-content" }}>
         <div className="flex items-center justify-between mb-4">
           <p className="text-xl font-medium text-black">Salarios de Docentes</p>
           <div className="flex items-center justify-end">

@@ -1,5 +1,4 @@
 // ExportarExcelButton.js
-import React from "react";
 import { Button } from "@nextui-org/react";
 import { FaUpload } from "react-icons/fa";
 import axios from "axios";

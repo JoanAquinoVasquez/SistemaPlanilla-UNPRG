@@ -55,7 +55,7 @@ function Navbar() {
             />
           </DropdownTrigger>
           <DropdownMenu aria-label="Profile Actions" variant="flat">
-            <DropdownItem key="logout" color="danger" onClick={() => handleLogout(navigate)}>
+            <DropdownItem key="logout" color="danger" onClick={() => handleLogout(navigate,"Sesión cerrada correctamente")}>
               Cerrar sesión
             </DropdownItem>
           </DropdownMenu>
