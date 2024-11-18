@@ -109,12 +109,12 @@ Route::middleware(['auth:api'])->group(function () {
     //Planilla
     Route::apiResource('planillas', PlanillaController::class); */
 
+    //Listar Todos los EmpleadoTipo 
+    Route::get('all-empleado-tipo/{id}', [EmpleadoTipoController::class, 'getEmpleadoTipoData']);
+
     //Generacion de reporte en Excel para Practicante
     Route::get('/exportar-reporte-practicante', [ExportController::class, 'exportExcel']);
 });
-
-//Listar Todos los EmpleadoTipo 
-Route::get('all-empleado-tipo/{id}', [EmpleadoTipoController::class, 'getEmpleadoTipoData']);
 
 
 //Generacion de Planilla para todos los EmpleadoTipo

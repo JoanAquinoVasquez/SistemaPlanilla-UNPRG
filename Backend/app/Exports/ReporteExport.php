@@ -19,21 +19,29 @@ class ReporteExport implements FromCollection, WithHeadings
 
     public function collection()
     {
-        // Mapear los datos para incluir solo los campos necesarios y procesar las relaciones
         return $this->empleadoTipos->map(function ($empleadoTipo) {
             return [
                 'Tipo Documento' => $empleadoTipo->empleado->tipo_doc_iden,
-                'Documento' => $empleadoTipo->num_doc_iden,
-                'Nombre' => $empleadoTipo->empleado->nombres,
+                'Número de Documento' => $empleadoTipo->empleado_num_doc_iden,
                 'Apellido Paterno' => $empleadoTipo->empleado->apellido_paterno,
                 'Apellido Materno' => $empleadoTipo->empleado->apellido_materno,
-                'Tipo de Documento' => $empleadoTipo->empleado->tipo_doc_iden,
-                'Fecha de Nacimiento' => $empleadoTipo->empleado->fecha_nacimiento,
+                'Nombre' => $empleadoTipo->empleado->nombres,
+                'Area Loboral Actual' => $empleadoTipo->areaActiva->area->nombre,
+                'Oficina' => $empleadoTipo->areaActiva?->area?->oficina,
+                'Unidad' => $empleadoTipo->areaActiva?->area?->unidad,
+                'Facultad' => $empleadoTipo->areaActiva?->area?->facultad,
+                'Escuela' => $empleadoTipo->areaActiva?->area?->escuela,
+
+                'Tipo Empleado' => $empleadoTipo->tipoEmpleado->nombre,
+                'Sub Tipo Empleado' => $empleadoTipo->subTipoEmpleado->nombre,
+
+                /* 'Fecha de Nacimiento' => $empleadoTipo->empleado->fecha_nacimiento,
                 'Sexo' => $empleadoTipo->empleado->sexo,
                 'Estado Civil' => $empleadoTipo->empleado->estado_civil,
                 'Dirección' => $empleadoTipo->empleado->direccion,
                 'Teléfono' => $empleadoTipo->empleado->telefono,
-                'Email' => $empleadoTipo->empleado->email,
+                'Email' => $empleadoTipo->empleado->email, */
+
                 'Banco' => $empleadoTipo->banco->nombre,
                 'Tipo de Cuenta' => $empleadoTipo->tipo_cuenta,
                 'CCI' => $empleadoTipo->cci,
@@ -47,17 +55,23 @@ class ReporteExport implements FromCollection, WithHeadings
     {
         return [
             'Tipo Documento',
-            'Documento',
-            'Nombre',
+            'Número de Documento',
             'Apellido Paterno',
             'Apellido Materno',
-            'Tipo de Documento',
-            'Fecha de Nacimiento',
+            'Nombre',
+            'Area Loboral Actual',
+            'Oficina',
+            'Unidad',
+            'Facultad',
+            'Escuela',
+            'Tipo Empleado',
+            'Sub Tipo Empleado',
+            /* 'Fecha de Nacimiento',
             'Sexo',
             'Estado Civil',
             'Dirección',
             'Teléfono',
-            'Email',
+            'Email', */
             'Banco',
             'Tipo de Cuenta',
             'CCI',
@@ -65,6 +79,7 @@ class ReporteExport implements FromCollection, WithHeadings
             'Estado',
         ];
     }
+
 
     /*     public function styles(Worksheet $sheet)
     {

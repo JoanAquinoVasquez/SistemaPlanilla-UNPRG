@@ -116,8 +116,7 @@ class EmpleadoTipoController extends Controller
             ], 500);
         }
     }
-
-
+    
     public function update(Request $request, $idTipoEmpleado, $numDocIden)
     {
         $empleadoTipo = EmpleadoTipo::where('id_tipo_empleado', $idTipoEmpleado)
