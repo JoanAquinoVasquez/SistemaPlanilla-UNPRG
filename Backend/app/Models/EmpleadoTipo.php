@@ -36,6 +36,21 @@ class EmpleadoTipo extends Model
         return $this->belongsTo(TipoEmpleado::class);
     }
 
+    public function subTipoEmpleado()
+    {
+        return $this->belongsTo(SubTipoEmpleado::class);
+    }
+
+    public function categoriaEmpleado()
+    {
+        return $this->belongsTo(CategoriaEmpleado::class);
+    }
+
+    public function subCategoriaEmpleado()
+    {
+        return $this->belongsTo(SubCategoriaEmpleado::class);
+    }
+
     /**
      * Relación muchos a uno con Empleado.
      * Un EmpleadoTipo pertenece a un Empleado.
@@ -128,7 +143,6 @@ class EmpleadoTipo extends Model
     }
 
 
-
     /**
      * Relación uno a muchos con DetalleEgreso.
      * Un EmpleadoTipo puede estar en varias DetalleEgreso.
@@ -155,7 +169,7 @@ class EmpleadoTipo extends Model
     {
         return $this->hasMany(DetalleAportacion::class);
     }
-    
+
     // Relación para obtener solo el tipo de aportación específico (AFP o ONP)
     public function aportacionPension()
     {

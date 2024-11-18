@@ -28,4 +28,9 @@ class SubCategoriaEmpleado extends Model
     {
         return $this->belongsTo(CategoriaEmpleado::class, 'id_categoria');
     }
+
+    public function empleadoTipos()
+    {
+        return $this->hasMany(EmpleadoTipo::class);
+    }
 }

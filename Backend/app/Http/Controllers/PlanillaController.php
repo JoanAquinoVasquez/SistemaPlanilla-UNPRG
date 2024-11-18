@@ -11,6 +11,9 @@ use App\Models\Empleado;
 use App\Models\EmpleadoTipo;
 use App\Models\Planilla;
 use App\Models\Remuneracion;
+use App\Models\SubCategoriaEmpleado;
+use App\Models\SubTipoEmpleado;
+use App\Models\TipoEmpleado;
 use Google\Service\ServiceControl\Auth;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -271,5 +274,10 @@ class PlanillaController extends Controller
                 'error' => $e->getMessage(),
             ], 500);
         }
+    }
+
+    public function testing(){
+        $subCategoria = SubCategoriaEmpleado::all();/* with('tipoEmpleado', 'categorias')->get(); */
+        return $subCategoria;
     }
 }

@@ -103,7 +103,6 @@ Route::middleware(['auth:api'])->group(function () {
     //DetalleAportacion
     Route::apiResource('detalle-aportaciones', DetalleAportacionController::class);
 
-    Route::get('practicantes/{id}', [EmpleadoTipoController::class, 'allPracticantes']);
     //Remuneracion
     /* Route::apiResource('remuneraciones', RemuneracionController::class);
 
@@ -114,12 +113,18 @@ Route::middleware(['auth:api'])->group(function () {
     Route::get('/exportar-reporte-practicante', [ExportController::class, 'exportExcel']);
 });
 
+//Listar Todos los EmpleadoTipo 
+Route::get('all-empleado-tipo/{id}', [EmpleadoTipoController::class, 'getEmpleadoTipoData']);
+
+
 //Generacion de Planilla para todos los EmpleadoTipo
 Route::get('/generar-planilla', [PlanillaController::class, 'generarPlanilla']);
 //Generacion de Planilla
 Route::get('/generar-boleta/{id_tipo_empleado}/{num_doc_iden}', [PlanillaController::class, 'generarBoletaIndividual']);
 
-//Listar Todos los EmpleadoTipo 
-Route::get('all-empleado-tipo/{id}', [EmpleadoTipoController::class, 'getEmpleadoTipoData']);
+
+Route::get('/test', [PlanillaController::class, 'testing']);
+
+
 
 Route::post('/google-login', [AuthController::class, 'googleLogin']);

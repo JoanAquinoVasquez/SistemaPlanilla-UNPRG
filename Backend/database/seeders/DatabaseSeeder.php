@@ -33,7 +33,7 @@ class DatabaseSeeder extends Seeder
             SubTipoEmpleadoSeeder::class,
             CategoriaEmpleadoSeeder::class,
             SubCategoriaEmpleadoSeeder::class,
-
+            
             ParentescoSeeder::class,            
             DetalleFamiliaSeeder::class,
 
@@ -50,7 +50,7 @@ class DatabaseSeeder extends Seeder
             LicenciaSeeder::class,
 
             PrestamoSeeder::class,
-            //CuotaSeeder::class,
+            CuotaSeeder::class,
                         
             PlanillaSeeder::class,
             RemuneracionSeeder::class,

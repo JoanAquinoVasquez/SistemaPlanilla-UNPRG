@@ -13,11 +13,13 @@ return new class extends Migration
     {
         Schema::create('empleado_tipos', function (Blueprint $table) {
             $table->id();
-
-            $table->foreignId('tipo_empleado_id')->constrained()->onDelete('cascade');
+            
             $table->string('empleado_num_doc_iden', 20);
-/*             $table->foreignId('aportacion_id')->constrained()->onDelete('cascade');
- */            $table->foreignId('banco_id')->constrained()->onDelete('cascade');
+            $table->foreignId('tipo_empleado_id')->constrained()->onDelete('cascade');
+            $table->foreignId('sub_tipo_empleado_id')->constrained()->onDelete('cascade');
+            $table->foreignId('categoria_empleado_id')->nullable()->constrained()->onDelete('cascade');
+            $table->foreignId('sub_categoria_empleado_id')->nullable()->constrained()->onDelete('cascade');
+            $table->foreignId('banco_id')->constrained()->onDelete('cascade');
 
             $table->string('tipo_cuenta', 50)->comment('Tipos posibles: ahorros, corriente, plazo_fijo, sueldo, cts');
             $table->string('cci', 20);

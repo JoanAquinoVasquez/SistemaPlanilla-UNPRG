@@ -37,4 +37,9 @@ class SubTipoEmpleado extends Model
     {
         return $this->hasMany(CategoriaEmpleado::class, 'sub_tipo_empleado_id');
     }
+
+    public function empleadoTipos()
+    {
+        return $this->hasMany(EmpleadoTipo::class);
+    }
 }
