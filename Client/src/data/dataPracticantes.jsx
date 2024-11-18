@@ -19,7 +19,7 @@ export default function usePracticantes() {
         estado: practicante.estado,
         banco: practicante.banco?.nombre || "Sin asignar",
         unidad: practicante.area_activa?.area?.nombre || "Sin asignar",
-        oficina_area: practicante.area_activa?.area?.oficina || "Sin asignar",
+        oficina: practicante.area_activa?.area?.oficina || "Sin asignar",
         sub_tipo_empleado: practicante.sub_tipo_empleado.nombre || "Sin asignar",
         aporte: practicante.aportacion_pension?.concepto || "Sin asignar",
       }));
@@ -42,10 +42,10 @@ export default function usePracticantes() {
   
 export const columns = [
   { name: "NOMBRE COMPLETO", uid: "name", sortable: true },
-  { name: "TIPO DE DOC.", uid: "tipo_doc_iden" },
+  { name: "DOC. DE INDENTIDAD", uid: "tipo_doc_iden", sortable: true},
   { name: "NUMERO DE CUENTA", uid: "numerodecuenta" },
   { name: "UNIDAD", uid: "unidad", sortable: true },
-  { name: "SUBTIPO", uid: "sub_tipo_empleado", sortable: true }, // Subtipo agregado
+  { name: "TIPO", uid: "sub_tipo_empleado", sortable: true }, // Subtipo agregado
   { name: "APORTE", uid: "aporte", sortable: true },
   { name: "ESTADO", uid: "estado", sortable: true },
   { name: "ACCIONES", uid: "accciones" },

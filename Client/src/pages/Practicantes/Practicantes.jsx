@@ -130,8 +130,13 @@ export default function Practicantes() {
         );
       case "unidad":
         return (
-          <div className="font-medium capitalize text-sm text-default-500" >
-            {cellValue || "Sin asignar"}
+          <div className="flex flex-col">
+            <div className="font-medium capitalize text-sm text-default-500">
+              {cellValue || "Sin asignar"}
+            </div>
+            <div className="text-sm text-default-400">
+              {user.oficina || "Sin asignar"}
+            </div>
           </div>
         );
       case "aporte":
