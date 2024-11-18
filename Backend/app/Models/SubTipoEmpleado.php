@@ -17,6 +17,9 @@ class SubTipoEmpleado extends Model
         'estado'
     ];
 
+    // Ocultar los campos created_at y updated_at
+    protected $hidden = ['created_at', 'updated_at'];
+
     /**
      * Relación muchos a uno con TipoEmpleado.
      * Un SubTipoEmpleado pertenece a un TipoEmpleado.

@@ -17,6 +17,9 @@ class DetalleAportacion extends Model
         'monto'
     ];
 
+    // Ocultar los campos created_at y updated_at
+    protected $hidden = ['created_at', 'updated_at'];
+
     /**
      * Relación muchos a uno con EmpleadoTipo.
      * Un DetalleAportacion pertenece a un EmpleadoTipo.
@@ -32,7 +35,7 @@ class DetalleAportacion extends Model
      */
     public function aportacion()
     {
-        return $this->belongsTo(Aportacion::class);
+        return $this->belongsTo(Aportacion::class, 'aportacions_id');
     }
 
     /**

@@ -17,22 +17,20 @@ class DetalleAportacionSeeder extends Seeder
     public function run()
     {
         $aportaciones = Aportacion::all(); // Obtener todas las aportaciones
-        $remuneraciones = Remuneracion::all(); // Obtener todas las remuneraciones
+        $remuneraciones = Remuneracion::with('planilla')->get(); // Obtener todas las remuneraciones
         $empleadoTipos = EmpleadoTipo::all(); // Obtener todos los tipos de empleados
 
         foreach ($aportaciones as $aportacion) {
             foreach ($remuneraciones as $remuneracion) {
-                foreach ($empleadoTipos as $empleadoTipo) {
-                    DetalleAportacion::create([
-                        'aportacions_id' => $aportacion->id,
-                        'remuneracion_id' => $remuneracion->id,
-                        'empleado_tipo_id' => $empleadoTipo->id,
-                        'monto' => rand(10, 50),
-                        'fecha_inicio' => Carbon::now()->subMonth()->startOfMonth(),
-                        'fecha_fin' => Carbon::now()->subMonth()->endOfMonth(),
-                        /* 'monto' => rand(50, 500), */ // Valor aleatorio para el monto de la aportación
-                    ]);
-                }
+                DetalleAportacion::create([
+                    'aportacions_id' => $aportacion->id,
+                    'remuneracion_id' => $remuneracion->id,
+                    'empleado_tipo_id' => $remuneracion->empleado_tipo_id,
+                    'monto' => rand(10, 50),
+                    'fecha_inicio' => $remuneracion->planilla->fecha_inicio,
+                    'fecha_fin' => $remuneracion->planilla->fecha_fin,
+                    /* 'monto' => rand(50, 500), */ // Valor aleatorio para el monto de la aportación
+                ]);
             }
         }
     }

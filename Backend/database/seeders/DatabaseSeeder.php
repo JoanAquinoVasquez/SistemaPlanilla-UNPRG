@@ -50,14 +50,14 @@ class DatabaseSeeder extends Seeder
             LicenciaSeeder::class,
 
             PrestamoSeeder::class,
-            CuotaSeeder::class,
+            //CuotaSeeder::class,
                         
             PlanillaSeeder::class,
             RemuneracionSeeder::class,
             
             DetalleAportacionSeeder::class,
             DetalleEgresoSeeder::class,
-            DetalleIngresoSeeder::class,
+            DetalleIngresoSeeder::class, 
         ]);
     }
 }

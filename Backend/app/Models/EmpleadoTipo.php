@@ -13,6 +13,9 @@ class EmpleadoTipo extends Model
     public $timestamps = false;
     public $incrementing = false;
 
+    // Ocultar los campos created_at y updated_at
+    protected $hidden = ['created_at', 'updated_at'];
+
     // Campos rellenables
     protected $fillable = [
         'tipo_empleado_id',

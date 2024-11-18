@@ -81,7 +81,7 @@ class EmpleadoTipoController extends Controller
     {
         try {
             // Buscar el EmpleadoTipo por su ID
-            $empleadoTipo = EmpleadoTipo::with(['empleado', 'tipoEmpleado', 'areaActiva.area', 'aportacionPension'])
+            $empleadoTipo = EmpleadoTipo::with(['banco','empleado', 'tipoEmpleado.subTipoEmpleado.categorias.subCategorias', 'areaActiva.area', 'aportacionPension'])
                 ->where('tipo_empleado_id', $id)
                 ->get();
 

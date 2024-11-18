@@ -15,6 +15,8 @@ class Banco extends Model
         'descripcion',
     ];
 
+    protected $hidden = ['created_at', 'updated_at'];
+
     /**
      * Relación uno a muchos con EmpleadoTipo.
      * Un Banco puede tener múltiples cuentas de empleados.

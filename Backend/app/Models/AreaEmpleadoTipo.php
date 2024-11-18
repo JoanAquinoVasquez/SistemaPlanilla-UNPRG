@@ -11,6 +11,9 @@ class AreaEmpleadoTipo extends Model
 
     protected $table = 'area_empleado_tipos';
 
+    // Ocultar los campos created_at y updated_at
+    protected $hidden = ['created_at', 'updated_at'];
+    
     protected $fillable = [
         'empleado_tipo_id',
         'empleado_tipo_num_doc_iden',

@@ -18,22 +18,20 @@ class DetalleEgresoSeeder extends Seeder
     {
         // Obtener todas las aportaciones, remuneraciones y tipos de empleados
         $egresos = Egreso::all();
-        $remuneraciones = Remuneracion::all();
+        $remuneraciones = Remuneracion::with('planilla')->get();
         $empleadoTipos = EmpleadoTipo::all();
 
         foreach ($egresos as $egreso) {
             foreach ($remuneraciones as $remuneracion) {
-                foreach ($empleadoTipos as $empleadoTipo) {
-                    DetalleEgreso::create([
-                        'egreso_id' => $egreso->id,
-                        'remuneracion_id' => $remuneracion->id,
-                        'empleado_tipo_id' => $empleadoTipo->id,
-                        'monto' => rand(10, 50),
-                        'fecha_inicio' => Carbon::now()->subMonth()->startOfMonth(),
-                        'fecha_fin' => Carbon::now()->subMonth()->endOfMonth(),
-                        /* 'monto' => rand(50, 500), */ // Valor aleatorio para el monto del egreso
-                    ]);
-                }
+                DetalleEgreso::create([
+                    'egreso_id' => $egreso->id,
+                    'remuneracion_id' => $remuneracion->id,
+                    'empleado_tipo_id' => $remuneracion->empleado_tipo_id,
+                    'monto' => rand(10, 50),
+                    'fecha_inicio' => $remuneracion->planilla->fecha_inicio,
+                    'fecha_fin' => $remuneracion->planilla->fecha_fin,
+                    /* 'monto' => rand(50, 500), */ // Valor aleatorio para el monto del egreso
+                ]);
             }
         }
     }
