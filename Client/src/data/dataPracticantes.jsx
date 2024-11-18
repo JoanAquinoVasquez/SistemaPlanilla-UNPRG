@@ -1,61 +1,56 @@
-const columns = [
-    {name: "ID", uid: "id", sortable: true},
-    {name: "NOMBRE COMPLETO", uid: "name", sortable: true},
-    {name: "DNI", uid: "dni"},
-    {name: "NUMERO DE CUENTA", uid: "numerodecuenta"},
-    {name: "UNIDAD", uid: "unidad", sortable: true},
-    {name: "APORTE", uid: "aporte",sortable: true},
-    {name: "ESTADO", uid: "estado", sortable: true},
-    {name: "ACCIONES", uid: "accciones"},
-  ];
+import { useEffect, useState, useCallback } from "react";
+import axios from "axios";
   
-  const statusOptions = [
-    {name: "Activo", uid: "activo"},
-    {name: "Nuevo", uid: "nuevo"},
-    {name: "Pendiente", uid: "pendiente"},
-  ];
+export default function usePracticantes() {
+  const [practicantes, setPracticantes] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const fetchPracticantes = useCallback(async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get("/all-empleado-tipo/3");
+      const practicantesData = response.data.data.map((practicante) => ({ // Aquí cambiamos a response.data.data
+        id: practicante.empleado_num_doc_iden, // Usado como clave única
+        tipo_doc_iden: practicante.empleado.tipo_doc_iden,
+        dni: practicante.empleado_num_doc_iden,
+        name: `${practicante.empleado.apellido_paterno} ${practicante.empleado.apellido_materno} ${practicante.empleado.nombres}`,
+        email: practicante.empleado.email,
+        numerodecuenta: practicante.numero_cuenta,
+        cci: practicante.cci,
+        estado: practicante.estado,
+        banco: practicante.banco?.nombre || "Sin asignar",
+        unidad: practicante.area_activa?.area?.nombre || "Sin asignar",
+        oficina_area: practicante.area_activa?.area?.oficina || "Sin asignar",
+        sub_tipo_empleado: practicante.sub_tipo_empleado.nombre || "Sin asignar",
+        aporte: practicante.aportacion_pension?.concepto || "Sin asignar",
+      }));
+      setPracticantes(practicantesData);
+      console.log("Practicantes cargados:", practicantesData);
+    } catch (error) {
+      console.error("Error al cargar los practicantes:", error);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchPracticantes();
+  }, [fetchPracticantes]);
+
+  return { practicantes, loading, fetchPracticantes, columns, statusOptions };
+}
+
   
-  const users = [
-    { id: 1, name: "Tony Reichert", dni: "75136511", numerodecuenta: "0011-1234-5678", unidad: "Recursos Humanos", aporte: "ONP", estado: "activo", email: "tony.reichert@example.com" },
-    { id: 2, name: "Zoey Lang", dni: "45128473", numerodecuenta: "0021-2234-5678", unidad: "Desarrollo", aporte: "AFP", estado: "nuevo", email: "zoey.lang@example.com" },
-    { id: 3, name: "Jane Fisher", dni: "75823645", numerodecuenta: "0031-3234-5678", unidad: "Desarrollo", aporte: "ONP", estado: "activo", email: "jane.fisher@example.com" },
-    { id: 4, name: "William Howard", dni: "78945123", numerodecuenta: "0041-4234-5678", unidad: "Marketing", aporte: "AFP", estado: "pendiente", email: "william.howard@example.com" },
-    { id: 5, name: "Kristen Copper", dni: "15823697", numerodecuenta: "0051-5234-5678", unidad: "Ventas", aporte: "ONP", estado: "activo", email: "kristen.copper@example.com" },
-    { id: 6, name: "Brian Kim", dni: "45983267", numerodecuenta: "0061-6234-5678", unidad: "Gerencia", aporte: "AFP", estado: "activo", email: "brian.kim@example.com" },
-    { id: 7, name: "Michael Hunt", dni: "34892765", numerodecuenta: "0071-7234-5678", unidad: "Diseño", aporte: "ONP", estado: "nuevo", email: "michael.hunt@example.com" },
-    { id: 8, name: "Samantha Brooks", dni: "87945213", numerodecuenta: "0081-8234-5678", unidad: "Recursos Humanos", aporte: "AFP", estado: "activo", email: "samantha.brooks@example.com" },
-    { id: 9, name: "Frank Harrison", dni: "74523987", numerodecuenta: "0091-9234-5678", unidad: "Finanzas", aporte: "ONP", estado: "pendiente", email: "frank.harrison@example.com" },
-    { id: 10, name: "Emma Adams", dni: "13246798", numerodecuenta: "0101-0234-5678", unidad: "Operaciones", aporte: "AFP", estado: "activo", email: "emma.adams@example.com" },
-    { id: 11, name: "Brandon Stevens", dni: "95847213", numerodecuenta: "0111-1234-5678", unidad: "Desarrollo", aporte: "ONP", estado: "activo", email: "brandon.stevens@example.com" },
-    { id: 12, name: "Megan Richards", dni: "48921753", numerodecuenta: "0121-2234-5678", unidad: "Producto", aporte: "AFP", estado: "nuevo", email: "megan.richards@example.com" },
-    { id: 13, name: "Oliver Scott", dni: "34867291", numerodecuenta: "0131-3234-5678", unidad: "Seguridad", aporte: "ONP", estado: "activo", email: "oliver.scott@example.com" },
-    { id: 14, name: "Grace Allen", dni: "98451237", numerodecuenta: "0141-4234-5678", unidad: "Marketing", aporte: "AFP", estado: "activo", email: "grace.allen@example.com" },
-    { id: 15, name: "Noah Carter", dni: "73892465", numerodecuenta: "0151-5234-5678", unidad: "TI", aporte: "ONP", estado: "nuevo", email: "noah.carter@example.com" },
-    { id: 16, name: "Ava Perez", dni: "78913426", numerodecuenta: "0161-6234-5678", unidad: "Ventas", aporte: "AFP", estado: "activo", email: "ava.perez@example.com" },
-    { id: 17, name: "Liam Johnson", dni: "13524678", numerodecuenta: "0171-7234-5678", unidad: "Análisis", aporte: "ONP", estado: "activo", email: "liam.johnson@example.com" },
-    { id: 18, name: "Sophia Taylor", dni: "68743291", numerodecuenta: "0181-8234-5678", unidad: "Testing", aporte: "AFP", estado: "activo", email: "sophia.taylor@example.com" },
-    { id: 19, name: "Lucas Harris", dni: "83472196", numerodecuenta: "0191-9234-5678", unidad: "TI", aporte: "ONP", estado: "nuevo", email: "lucas.harris@example.com" },
-    { id: 20, name: "Mia Robinson", dni: "37648192", numerodecuenta: "0201-0234-5678", unidad: "Operaciones", aporte: "AFP", estado: "activo", email: "mia.robinson@example.com" },
-    { id: 21, name: "Carlos Medina", dni: "64789123", numerodecuenta: "0211-1234-5678", unidad: "Recursos Humanos", aporte: "ONP", estado: "activo", email: "carlos.medina@example.com" },
-    { id: 22, name: "Laura Mendez", dni: "78539214", numerodecuenta: "0221-2234-5678", unidad: "Desarrollo", aporte: "AFP", estado: "nuevo", email: "laura.mendez@example.com" },
-    { id: 23, name: "David Cruz", dni: "34879512", numerodecuenta: "0231-3234-5678", unidad: "Marketing", aporte: "ONP", estado: "activo", email: "david.cruz@example.com" },
-    { id: 24, name: "Sara Lopez", dni: "43975128", numerodecuenta: "0241-4234-5678", unidad: "Ventas", aporte: "AFP", estado: "pendiente", email: "sara.lopez@example.com" },
-    { id: 25, name: "Fernando Ruiz", dni: "95841273", numerodecuenta: "0251-5234-5678", unidad: "Gerencia", aporte: "ONP", estado: "activo", email: "fernando.ruiz@example.com" },
-    { id: 26, name: "Ana Torres", dni: "32948176", numerodecuenta: "0261-6234-5678", unidad: "Desarrollo", aporte: "AFP", estado: "activo", email: "ana.torres@example.com" },
-    { id: 27, name: "Ricardo Gutierrez", dni: "58732194", numerodecuenta: "0271-7234-5678", unidad: "TI", aporte: "ONP", estado: "nuevo", email: "ricardo.gutierrez@example.com" },
-    { id: 28, name: "Natalia Vega", dni: "67589124", numerodecuenta: "0281-8234-5678", unidad: "Finanzas", aporte: "AFP", estado: "activo", email: "natalia.vega@example.com" },
-    { id: 29, name: "Oscar Ramos", dni: "29487163", numerodecuenta: "0291-9234-5678", unidad: "Producto", aporte: "ONP", estado: "pendiente", email: "oscar.ramos@example.com" },
-    { id: 30, name: "Patricia Flores", dni: "13245789", numerodecuenta: "0301-0234-5678", unidad: "Análisis", aporte: "AFP", estado: "activo", email: "patricia.flores@example.com" },
-    { id: 31, name: "Jorge Silva", dni: "98723145", numerodecuenta: "0311-1234-5678", unidad: "Operaciones", aporte: "ONP", estado: "activo", email: "jorge.silva@example.com" },
-    { id: 32, name: "Angela Diaz", dni: "54123987", numerodecuenta: "0321-2234-5678", unidad: "Desarrollo", aporte: "AFP", estado: "nuevo", email: "angela.diaz@example.com" },
-    { id: 33, name: "Luis Morales", dni: "32457819", numerodecuenta: "0331-3234-5678", unidad: "Recursos Humanos", aporte: "ONP", estado: "activo", email: "luis.morales@example.com" },
-    { id: 34, name: "Carmen Alvarez", dni: "23894517", numerodecuenta: "0341-4234-5678", unidad: "Ventas", aporte: "AFP", estado: "activo", email: "carmen.alvarez@example.com" },
-    { id: 35, name: "Mario Soto", dni: "59713284", numerodecuenta: "0351-5234-5678", unidad: "Marketing", aporte: "ONP", estado: "nuevo", email: "mario.soto@example.com" },
-    { id: 36, name: "Isabel Castillo", dni: "41273958", numerodecuenta: "0361-6234-5678", unidad: "Gerencia", aporte: "AFP", estado: "activo", email: "isabel.castillo@example.com" },
-    { id: 37, name: "Roberto Ortega", dni: "38927156", numerodecuenta: "0371-7234-5678", unidad: "Testing", aporte: "ONP", estado: "pendiente", email: "roberto.ortega@example.com" },
-    { id: 38, name: "Veronica Vargas", dni: "62738145", numerodecuenta: "0381-8234-5678", unidad: "Finanzas", aporte: "AFP", estado: "activo", email: "veronica.vargas@example.com" },
-    { id: 39, name: "Pablo Castillo", dni: "98127345", numerodecuenta: "0391-9234-5678", unidad: "Operaciones", aporte: "ONP", estado: "activo", email: "pablo.castillo@example.com" },
-    { id: 40, name: "Lucia Campos", dni: "43128579", numerodecuenta: "0401-0234-5678", unidad: "Desarrollo", aporte: "AFP", estado: "nuevo", email: "lucia.campos@example.com" },
+export const columns = [
+  { name: "NOMBRE COMPLETO", uid: "name", sortable: true },
+  { name: "TIPO DE DOC.", uid: "tipo_doc_iden" },
+  { name: "NUMERO DE CUENTA", uid: "numerodecuenta" },
+  { name: "UNIDAD", uid: "unidad", sortable: true },
+  { name: "SUBTIPO", uid: "sub_tipo_empleado", sortable: true }, // Subtipo agregado
+  { name: "APORTE", uid: "aporte", sortable: true },
+  { name: "ESTADO", uid: "estado", sortable: true },
+  { name: "ACCIONES", uid: "accciones" },
 ];
-  
-export { columns, users, statusOptions };
+export const statusOptions = [
+  { name: "Activo", uid: "1" },
+  { name: "Inactivo", uid: "0" },
+];

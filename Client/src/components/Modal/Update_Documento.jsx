@@ -62,10 +62,20 @@ export default function Modal_Update_Documento({ isOpen, onClose, document, onDo
                 toast.error("El tipo de documento es requerido.");
                 return;
             }
-            if (fechaVigencia && fechaFin && new Date(fechaFin) < new Date(fechaVigencia)) {
-                toast.error("La fecha de fin no puede ser menor a la fecha de inicio.");
-                return;
+            if (fechaVigencia && fechaFin) {
+                const inicio = new Date(fechaVigencia);
+                const fin = new Date(fechaFin);
+            
+                if (fin <= inicio) {
+                    toast.error(
+                        fin < inicio
+                            ? "La fecha de fin no puede ser menor a la fecha de inicio."
+                            : "La fecha de fin no puede ser igual a la fecha de inicio."
+                    );
+                    return;
+                }
             }
+            
 
 
             const updatedData = {
