@@ -33,7 +33,7 @@ class DatabaseSeeder extends Seeder
             SubTipoEmpleadoSeeder::class,
             CategoriaEmpleadoSeeder::class,
             SubCategoriaEmpleadoSeeder::class,
-
+            
             ParentescoSeeder::class,            
             DetalleFamiliaSeeder::class,
 
@@ -57,7 +57,7 @@ class DatabaseSeeder extends Seeder
             
             DetalleAportacionSeeder::class,
             DetalleEgresoSeeder::class,
-            DetalleIngresoSeeder::class,
+            DetalleIngresoSeeder::class, 
         ]);
     }
 }

@@ -21,22 +21,21 @@ import { PlusIcon } from "../../components/Icons.jsx/PlusIcon";
 import { VerticalDotsIcon } from "../../components/Icons.jsx/VerticalDotsIcon";
 import { SearchIcon } from "../../components/Icons.jsx/SearchIcon";
 import { ChevronDownIcon } from "../../components/Icons.jsx/ChevronDownIcon";
-import { columns, users, statusOptions } from "../../data/dataPracticantes";
+import { columns, statusOptions } from "../../data/DataPracticantes";
+import usePracticantes from "../../data/DataPracticantes";
 import { capitalize } from "./utils";
 import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
 import { MdSummarize } from "react-icons/md";
 import Modal_New_Practicante from "../../components/Modal/New_Practicante";
 import ExportarExcelButton from "../../components/ExportExcel/ExportarExcelButton";
+import Spinner from "../../components/Spinner/Spinner.jsx";
 
-const statusColorMap = {
-  activo: "success",
-  nuevo: "primary",
-  pendiente: "warning",
-};
+const statusColorMap = { 1: "success", 0: "danger" };
 
 const INITIAL_VISIBLE_COLUMNS = [
   "name",
-  "dni",
+  "tipo_doc_iden",
+  "sub_tipo_empleado",
   "numerodecuenta",
   "unidad",
   "aporte",
@@ -45,6 +44,7 @@ const INITIAL_VISIBLE_COLUMNS = [
 ];
 
 export default function Practicantes() {
+  const { practicantes, loading, fetchPracticantes } = usePracticantes();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [filterValue, setFilterValue] = useState("");
   const [selectedKeys, setSelectedKeys] = useState(new Set([]));
@@ -66,19 +66,18 @@ export default function Practicantes() {
   }, [visibleColumns]);
 
   const filteredItems = useMemo(() => {
-    let filteredUsers = [...users];
+    let filteredUsers = [...practicantes];
     if (filterValue) {
-      filteredUsers = filteredUsers.filter((user) =>
-        user.name.toLowerCase().includes(filterValue.toLowerCase())
+      filteredUsers = filteredUsers.filter(
+        (user) =>
+          user.name.toLowerCase().includes(filterValue.toLowerCase()) ||
+          user.sub_tipo_empleado.toLowerCase().includes(filterValue.toLowerCase())
       );
     }
-    if (statusFilter !== "all" && statusFilter.size !== statusOptions.length) {
-      filteredUsers = filteredUsers.filter((user) =>
-        statusFilter.has(user.estado)
-      );
-    }
+    if (statusFilter !== "all" && statusFilter.size !== statusOptions.length) filteredUsers = filteredUsers.filter(user => statusFilter.has(user.estado.toString()));
+
     return filteredUsers;
-  }, [filterValue, statusFilter]);
+  }, [filterValue, statusFilter, practicantes]);
 
   const pages = Math.ceil(filteredItems.length / rowsPerPage);
 
@@ -107,16 +106,56 @@ export default function Practicantes() {
             className="font-medium text-sm capitalize text-default-500"
           />
         );
+      case "tipo_doc_iden":
+        return (
+          <div className="flex flex-col">
+          <div className="font-medium capitalize text-sm text-default-500">
+            {cellValue || "Sin asignar"}
+          </div>
+          <div className="text-sm text-default-400">
+            {user.dni || "Sin asignar"}
+          </div>
+        </div>
+        );
+      case "numerodecuenta":
+        return (
+          <div className="flex flex-col">
+            <div className="font-medium capitalize text-sm text-default-500">
+              {cellValue || "Sin asignar"}
+            </div>
+            <div className="text-sm text-default-400">
+              {"CCI: " + user.numerodecuenta || "Sin asignar"}
+            </div>
+          </div>
+        );
+      case "unidad":
+        return (
+          <div className="flex flex-col">
+            <div className="font-medium capitalize text-sm text-default-500">
+              {cellValue || "Sin asignar"}
+            </div>
+            <div className="text-sm text-default-400">
+              {user.oficina || "Sin asignar"}
+            </div>
+          </div>
+        );
+      case "aporte":
+        return (
+          <div className="font-medium capitalize text-sm text-default-500" >
+            {cellValue || "Sin asignar"}
+          </div>
+        );
       case "estado":
         return (
-          <Chip
-            className="capitalize text-sm font-medium"
-            color={statusColorMap[user.estado]}
-            size="sm"
-            variant="flat"
-          >
-            {cellValue}
+          <Chip className="capitalize text-sm font-medium" color={statusColorMap[user.estado]} size="sm" variant="flat">
+            {cellValue === 1 ? "Activo" : "Inactivo"}
           </Chip>
+        );
+      case "sub_tipo_empleado":
+        return (
+          <div className="font-medium capitalize text-sm text-default-500">
+            {cellValue || "Sin asignar"}
+          </div>
         );
       case "accciones":
         return (
@@ -230,13 +269,13 @@ export default function Practicantes() {
             >
               Nuevo
             </Button>
-            <ExportarExcelButton /> 
+            <ExportarExcelButton />
 
           </div>
         </div>
         <div className="flex justify-between items-center">
           <span className="text-default-400 text-small">
-            Total: {users.length} usuarios
+            Total: {practicantes.length} practicantes
           </span>
           <label className="flex items-center text-default-400 text-small">
             Filas por página:
@@ -262,6 +301,7 @@ export default function Practicantes() {
       onRowsPerPageChange,
       onClear,
       onOpen,
+      practicantes.length,
     ]
   );
 
@@ -308,6 +348,14 @@ export default function Practicantes() {
     ),
     [selectedKeys, filteredItems.length, page, pages]
   );
+
+  if (loading) {
+    return (
+      <div className="loading-overlay">
+        <Spinner label="Cargando Practicantes..." />
+      </div>
+    );
+  }
 
   return (
     <div>

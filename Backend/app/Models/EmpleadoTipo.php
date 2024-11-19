@@ -13,6 +13,9 @@ class EmpleadoTipo extends Model
     public $timestamps = false;
     public $incrementing = false;
 
+    // Ocultar los campos created_at y updated_at
+    protected $hidden = ['created_at', 'updated_at'];
+
     // Campos rellenables
     protected $fillable = [
         'tipo_empleado_id',
@@ -31,6 +34,21 @@ class EmpleadoTipo extends Model
     public function tipoEmpleado()
     {
         return $this->belongsTo(TipoEmpleado::class);
+    }
+
+    public function subTipoEmpleado()
+    {
+        return $this->belongsTo(SubTipoEmpleado::class);
+    }
+
+    public function categoriaEmpleado()
+    {
+        return $this->belongsTo(CategoriaEmpleado::class);
+    }
+
+    public function subCategoriaEmpleado()
+    {
+        return $this->belongsTo(SubCategoriaEmpleado::class);
     }
 
     /**
@@ -125,7 +143,6 @@ class EmpleadoTipo extends Model
     }
 
 
-
     /**
      * Relación uno a muchos con DetalleEgreso.
      * Un EmpleadoTipo puede estar en varias DetalleEgreso.
@@ -152,7 +169,7 @@ class EmpleadoTipo extends Model
     {
         return $this->hasMany(DetalleAportacion::class);
     }
-    
+
     // Relación para obtener solo el tipo de aportación específico (AFP o ONP)
     public function aportacionPension()
     {

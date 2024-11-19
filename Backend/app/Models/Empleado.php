@@ -12,6 +12,9 @@ class Empleado extends Model
     protected $primaryKey = 'num_doc_iden';
     public $incrementing = false;
     protected $keyType = 'string';
+    
+    // Ocultar los campos created_at y updated_at
+    protected $hidden = ['created_at', 'updated_at'];
 
     // Campos rellenables
     protected $fillable = [

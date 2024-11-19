@@ -16,8 +16,6 @@ export default function useDocumentos() {
         fecha_vigencia: documento.fecha_vigencia,
         fecha_fin: documento.fecha_fin,
         estado: documento.estado,
-        created_at: documento.created_at,
-        updated_at: documento.updated_at,
       }));
       setDocumentos(documentosData);
     } catch (error) {

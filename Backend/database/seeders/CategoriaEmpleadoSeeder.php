@@ -14,23 +14,23 @@ class CategoriaEmpleadoSeeder extends Seeder
     public function run()
     {
         // Obtener IDs de subtipos específicos de empleados
-        $docenteNombradoId = SubTipoEmpleado::where('nombre', 'Nombrado')->whereHas('tipoEmpleado', function($query) {
+        $docenteNombradoId = SubTipoEmpleado::where('nombre', 'Nombrado')->whereHas('tipoEmpleado', function ($query) {
             $query->where('nombre', 'Docente');
         })->first()->id;
 
-        $docenteContratadoId = SubTipoEmpleado::where('nombre', 'Contratado')->whereHas('tipoEmpleado', function($query) {
+        $docenteContratadoId = SubTipoEmpleado::where('nombre', 'Contratado')->whereHas('tipoEmpleado', function ($query) {
             $query->where('nombre', 'Docente');
         })->first()->id;
 
-        $administrativoNombradoId = SubTipoEmpleado::where('nombre', 'Nombrado')->whereHas('tipoEmpleado', function($query) {
+        $administrativoNombradoId = SubTipoEmpleado::where('nombre', 'Nombrado')->whereHas('tipoEmpleado', function ($query) {
             $query->where('nombre', 'Administrativo');
         })->first()->id;
 
-        $administrativoContratadoId = SubTipoEmpleado::where('nombre', 'Contratado')->whereHas('tipoEmpleado', function($query) {
+        $administrativoContratadoId = SubTipoEmpleado::where('nombre', 'Contratado')->whereHas('tipoEmpleado', function ($query) {
             $query->where('nombre', 'Administrativo');
         })->first()->id;
 
-        $administrativoCasId = SubTipoEmpleado::where('nombre', 'CAS')->whereHas('tipoEmpleado', function($query) {
+        $administrativoCasId = SubTipoEmpleado::where('nombre', 'CAS')->whereHas('tipoEmpleado', function ($query) {
             $query->where('nombre', 'Administrativo');
         })->first()->id;
 

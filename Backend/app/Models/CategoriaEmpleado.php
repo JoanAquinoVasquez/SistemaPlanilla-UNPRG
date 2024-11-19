@@ -16,6 +16,9 @@ class CategoriaEmpleado extends Model
         'estado'
     ];
 
+    // Ocultar los campos created_at y updated_at
+    protected $hidden = ['created_at', 'updated_at'];
+
     /**
      * Relación muchos a uno con SubTipoEmpleado.
      * Una CategoriaEmpleado pertenece a un SubTipoEmpleado.
@@ -32,5 +35,10 @@ class CategoriaEmpleado extends Model
     public function subCategorias()
     {
         return $this->hasMany(SubCategoriaEmpleado::class, 'categoria_empleado_id');
+    }
+
+    public function empleadoTipos()
+    {
+        return $this->hasMany(EmpleadoTipo::class);
     }
 }

@@ -16,6 +16,9 @@ class Aportacion extends Model
         'sujeto_ley',
     ];
 
+    // Ocultar los campos created_at y updated_at
+    protected $hidden = ['created_at', 'updated_at'];
+    
     /**
      * Relación uno a uno con FormulaParametro.
      * Un Egreso pertenece a un FormulaParametro.

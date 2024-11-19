@@ -15,6 +15,8 @@ class TipoEmpleado extends Model
         'estado'
     ];
 
+    // Ocultar los campos created_at y updated_at
+    protected $hidden = ['created_at', 'updated_at'];
 
     public function subTipoEmpleado()
     {

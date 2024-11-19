@@ -11,16 +11,18 @@ use App\Models\Empleado;
 use App\Models\EmpleadoTipo;
 use App\Models\Planilla;
 use App\Models\Remuneracion;
+use App\Models\SubCategoriaEmpleado;
+use App\Models\SubTipoEmpleado;
+use App\Models\TipoEmpleado;
 use Google\Service\ServiceControl\Auth;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class PlanillaController extends Controller
 {
 
-    public function generarPlanilla()
+    public function generarPlanilla(Request $request)
     {
         try {
             // Definir el periodo de la planilla (puedes cambiar estas fechas según sea necesario)
@@ -28,15 +30,17 @@ class PlanillaController extends Controller
             $fechaFin = '2024-10-31';
 
             // Verificar si ya existe una planilla para el periodo especificado
-            /* $planillaExistente = DB::table('planillas')
-                ->where('fecha_inicio', $fechaInicio)
+            $planillaExistente = Planilla::where('fecha_inicio', $fechaInicio)
                 ->where('fecha_fin', $fechaFin)
-                ->first(); */
+                ->first();
 
             // Si ya existe una planilla para este periodo, usarla
-            //if ($planillaExistente) {
-            //    $idPlanilla = $planillaExistente->id;
-            //} else {
+            /* if ($planillaExistente) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'No se puede generar la planilla para este periodo, ya que ya esta generada.',
+                ], 400);
+            } else { */
             // Si no existe, crear una nueva planilla
             $planilla = Planilla::create([
                 'user_id' => 1, //Auth::User->id();
@@ -45,7 +49,7 @@ class PlanillaController extends Controller
                 'fecha_generacion' => now(),
                 'estado' => 1
             ]);
-            //}                
+            //}
 
             // Obtener todos los tipos de empleados junto con sus datos de empleados relacionados
             $empleadoTipos = EmpleadoTipo::where('estado', 1)
@@ -62,7 +66,6 @@ class PlanillaController extends Controller
             }
 
             $planillas = [];
-
             foreach ($empleadoTipos as $empleadoTipo) {
                 try {
                     // Obtener el contrato activo del empleado y su sueldo bruto
@@ -119,18 +122,27 @@ class PlanillaController extends Controller
                         })
                         ->sum('monto');
 
-                    // Calcular el sueldo neto
-                    $sueldo_neto = $sueldoBruto + $ingresos - $egresos - $aportes;
+                    $aportesPen = DetalleAportacion::where('empleado_tipo_id', $empleadoTipo->id)
+                        ->whereHas('aportacion', function ($query) {
+                            $query->whereIn('concepto', ['AFP', 'ONP']);
+                        })
+                        ->where(function ($query) use ($fechaInicio, $fechaFin) {
+                            $query->whereBetween('fecha_inicio', [$fechaInicio, $fechaFin])
+                                ->orWhereBetween('fecha_fin', [$fechaInicio, $fechaFin]);
+                        })
+                        ->sum('monto');
+
+                    Log::info("Aportes sistema pensiones: {$aportesPen}");
 
                     // Calcular el sueldo neto
-                    $sueldoNeto = $sueldoBruto + $ingresos - $egresos - $aportes;
+                    $sueldo_neto = $sueldoBruto + $ingresos - $egresos - $aportesPen;
 
                     // Actualizar la remuneración con los valores calculados
                     $remuneracion->update([
                         'total_ingreso' => $ingresos,
                         'total_egreso' => $egresos,
                         'sueldo_aporte' => $aportes,
-                        'sueldo_neto' => $sueldoNeto
+                        'sueldo_neto' => $sueldo_neto
                     ]);
 
                     // Agregar el resultado al array de planillas
@@ -143,13 +155,14 @@ class PlanillaController extends Controller
                             'apellido_materno' => $empleadoTipo->empleado->apellido_materno,
                         ],
                         'tipo_empleado' => [
-                            'id_tipo_empleado' => $empleadoTipo->id_tipo_empleado,
+                            'id_tipo_empleado' => $empleadoTipo->tipoEmpleado->id,
                             'nombre' => $empleadoTipo->tipoEmpleado->nombre,
                         ],
                         'sueldo_bruto' => $sueldoBruto,
                         'ingresos' => $ingresos,
                         'egresos' => $egresos,
                         'aportes' => $aportes,
+                        'aportes_sistema_pensiones' => $aportesPen,
                         'sueldo_neto' => $sueldo_neto,
                     ];
                 } catch (\Exception $e) {
@@ -235,7 +248,7 @@ class PlanillaController extends Controller
                     'apellido_materno' => $empleadoTipo->empleado->apellido_materno,
                 ],
                 'tipo_empleado' => [
-                    'id_tipo_empleado' => $empleadoTipo->id_tipo_empleado,
+                    'id_tipo_empleado' => $empleadoTipo->tipoEmpleado->id,
                     'nombre' => $empleadoTipo->tipoEmpleado->nombre,
                 ],
                 'sueldo_bruto' => $sueldobruto,
@@ -261,5 +274,10 @@ class PlanillaController extends Controller
                 'error' => $e->getMessage(),
             ], 500);
         }
+    }
+
+    public function testing(){
+        $subCategoria = SubCategoriaEmpleado::all();/* with('tipoEmpleado', 'categorias')->get(); */
+        return $subCategoria;
     }
 }

@@ -7,7 +7,7 @@ const ExportarExcelButton = () => {
   const exportarExcel = async () => {
     try {
       // Realiza la solicitud GET para descargar el archivo Excel
-      const response = await axios.get("/exportar-reporte-practicante", {
+      const response = await axios.get("http://localhost:8000/api/exportar-reporte-practicante", {
         responseType: "blob",
       });
 
