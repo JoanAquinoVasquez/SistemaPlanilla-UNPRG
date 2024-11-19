@@ -15,11 +15,11 @@ return [
     |
     */
 
-    'paths' => ['api/*'],
+    'paths' => ['api/*','broadcasting/*'],
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['http://localhost:5173'], // Agrega aquí el dominio del frontend
+    'allowed_origins' => [env('FRONTEND_URL','http://localhost:5173')], // Agrega aquí el dominio del frontend
 
     'allowed_origins_patterns' => [],
 

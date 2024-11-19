@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\FormulaAdded;
 use App\Models\Formula;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
@@ -31,7 +32,8 @@ class FormulaController extends Controller
             ]);
 
             $formula = Formula::create($validated);
-
+            // Emite el evento
+            event(new FormulaAdded($formula));
             return response()->json([
                 'message' => 'Registro exitoso',
                 'data' => $formula
@@ -116,7 +118,11 @@ class FormulaController extends Controller
         }
 
         try {
-            $formula->delete();
+
+            $formula->estado = false; // Cambia el estado a false o 0
+            $formula->save();
+            // Emite el evento con la fórmula modificada
+            event(new FormulaAdded($formula));
             return response()->json([
                 'message' => 'Fórmula eliminada exitosamente'
             ], 200);

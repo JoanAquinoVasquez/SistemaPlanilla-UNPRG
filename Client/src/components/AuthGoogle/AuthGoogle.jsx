@@ -2,7 +2,6 @@ import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 import Cookies from "js-cookie"; // Asegúrate de instalar js-cookie
 import { useHistory } from "react-router-dom"; // Agrega esta línea
-import { GOOGLE_CLIENT_ID } from "../../../config";
 
 const Login = () => {
   const history = useHistory(); // Usar el hook de historia
@@ -35,7 +34,7 @@ const Login = () => {
   };
 
   return (
-    <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
+    <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
       <div>
         <h1>Iniciar sesión con Google</h1>
         <GoogleLogin

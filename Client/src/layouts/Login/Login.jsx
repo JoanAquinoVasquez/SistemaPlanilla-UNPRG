@@ -3,7 +3,6 @@ import { useNavigate, useLocation } from "react-router-dom";
 import topBarImage from "../../assets/Barra/barra_colores_ofic.jpg";
 import logoWithTextImage from "../../assets/Isotipos/isotipo_variante_02.png";
 import rightPanelImage from "../../assets/Img/panelderechaImage.png";
-import { GOOGLE_CLIENT_ID } from "../../../config";
 import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -44,7 +43,7 @@ function Login() {
   };
 
   return (
-    <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
+    <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
       <div className="relative min-h-screen flex items-center justify-center bg-gray-100">
         <img src={topBarImage} alt="Barra de colores superior" className="absolute top-0 left-0 w-full h-3 object-cover" />
         <div className="grid grid-cols-1 lg:grid-cols-2 w-[79vw] h-[90vh] z-10">
