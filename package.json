@@ -1,5 +1,0 @@
-{
-  "scripts": {
-    "start:both": "concurrently \"cd backend && php artisan serve\" \"cd backend && php artisan queue:listen\" \"cd backend && php artisan reverb:start\" \"cd client && npm run dev\""
-  }
-}

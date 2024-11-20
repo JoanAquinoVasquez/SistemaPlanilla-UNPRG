@@ -1,0 +1,84 @@
+services:
+  backend:
+    build:
+      context: ./Backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000" # Laravel estará disponible en el puerto 8000
+    volumes:
+      - ./Backend:/var/www/html
+    env_file:
+      - ./Backend/.env
+    networks:
+      - planilla-network
+    depends_on:
+      - db
+    command: bash -c "php artisan migrate --force && php artisan db:seed --force && php artisan serve --host=0.0.0.0 --port=8000"
+
+  queue:
+    build:
+      context: ./Backend
+      dockerfile: Dockerfile
+    volumes:
+      - ./Backend:/var/www/html
+    env_file:
+      - ./Backend/.env
+    networks:
+      - planilla-network
+    depends_on:
+      - backend
+    command: "php artisan queue:listen"
+
+  reverb:
+    build:
+      context: ./Backend
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080" # Reverb estará disponible en el puerto 8080
+    volumes:
+      - ./Backend:/var/www/html
+    env_file:
+      - ./Backend/.env
+    networks:
+      - planilla-network
+    depends_on:
+      - backend
+    command: "php artisan reverb:start"
+
+  frontend:
+    build:
+      context: ./Client
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173" # React con Vite estará disponible en el puerto 5173
+    volumes:
+      - ./Client:/usr/src/app
+      - ./Client/.env:/usr/src/app/.env
+    environment:
+      VITE_BACKEND_URL: http://localhost:8000
+      VITE_REVERB_URL: http://localhost:8080
+      HOST: "0.0.0.0"  # Añade esta línea
+    networks:
+      - planilla-network
+    command: "npm run dev -- --host"  # Modifica esta línea
+
+  db:
+    image: mysql:8.0
+    ports:
+      - "3306:3306" # MySQL estará disponible en el puerto 3306
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: db_planilla_unprg
+      # MYSQL_USER: root
+      # MYSQL_PASSWORD: root
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - planilla-network
+
+volumes:
+  db_data:
+
+networks:
+  planilla-network:
+    driver: bridge
