@@ -1,4 +1,5 @@
 import Echo from "laravel-echo";
+import axios from "axios";
 
 import Pusher from "pusher-js";
 window.Pusher = Pusher;
