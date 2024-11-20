@@ -6,6 +6,7 @@ import rightPanelImage from "../../assets/Img/panelderechaImage.png";
 import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 import Cookies from "js-cookie";
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button } from "@nextui-org/react";
 
 function Login() {
   const navigate = useNavigate();
@@ -16,8 +17,12 @@ function Login() {
   useEffect(() => {
     if (location.state && location.state.logoutMessage) {
       setLogoutMessage(location.state.logoutMessage);
+  
+      // Limpia el state de la ubicación
+      navigate(location.pathname, { replace: true });
     }
-  }, [location]);
+  }, [location, navigate]);
+  
 
   const handleGoogleLoginSuccess = async (credentialResponse) => {
     const token = credentialResponse.credential;
@@ -59,11 +64,58 @@ function Login() {
             <div className="flex flex-grow items-center justify-center">
               <div className="w-full">
                 <h2 className="text-3xl font-bold text-center mb-10">LOG IN</h2>
+                
+                {/* Modal para mensajes */}
+                <Modal isOpen={!!logoutMessage || !!errorMessage} onClose={() => {
+                  setLogoutMessage("");
+                  setErrorMessage("");
+                }}>
+                  <ModalContent>
+                    <ModalHeader>
+                      <h3>
+                      {logoutMessage ? "Sesión Finalizada" : "Error"}
+                      </h3>
+                    </ModalHeader>
+                    <ModalBody>
+                      <p>
+                        {logoutMessage || errorMessage}
+                      </p>
+                    </ModalBody>
+                    <ModalFooter>
+           
+                      <Button
+                        color="default"  onPress={() => {
+                          setLogoutMessage("");
+                          setErrorMessage("");
+                        }}
+                      >
+                        Cerrar
+                      </Button>
+                    </ModalFooter>
+                  </ModalContent>
+                </Modal>
 
-                {logoutMessage && <div className="mb-4 text-red-500 text-center">{logoutMessage}</div>}
-                {errorMessage && <div className="mb-4 text-red-500 text-center">{errorMessage}</div>}
-
-                <GoogleLogin onSuccess={handleGoogleLoginSuccess} onError={handleGoogleLoginError} />
+                {/* Botón de Google estilizado */}
+                <div className="flex items-center justify-center mt-4">
+                  <GoogleLogin
+                    onSuccess={handleGoogleLoginSuccess}
+                    onError={handleGoogleLoginError}
+                    render={(renderProps) => (
+                      <button
+                        onClick={renderProps.onClick}
+                        disabled={renderProps.disabled}
+                        className="flex items-center justify-center gap-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg w-full shadow-md transform transition-transform hover:scale-105"
+                      >
+                        <img
+                          src="https://developers.google.com/identity/images/g-logo.png"
+                          alt="Google Logo"
+                          className="w-6 h-6"
+                        />
+                        <span className="text-center w-full">Inicia sesión con Google</span>
+                      </button>
+                    )}
+                  />
+                </div>
               </div>
             </div>
           </div>

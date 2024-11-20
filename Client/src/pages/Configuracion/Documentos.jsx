@@ -132,7 +132,7 @@ export default function Documentos() {
       <div className="flex flex-col sm:flex-row justify-between gap-3 items-center flex-wrap">
         <Input
           isClearable
-          className="w-full xl:max-w-[44%] focus:outline-none"
+          className="w-full xl:max-w-[44%] focus:outline-none mt-3"
           placeholder="Buscar documento"
           startContent={<SearchIcon />}
           value={filterValue}
