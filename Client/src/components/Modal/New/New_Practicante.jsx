@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, Autocomplete, AutocompleteItem, Tabs, Tab, Select, SelectItem, Divider, DateInput } from "@nextui-org/react";
 import ReusableInput from "../../Inputs/InputField";
 import RenderFileUpload from "../../Inputs/RenderFileUpload";
@@ -6,16 +7,14 @@ import useBancos from "../../../Data/DataBancos";
 import useAreas from "../../../Data/DataUnidad";
 import { aportes } from "../../../Data/DataAportes";
 import { IoSearchSharp } from "react-icons/io5";
-import { useState } from "react";
 import { CalendarDate } from "@internationalized/date";
+
 export default function Modal_New_Practicante({ isOpen, onClose }) {
   const [selectedDocumento, setSelectedDocumento] = useState("");
-  const bancos = useBancos();
-  const areas = useAreas();
-  const handleSelectChange = (value) => {
-    setSelectedDocumento(value);
-  };
+  const bancos = useBancos(), areas = useAreas();
 
+  const handleSelectChange = (value) => setSelectedDocumento(value);
+  
   return (
     <Modal backdrop="opaque" isOpen={isOpen} onOpenChange={onClose} placement="top-center" size="5xl">
       <ModalContent>

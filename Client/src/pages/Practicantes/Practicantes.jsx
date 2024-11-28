@@ -23,7 +23,7 @@ import { SearchIcon } from "../../components/Icons/SearchIcon";
 import { ChevronDownIcon } from "../../components/Icons/ChevronDownIcon";
 import { columns, statusOptions } from "../../Data/DataPracticantes.jsx";
 import usePracticantes from "../../Data/DataPracticantes.jsx";
-import { capitalize } from "./utils";
+import { capitalize } from "../../services/utils.js";
 import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
 import { MdSummarize } from "react-icons/md";
 import Modal_New_Practicante from "../../components/Modal/New/New_Practicante";

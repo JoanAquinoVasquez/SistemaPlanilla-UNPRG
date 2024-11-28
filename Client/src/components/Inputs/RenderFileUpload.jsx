@@ -3,85 +3,30 @@ import { Button, Input } from "@nextui-org/react";
 import propTypes from "prop-types";
 import { toast, Toaster } from "react-hot-toast";
 
-const RenderFileUpload = ({
-  inputId,
-  buttonText,
-  placeholderText,
-  showCommentInput = true,
-}) => {
+const RenderFileUpload = ({ inputId, buttonText, placeholderText, showCommentInput = true }) => {
   const [fileName, setFileName] = useState("");
 
-  const handleFileChange = async (event) => {
+  const handleFileChange = (event) => {
     const file = event.target.files[0];
+    if (!file) return toast.error("No se ha seleccionado ningún archivo.");
+    if (file.type !== "application/pdf") return toast.error("El archivo debe ser un PDF.");
+    if (file.size > 10 * 1024 * 1024) return toast.error("El archivo debe ser menor de 10MB.");
 
-    // Función para validar el archivo
-    const validateFile = () => {
-      return new Promise((resolve, reject) => {
-        
-        if (!file) reject("No se ha seleccionado ningún archivo.");
-
-        if (file.type !== "application/pdf") {
-          reject("El archivo debe ser un PDF.");
-        } else if (file.size > 10 * 1024 * 1024) {
-          reject("El archivo debe ser menor de 10MB.");
-        } else {
-          resolve("El archivo se ha subido correctamente.");
-        }
-      });
-    };
-
-    // Usamos toast.promise para mostrar los mensajes en diferentes casos
-    toast.promise(
-      validateFile().then(() => setFileName(file.name)),
-      {
-        loading: "Verificando archivo...",
-        success: "El archivo se ha subido correctamente",
-        error: (err) => <p>{err}</p>,
-      }
-    );
-  };
-
-  const handleUploadClick = () => {
-    document.getElementById(inputId).click();
+    setFileName(file.name);
+    toast.success("El archivo se ha subido correctamente.");
   };
 
   return (
     <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
-      {/* Contenedor del botón y el input de comentario opcional */}
       <div style={{ display: "flex", alignItems: "center" }}>
-        <Toaster position="top-right" reverseOrder={false} />
-        <Button
-          auto
-          onClick={handleUploadClick}
-          bordered
-          color="primary"
-          className="w-full"
-        >
+        <Toaster position="top-right" />
+        <Button auto bordered color="primary" className="w-full" onClick={() => document.getElementById(inputId).click()}>
           {buttonText}
         </Button>
-        {/* Mostrar el input de comentario solo si showCommentInput es true */}
-        {showCommentInput && (
-          <Input
-            placeholder={placeholderText}
-            onChange={(e) => console.log("Texto ingresado:", e.target.value)}
-          />
-        )}
+        {showCommentInput && <Input placeholder={placeholderText} />}
       </div>
-
-      {/* Nombre del archivo seleccionado */}
-      {fileName && (
-        <p style={{ fontSize: "12px", color: "gray", marginTop: "5px" }}>
-          {fileName}
-        </p>
-      )}
-
-      {/* Input oculto para seleccionar archivo con un ID único */}
-      <input
-        id={inputId}
-        type="file"
-        style={{ display: "none" }}
-        onChange={handleFileChange}
-      />
+      {fileName && <p style={{ fontSize: "12px", color: "gray", marginTop: "5px" }}>{fileName}</p>}
+      <input id={inputId} type="file" style={{ display: "none" }} onChange={handleFileChange} />
     </div>
   );
 };

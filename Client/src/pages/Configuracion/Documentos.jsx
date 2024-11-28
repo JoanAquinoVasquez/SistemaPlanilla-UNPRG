@@ -10,7 +10,7 @@ import { SearchIcon } from "../../components/Icons/SearchIcon";
 import { ChevronDownIcon } from "../../components/Icons/ChevronDownIcon";
 import { columns, statusOptions } from "../../Data/DataDocumentos.jsx";
 import useDocumentos from "../../Data/DataDocumentos.jsx";
-import { capitalize } from "./utils";
+import { capitalize } from "../../services/utils.js";
 import { MdSummarize } from "react-icons/md";
 import Spinner from "../../components/Spinner/Spinner.jsx";
 import Modal_New_Documento from "../../components/Modal/New/New_Documento.jsx";

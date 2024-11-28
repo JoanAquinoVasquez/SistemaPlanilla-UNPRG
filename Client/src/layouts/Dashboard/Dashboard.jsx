@@ -5,9 +5,9 @@ import Practicantes from "../../pages/Practicantes/Practicantes";
 import SidebarMenu from "../../components/Sidebar/Sidebar";
 import Navbar from "../../components/Navbar/Navbar";
 import LeyesParametros from "../../pages/Configuracion/Documentos";
-import Notfound from "../../components/NotFound/NotFound";
+import Notfound from "../../pages/NotFound/NotFound";
 import "./Dashboard.css";
-import { UserProvider } from "../../components/Navbar/UserContext";
+import { UserProvider } from "../../services/UserContext";
 
 function Dashboard() {
   const location = useLocation();
