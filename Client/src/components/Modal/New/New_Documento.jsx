@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
     Modal,
     ModalContent,
@@ -12,42 +12,19 @@ import {
     Radio,
     DatePicker,
 } from "@nextui-org/react";
-import ReusableInput from "../Inputs/InputField";
+import ReusableInput from "../../Inputs/InputField";
 import PropTypes from "prop-types";
-import { tiposdocs } from "../../data/DataTipoDoc";
+import { tiposdocs } from "../../../Data/DataTipoDoc";
 import axios from "axios";
 import { toast, Toaster } from "react-hot-toast";
-import {parseDate} from "@internationalized/date";
 
-export default function Modal_Update_Documento({ isOpen, onClose, document, onDocumentUpdated }) {
+export default function Modal_New_Documento({ isOpen, onClose, onDocumentCreated }) {
     const [nombre, setNombre] = useState("");
     const [tipo, setTipo] = useState("");
-    const [fechaVigencia, setFechaVigencia] = useState(null); // Se mantienen pero no se llenan
-    const [fechaFin, setFechaFin] = useState(null); // Se mantienen pero no se llenan
+    const [fechaVigencia, setFechaVigencia] = useState(null);
+    const [fechaFin, setFechaFin] = useState(null);
     const [estado, setEstado] = useState(true);
 
-    // Cargar datos del documento seleccionado al abrir el modal
-    useEffect(() => {
-        if (document) {
-            setNombre(document.nombre || "");
-            setTipo(document.tipo || "");
-            setEstado(document.estado === 1);
-            setFechaVigencia(
-                document.fecha_vigencia
-                    ? new Date(document.fecha_vigencia).toISOString().split("T")[0]
-                    : null
-            );
-            setFechaFin(
-                document.fecha_fin
-                    ? new Date(document.fecha_fin).toISOString().split("T")[0]
-                    : null
-            );
-           
-        }
-    }, [document]);
-
-  
-    
     const handleSave = async () => {
         try {
             if (!fechaVigencia) {
@@ -75,10 +52,8 @@ export default function Modal_Update_Documento({ isOpen, onClose, document, onDo
                     return;
                 }
             }
-            
 
-
-            const updatedData = {
+            const data = {
                 nombre,
                 tipo,
                 fecha_vigencia: fechaVigencia,
@@ -86,16 +61,22 @@ export default function Modal_Update_Documento({ isOpen, onClose, document, onDo
                 estado,
             };
 
-            await axios.put(`/documentos/${document.id}`, updatedData);
+            await axios.post("/documentos", data);
+            setNombre("");
+            setTipo("");
+            setFechaVigencia(null);
+            setFechaFin(null);
+            setEstado(true);
             onClose();
-            onDocumentUpdated();
+            onDocumentCreated();
 
             setTimeout(() => {
-                toast.success("Documento actualizado correctamente.");
+                toast.success("Documento guardado correctamente.");
             }, 1000); // Retraso de 1 segundo
 
+
         } catch (error) {
-            toast.error("Error al actualizar el documento: " + (error.response?.data?.message || error.message));
+            toast.error("Error al guardar el documento: " + (error.response?.data?.message || error.message));
         }
     };
 
@@ -113,9 +94,10 @@ export default function Modal_Update_Documento({ isOpen, onClose, document, onDo
                 {(closeModal) => (
                     <>
                         <ModalHeader className="flex flex-col gap-1">
-                            Modificar Documento
+                            Nuevo Documento
                         </ModalHeader>
                         <ModalBody>
+
                             <div className="flex flex-col md:flex-row gap-4">
                                 <section className="relative flex-[3] p-4 border border-gray-300 rounded-lg">
                                     <div className="flex flex-wrap gap-4 mt-4">
@@ -132,7 +114,6 @@ export default function Modal_Update_Documento({ isOpen, onClose, document, onDo
                                             defaultItems={tiposdocs}
                                             className="flex-1 min-w-200"
                                             style={{ paddingLeft: "0", paddingBottom: "0" }}
-                                            selectedKey={tipo}
                                             onSelectionChange={(key) => setTipo(key)}
                                         >
                                             {(item) => (
@@ -144,40 +125,49 @@ export default function Modal_Update_Documento({ isOpen, onClose, document, onDo
                                     </div>
                                     <div className="flex flex-wrap gap-4 mt-4">
                                         <DatePicker
+                                            isRequired
                                             label="Fecha de inicio de vigencia"
                                             className="flex-1 min-w-200"
                                             aria-label="Fecha de inicio"
-                                            defaultValue={document.fecha_vigencia ? parseDate(document.fecha_vigencia) : undefined} // Validación aquí
-
                                             onChange={(value) =>
                                                 setFechaVigencia(value?.toString())
-                                            }                                        />
+                                            }
+                                        />
                                         <DatePicker
                                             label="Fecha de Fin"
                                             className="flex-1 min-w-200"
                                             aria-label="Fecha de fin"
-                                            defaultValue={document.fecha_fin ? parseDate(document.fecha_fin) : undefined} // Validación aquí
-
                                             onChange={(value) =>
                                                 setFechaFin(value?.toString())
-                                            }                                        />
+                                            }
+                                        />
                                         <RadioGroup
                                             value={estado ? "true" : "false"}
-                                            onChange={(e) => setEstado(e.target.value === "true")}
+                                            onChange={(e) => {
+                                                const value = e.target.value;
+                                                const nuevoEstado = value === "true";
+                                                setEstado(nuevoEstado);
+                                                console.log("Estado después de setEstado:", nuevoEstado);
+                                            }}
                                         >
                                             <Radio value="true">Activo</Radio>
                                             <Radio value="false">Inactivo</Radio>
                                         </RadioGroup>
+
                                     </div>
                                 </section>
                             </div>
                         </ModalBody>
                         <ModalFooter>
-                            <Button color="danger" variant="flat" onPress={closeModal}>
+                            <Button
+                                color="danger"
+                                variant="flat"
+                                onPress={closeModal}
+                            >
                                 Cerrar
                             </Button>
                             <Button color="primary" onPress={handleSave}>
-                                Modificar
+                                Guardar
                             </Button>
                         </ModalFooter>
                     </>
@@ -187,9 +177,8 @@ export default function Modal_Update_Documento({ isOpen, onClose, document, onDo
     );
 }
 
-Modal_Update_Documento.propTypes = {
+Modal_New_Documento.propTypes = {
     isOpen: PropTypes.bool,
     onClose: PropTypes.func,
-    document: PropTypes.object, // Documento seleccionado
-    onDocumentUpdated: PropTypes.func, // Callback para actualizar la lista
+    onDocumentCreated: PropTypes.func, // Cambié onRefresh a onDocumentCreated
 };

@@ -1,6 +1,6 @@
 // ExportarExcelButton.js
 import { Button } from "@nextui-org/react";
-import { FaUpload } from "react-icons/fa";
+import { UploadIcon } from "../../Icons/UploadIcon";
 import axios from "axios";
 
 const ExportarExcelButton = () => {
@@ -26,7 +26,7 @@ const ExportarExcelButton = () => {
 
   return (
     <Button auto light className="w-full sm:w-auto" onClick={exportarExcel}>
-      <FaUpload className="mr-2" />
+      <UploadIcon className="mr-2" />
       Exportar
     </Button>
   );

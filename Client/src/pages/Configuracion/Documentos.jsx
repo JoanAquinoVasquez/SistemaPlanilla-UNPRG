@@ -4,20 +4,20 @@ import {
   Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Input, Button,
   DropdownTrigger, Dropdown, DropdownMenu, DropdownItem, Chip, Pagination, useDisclosure
 } from "@nextui-org/react";
-import { PlusIcon } from "../../components/Icons.jsx/PlusIcon";
-import { VerticalDotsIcon } from "../../components/Icons.jsx/VerticalDotsIcon";
-import { SearchIcon } from "../../components/Icons.jsx/SearchIcon";
-import { ChevronDownIcon } from "../../components/Icons.jsx/ChevronDownIcon";
-import { columns, statusOptions } from "../../Data/DataDocumentos";
-import useDocumentos from "../../Data/DataDocumentos";
+import { PlusIcon } from "../../components/Icons/PlusIcon";
+import { VerticalDotsIcon } from "../../components/Icons/VerticalDotsIcon";
+import { SearchIcon } from "../../components/Icons/SearchIcon";
+import { ChevronDownIcon } from "../../components/Icons/ChevronDownIcon";
+import { columns, statusOptions } from "../../Data/DataDocumentos.jsx";
+import useDocumentos from "../../Data/DataDocumentos.jsx";
 import { capitalize } from "./utils";
 import { MdSummarize } from "react-icons/md";
 import Spinner from "../../components/Spinner/Spinner.jsx";
-import Modal_New_Documento from "../../components/Modal/New_Documento.jsx";
+import Modal_New_Documento from "../../components/Modal/New/New_Documento.jsx";
 import axios from "axios";
 import { toast, Toaster } from "react-hot-toast";
-import ModalConfirm from "../../components/Modal/ModalConfirm.jsx";
-import Modal_Update_Documento from "../../components/Modal/Update_Documento.jsx";
+import ModalConfirm from "../../components/Modal/Confirmation/ModalConfirm.jsx";
+import Modal_Update_Documento from "../../components/Modal/Update/Update_Documento.jsx";
 
 const statusColorMap = { 1: "success", 0: "danger" };
 const INITIAL_VISIBLE_COLUMNS = ["nombre", "tipo", "fecha_vigencia", "fecha_fin", "estado", "accciones"];

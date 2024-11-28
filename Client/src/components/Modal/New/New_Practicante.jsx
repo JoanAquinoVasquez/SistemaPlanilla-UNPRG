@@ -1,10 +1,10 @@
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, Autocomplete, AutocompleteItem, Tabs, Tab, Select, SelectItem, Divider, DateInput } from "@nextui-org/react";
-import ReusableInput from "../Inputs/InputField";
-import RenderFileUpload from "../Inputs/RenderFileUpload";
+import ReusableInput from "../../Inputs/InputField";
+import RenderFileUpload from "../../Inputs/RenderFileUpload";
 import PropTypes from "prop-types";
-import useBancos from "../../data/dataBancos";
-import useAreas from "../../data/DataUnidad";
-import { aportes } from "../../data/DataAportes";
+import useBancos from "../../../Data/DataBancos";
+import useAreas from "../../../Data/DataUnidad";
+import { aportes } from "../../../Data/DataAportes";
 import { IoSearchSharp } from "react-icons/io5";
 import { useState } from "react";
 import { CalendarDate } from "@internationalized/date";

@@ -4,9 +4,9 @@ import "./index.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Login from "./layouts/Login/Login.jsx";
 import Dashboard from "./layouts/Dashboard/Dashboard";
-import ProtectedRoute from "./ProtectedRoute.jsx";
+import ProtectedRoute from "./services/ProtectedRoute.jsx";
 import { NextUIProvider } from "@nextui-org/react";
-import SessionManager from "./SessionManager";
+import SessionManager from "./services/SessionManager.jsx";
 import axios from "axios";
 
 // Configuración global para Axios

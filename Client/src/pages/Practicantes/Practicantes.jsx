@@ -17,17 +17,17 @@ import {
   Pagination,
   useDisclosure,
 } from "@nextui-org/react";
-import { PlusIcon } from "../../components/Icons.jsx/PlusIcon";
-import { VerticalDotsIcon } from "../../components/Icons.jsx/VerticalDotsIcon";
-import { SearchIcon } from "../../components/Icons.jsx/SearchIcon";
-import { ChevronDownIcon } from "../../components/Icons.jsx/ChevronDownIcon";
-import { columns, statusOptions } from "../../data/DataPracticantes";
-import usePracticantes from "../../data/DataPracticantes";
+import { PlusIcon } from "../../components/Icons/PlusIcon";
+import { VerticalDotsIcon } from "../../components/Icons/VerticalDotsIcon";
+import { SearchIcon } from "../../components/Icons/SearchIcon";
+import { ChevronDownIcon } from "../../components/Icons/ChevronDownIcon";
+import { columns, statusOptions } from "../../Data/DataPracticantes.jsx";
+import usePracticantes from "../../Data/DataPracticantes.jsx";
 import { capitalize } from "./utils";
 import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
 import { MdSummarize } from "react-icons/md";
-import Modal_New_Practicante from "../../components/Modal/New_Practicante";
-import ExportarExcelButton from "../../components/ExportExcel/ExportarExcelButton";
+import Modal_New_Practicante from "../../components/Modal/New/New_Practicante";
+import ExportarExcelButton from "../../components/Export/Excel/ExportarExcelButton.jsx";
 import Spinner from "../../components/Spinner/Spinner.jsx";
 
 const statusColorMap = { 1: "success", 0: "danger" };

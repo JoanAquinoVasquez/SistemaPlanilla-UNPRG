@@ -1,6 +1,5 @@
 import { useUser } from "./UserContext";
-import { FaUser } from "react-icons/fa";
-import { handleLogout } from "../Logout/Logout";
+import { handleLogout } from "../../services/Logout/Logout";
 import {
   Dropdown,
   DropdownTrigger,
@@ -10,7 +9,7 @@ import {
   Badge,
   Button,
 } from "@nextui-org/react";
-import { NotificationIcon } from "../../components/Icons.jsx/NotificationIcon";
+import { NotificationIcon } from "../../components/Icons/NotificationIcon";
 import { useNavigate } from "react-router-dom";
 import Spinner from "../Spinner/Spinner"; // Importa el componente Spinner
 
@@ -45,7 +44,6 @@ function Navbar() {
               as="button"
               avatarProps={{
                 isBordered: true,
-                icon: <FaUser style={{ fontSize: "20px", color: "gray" }} />,
                 size: "sm",
                 src: userData.profile_picture || null,
               }}

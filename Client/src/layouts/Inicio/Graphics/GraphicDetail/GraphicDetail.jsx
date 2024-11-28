@@ -3,7 +3,7 @@ import { Card, CardHeader, CardBody, Tooltip } from "@nextui-org/react";
 import PropTypes from "prop-types";
 import CountUp from "react-countup";
 import { BsCashStack } from "react-icons/bs";
-import useFormulas from "../../../../data/dataFormulas";
+import useFormulas from "../../../../Data/DataFormulas";
 
 // CardComponent
 const CardComponent = ({

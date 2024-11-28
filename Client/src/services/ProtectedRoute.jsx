@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Navigate } from "react-router-dom";
 import axios from "axios";
-import Spinner from "./components/Spinner/Spinner.jsx"; // Importa el componente Spinner
+import Spinner from "../components/Spinner/Spinner"; // Importa el componente Spinner
 
 const ProtectedRoute = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(null);

@@ -22,7 +22,7 @@ import {
   salaryData,
   categories,
   categoryColors,
-} from "../../../../data/dataSalarios";
+} from "../../../../Data/dataSalarios";
 
 export default function GraphicSummary() {
   const [selectedCategories, setSelectedCategories] = useState([]);

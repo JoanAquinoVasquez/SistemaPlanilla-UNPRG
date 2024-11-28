@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { handleLogout } from "./components/Logout/Logout";
-import ModalSessionExpiration from "./components/SessionModal/SessionModal";
+import { handleLogout } from "./Logout/Logout";
+import ModalSessionExpiration from "../components/Modal/Session/SessionModal";
 
 const SessionManager = ({ children }) => {
   const navigate = useNavigate();

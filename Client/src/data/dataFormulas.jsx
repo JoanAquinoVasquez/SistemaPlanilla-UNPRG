@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import Echo from "../echo"; // Importa tu configuración de Echo
+import Echo from "../services/echo"; // Importa tu configuración de Echo
 
 export default function useFormulas() {
   const [formulas, setFormulas] = useState([]);
