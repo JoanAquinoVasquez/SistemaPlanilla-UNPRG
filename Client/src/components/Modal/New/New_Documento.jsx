@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, Autocomplete, AutocompleteItem, RadioGroup, Radio, DatePicker } from "@nextui-org/react";
 import ReusableInput from "../../Inputs/InputField";
 import PropTypes from "prop-types";
-import { tiposdocs } from "../../../Data/DataTipoDoc";
+import { tiposdocs } from "../../../data/DataTipoDoc";
 import axios from "axios";
 import { toast, Toaster } from "react-hot-toast";
 

@@ -3,9 +3,9 @@ import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, Autoc
 import ReusableInput from "../../Inputs/InputField";
 import RenderFileUpload from "../../Inputs/RenderFileUpload";
 import PropTypes from "prop-types";
-import useBancos from "../../../Data/DataBancos";
-import useAreas from "../../../Data/DataUnidad";
-import { aportes } from "../../../Data/DataAportes";
+import useBancos from "../../../data/DataBancos";
+import useAreas from "../../../data/DataUnidad";
+import { aportes } from "../../../data/DataAportes";
 import { IoSearchSharp } from "react-icons/io5";
 import { CalendarDate } from "@internationalized/date";
 
