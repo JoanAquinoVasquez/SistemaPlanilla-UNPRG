@@ -4,11 +4,7 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
-@font-face {
-  font-family: "Futura";
-  src: url("fonts/Futura-Medium.ttf") format("truetype");
-  font-weight: normal;
-}
+
 
 body {
   font-family: "Jost", sans-serif;

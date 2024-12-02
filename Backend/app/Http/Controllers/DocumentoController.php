@@ -113,7 +113,8 @@ class DocumentoController extends Controller
         }
 
         try {
-            $documento->delete();
+            $documento->estado = false;
+            $documento->save();
             return response()->json([
                 'message' => 'Documento eliminado exitosamente'
             ], 200);
