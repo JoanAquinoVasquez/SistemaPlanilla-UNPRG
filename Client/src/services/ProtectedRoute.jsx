@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Navigate } from "react-router-dom";
 import axios from "axios";
 import Spinner from "../components/Spinner/Spinner"; // Importa el componente Spinner
+import PropTypes from "prop-types"; // Importa PropTypes
 
 const ProtectedRoute = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(null);
@@ -29,3 +30,8 @@ const ProtectedRoute = ({ children }) => {
 };
 
 export default ProtectedRoute;
+
+ProtectedRoute.propTypes = {
+  children: PropTypes.node.isRequired,
+};
+

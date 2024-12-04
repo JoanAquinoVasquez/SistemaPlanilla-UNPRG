@@ -1,8 +1,9 @@
-import React, { useEffect, useState, useRef } from "react";
+import  { useEffect, useState, useRef, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { handleLogout } from "./Logout/Logout";
 import ModalSessionExpiration from "../components/Modal/Session/SessionModal";
+import PropTypes from "prop-types"; // Importa PropTypes
 
 const SessionManager = ({ children }) => {
   const navigate = useNavigate();
@@ -19,8 +20,8 @@ const SessionManager = ({ children }) => {
   const [expiration, setExpiration] = useState(
     parseInt(sessionStorage.getItem("expiration"), 10)
   );
-  const [inactivityCounter, setInactivityCounter] = useState(INACTIVITY_LIMIT / 1000); // Contador de inactividad en segundos
-  const [modalResponseCounter, setModalResponseCounter] = useState(INACTIVITY_MODAL_CLOSE_TIME / 1000); // Contador para responder al modal en segundos
+  const [, setInactivityCounter] = useState(INACTIVITY_LIMIT / 1000);
+  const [setModalResponseCounter] = useState(INACTIVITY_MODAL_CLOSE_TIME / 1000);
 
   // Refs para los temporizadores
   const inactivityTimeoutRef = useRef(null);
@@ -29,8 +30,8 @@ const SessionManager = ({ children }) => {
   const expirationIntervalRef = useRef(null);
 
   // Función para reiniciar el temporizador de inactividad
-  const resetInactivityTimeout = () => {
-    setInactivityCounter(INACTIVITY_LIMIT / 1000); // Reinicia el contador de inactividad
+  const resetInactivityTimeout = useCallback(() => {
+    setInactivityCounter(INACTIVITY_LIMIT / 1000); 
     if (inactivityTimeoutRef.current) clearTimeout(inactivityTimeoutRef.current);
     if (inactivityCounterIntervalRef.current) clearInterval(inactivityCounterIntervalRef.current);
 
@@ -59,10 +60,10 @@ const SessionManager = ({ children }) => {
         );
       }, INACTIVITY_MODAL_CLOSE_TIME);
     }, INACTIVITY_LIMIT);
-  };
+  }, [navigate, setInactivityCounter, setModalResponseCounter, setModalType, INACTIVITY_LIMIT, INACTIVITY_MODAL_CLOSE_TIME]);
 
   // Configura el chequeo de expiración y reinicia el intervalo
-  const setupExpirationCheck = () => {
+  const setupExpirationCheck = useCallback(() => {
     if (expirationIntervalRef.current) clearInterval(expirationIntervalRef.current);
 
     expirationIntervalRef.current = setInterval(() => {
@@ -85,7 +86,7 @@ const SessionManager = ({ children }) => {
         );
       }
     }, 1000);
-  };
+  }, [expiration, WARNING_TIME_BEFORE_EXPIRATION, AUTO_LOGOUT_TIME_BEFORE_EXPIRATION, isModalVisible, modalType, navigate]);
 
   // Función para cerrar el modal y reiniciar el temporizador de inactividad
   const handleModalClose = () => {
@@ -112,14 +113,25 @@ const SessionManager = ({ children }) => {
       clearInterval(expirationIntervalRef.current);
       clearInterval(inactivityCounterIntervalRef.current);
     };
-  }, []);
+  }, [resetInactivityTimeout]);
 
   useEffect(() => {
+    const verifyAuth = async () => {
+      if (!isAuthenticated) return;
+      try {
+        const response = await axios.get("/check-auth", { withCredentials: true });
+        setIsAuthenticated(response.data.authenticated);
+      } catch (error) {
+        setIsAuthenticated(false);
+        console.error(error);
+      }
+    };
+
     if (expiration) {
       setIsAuthenticated(true);
       verifyAuth();
     }
-  }, [expiration]);
+  }, [expiration, isAuthenticated]);
 
   useEffect(() => {
     if (isAuthenticated && expiration) {
@@ -127,17 +139,9 @@ const SessionManager = ({ children }) => {
       setupExpirationCheck();
     }
     return () => clearInterval(expirationIntervalRef.current);
-  }, [isAuthenticated, expiration]);
+  }, [isAuthenticated, expiration, resetInactivityTimeout, setupExpirationCheck]);
 
-  const verifyAuth = async () => {
-    if (!isAuthenticated) return;
-    try {
-      const response = await axios.get("/check-auth", { withCredentials: true });
-      setIsAuthenticated(response.data.authenticated);
-    } catch (error) {
-      setIsAuthenticated(false);
-    }
-  };
+ 
 
   // Función para manejar la renovación del token
   const handleKeepSession = async () => {
@@ -159,6 +163,8 @@ const SessionManager = ({ children }) => {
         navigate,
         "Su sesión ha caducado, por favor vuelva a iniciar sesión"
       );
+      console.error(error)
+
     }
   };
 
@@ -179,3 +185,7 @@ const SessionManager = ({ children }) => {
 };
 
 export default SessionManager;
+
+SessionManager.propTypes = {
+  children: PropTypes.node.isRequired,
+};
