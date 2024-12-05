@@ -1,0 +1,32 @@
+.collapsed {
+    padding-left: 16px; /* Ajusta según el ancho del sidebar colapsado */
+  }
+  
+  li {
+    display: flex;
+    align-items: center;
+    height: 42px;
+    transition: padding-left 0.4s; 
+  }
+  
+  .li-sidebar:hover {
+    background-color: #daeffc; 
+    color-interpolation-filters: #a31b4f;
+    color: #fdf1f4;
+    border-radius: 5px;
+  }
+  
+  .hover-effect:hover {
+    color: #2873B4 !important; 
+  }
+  
+
+  .sidebar {
+    height: 100vh;
+    overflow-y: auto;
+  }	
+  
+  nav {
+    overflow-y: auto; 
+    max-height: calc(100vh - 100px);
+  }	
