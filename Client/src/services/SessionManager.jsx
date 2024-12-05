@@ -9,7 +9,7 @@ const SessionManager = ({ children }) => {
   const navigate = useNavigate();
 
   // Tiempos de control
-  const INACTIVITY_LIMIT = 1 * 60 * 1000; // 15 minutos
+  const INACTIVITY_LIMIT = 15000 * 60 * 1000; // 15 minutos
   const WARNING_TIME_BEFORE_EXPIRATION = 4 * 60 * 1000; // 4 minutos antes de expiración
   const AUTO_LOGOUT_TIME_BEFORE_EXPIRATION = 1 * 60 * 1000; // 1 minuto antes de expiración
   const INACTIVITY_MODAL_CLOSE_TIME = 3 * 60 * 1000; // 3 minutos para responder al modal
